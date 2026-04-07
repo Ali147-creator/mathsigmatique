@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nombres complexes — MathΣtique</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" />
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body, {
+      delimiters: [
+        {left:'$$',right:'$$',display:true},
+        {left:'$',right:'$',display:false}
+      ]
+    });"></script>
+
+  <style>
+    :root {
+      --green: #1D9E75;
+      --green-light: #E1F5EE;
+      --green-dark: #0F6E56;
+      --purple: #534AB7;
+      --purple-light: #EEEDFE;
+      --purple-mid: #AFA9EC;
+      --purple-dark: #3C3489;
+      --purple-text: #26215C;
+      --text: #1a1a1a;
+      --text-secondary: #666;
+      --text-tertiary: #999;
+      --bg: #ffffff;
+      --bg-secondary: #f7f6f2;
+      --bg-tertiary: #f0efe9;
+      --border: rgba(0,0,0,0.1);
+      --border-hover: rgba(0,0,0,0.2);
+      --radius: 12px;
+      --radius-lg: 16px;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --text: #f0efe9;
+        --text-secondary: #aaa;
+        --text-tertiary: #666;
+        --bg: #111110;
+        --bg-secondary: #1a1a18;
+        --bg-tertiary: #222220;
+        --border: rgba(255,255,255,0.1);
+        --border-hover: rgba(255,255,255,0.2);
+        --purple-light: #1e1c3a;
+        --purple-text: #CCC8F5;
+      }
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.6;
+      font-size: 16px;
+    }
+
+    /* NAV */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1rem 2rem;
+      background: var(--bg);
+      border-bottom: 0.5px solid var(--border);
+    }
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 20px; font-weight: 700;
+      color: var(--text); text-decoration: none;
+    }
+    .nav-logo span { color: var(--green); }
+    .btn-back {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 14px; color: var(--text-secondary);
+      text-decoration: none; padding: 7px 14px;
+      border: 0.5px solid var(--border-hover);
+      border-radius: 8px; transition: background 0.2s;
+    }
+    .btn-back:hover { background: var(--bg-secondary); color: var(--text); }
+
+    /* LAYOUT */
+    .page {
+      max-width: 820px; margin: 0 auto;
+      padding: 3rem 2rem 5rem;
+    }
+
+    /* BREADCRUMB */
+    .breadcrumb {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 13px; color: var(--text-tertiary);
+      margin-bottom: 2rem;
+    }
+    .breadcrumb a { color: var(--text-secondary); text-decoration: none; }
+    .breadcrumb a:hover { color: var(--text); }
+    .breadcrumb .sep { color: var(--text-tertiary); }
+
+    /* LESSON HEADER */
+    .lesson-cat {
+      display: inline-block; font-size: 12px; font-weight: 500;
+      color: var(--purple-dark); background: var(--purple-light);
+      padding: 4px 12px; border-radius: 20px; margin-bottom: 1rem;
+    }
+    .lesson-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(28px, 5vw, 44px); font-weight: 700;
+      line-height: 1.15; margin-bottom: 1rem;
+    }
+    .lesson-intro {
+      font-size: 15px; color: var(--text-secondary);
+      max-width: 600px; line-height: 1.8; margin-bottom: 2.5rem;
+    }
+
+    /* TOC */
+    .toc {
+      background: var(--bg-secondary);
+      border: 0.5px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 3rem;
+    }
+    .toc-title {
+      font-size: 11px; font-weight: 500; text-transform: uppercase;
+      letter-spacing: 0.08em; color: var(--text-tertiary); margin-bottom: 0.75rem;
+    }
+    .toc ol { padding-left: 1.25rem; }
+    .toc li { font-size: 14px; margin: 5px 0; }
+    .toc a { color: var(--purple); text-decoration: none; }
+    .toc a:hover { text-decoration: underline; }
+
+    /* SECTION BLOCKS */
+    .lesson-section { margin-bottom: 3rem; }
+    .lesson-section h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px; font-weight: 700;
+      margin-bottom: 1.25rem;
+      padding-bottom: 0.6rem;
+      border-bottom: 0.5px solid var(--border);
+    }
+    .lesson-section p {
+      font-size: 15px; line-height: 1.85;
+      color: var(--text); margin-bottom: 1rem;
+    }
+
+    /* DEF BOX */
+    .def-box {
+      background: var(--purple-light);
+      border-left: 3px solid var(--purple);
+      border-radius: 0 var(--radius) var(--radius) 0;
+      padding: 1.25rem 1.5rem; margin: 1.25rem 0;
+    }
+    .def-box .def-label {
+      font-size: 11px; font-weight: 500;
+      color: var(--purple-dark); text-transform: uppercase;
+      letter-spacing: 0.08em; margin-bottom: 8px;
+    }
+    .def-box p { font-size: 14px; line-height: 1.75; color: var(--purple-text); margin: 0; }
+
+    /* FORMULA BOX */
+    .formula-box {
+      background: var(--bg-secondary);
+      border: 0.5px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem; margin: 1.25rem 0;
+      text-align: center;
+    }
+    .formula-box .fb-label {
+      font-size: 12px; color: var(--text-secondary);
+      margin-bottom: 0.75rem;
+    }
+    .formula-box .fb-formula {
+      font-size: 1.1em; overflow-x: auto;
+    }
+
+    /* PROPERTY LIST */
+    .prop-list {
+      background: var(--bg-secondary);
+      border: 0.5px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem 1.5rem; margin: 1.25rem 0;
+    }
+    .prop-list .pl-title {
+      font-size: 13px; font-weight: 500; color: var(--text-secondary);
+      margin-bottom: 1rem; text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .prop-list table { width: 100%; border-collapse: collapse; }
+    .prop-list td {
+      font-size: 14px; padding: 8px 12px;
+      border-bottom: 0.5px solid var(--border);
+      vertical-align: middle;
+    }
+    .prop-list tr:last-child td { border-bottom: none; }
+    .prop-list td:first-child { color: var(--text-secondary); width: 45%; }
+
+    /* NOTE BOX */
+    .note-box {
+      background: #E1F5EE;
+      border-left: 3px solid var(--green);
+      border-radius: 0 var(--radius) var(--radius) 0;
+      padding: 1rem 1.5rem; margin: 1.25rem 0;
+    }
+    .note-box .note-label {
+      font-size: 11px; font-weight: 500; color: var(--green-dark);
+      text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 6px;
+    }
+    .note-box p { font-size: 14px; color: #085041; margin: 0; line-height: 1.7; }
+
+    /* EXAMPLE BOX */
+    .example-box {
+      border: 0.5px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden; margin: 1.25rem 0;
+    }
+    .example-box .ex-header {
+      background: var(--bg-secondary);
+      padding: 10px 1.25rem;
+      font-size: 12px; font-weight: 500;
+      color: var(--text-secondary); text-transform: uppercase;
+      letter-spacing: 0.07em; border-bottom: 0.5px solid var(--border);
+    }
+    .example-box .ex-body { padding: 1.25rem; font-size: 14px; line-height: 1.8; }
+    .example-box .ex-body p { margin-bottom: 0.5rem; font-size: 14px; }
+
+    /* INTERACTIVE DEMO */
+    .demo-box {
+      background: var(--bg-secondary);
+      border: 0.5px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 1.75rem; margin: 1.5rem 0;
+    }
+    .demo-box h3 { font-size: 16px; font-weight: 500; margin-bottom: 0.4rem; }
+    .demo-box .demo-sub { font-size: 13px; color: var(--text-secondary); margin-bottom: 1.25rem; }
+    .slider-row { display: flex; align-items: center; gap: 10px; margin: 8px 0; }
+    .slider-row label { font-size: 13px; color: var(--text-secondary); width: 100px; flex-shrink: 0; }
+    .slider-row input[type=range] { flex: 1; accent-color: var(--purple); }
+    .slider-val { font-size: 13px; font-weight: 500; min-width: 32px; text-align: right; }
+    .result-display {
+      background: var(--bg); border-radius: 10px;
+      padding: 1rem; text-align: center; margin-top: 1.25rem;
+      border: 0.5px solid var(--border);
+      font-size: 15px; line-height: 1.8;
+    }
+    .result-display .rd-main {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px; color: var(--purple);
+    }
+    .result-display .rd-label { font-size: 12px; color: var(--text-secondary); margin-top: 4px; }
+
+    /* CANVAS */
+    canvas {
+      display: block; margin: 0 auto;
+      border-radius: var(--radius);
+      background: var(--bg);
+      border: 0.5px solid var(--border);
+      max-width: 100%;
+    }
+
+    /* NAV BOTTOM */
+    .lesson-nav {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-top: 4rem; padding-top: 2rem;
+      border-top: 0.5px solid var(--border);
+      flex-wrap: wrap; gap: 1rem;
+    }
+    .lesson-nav a {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 14px; color: var(--text-secondary);
+      text-decoration: none; padding: 8px 16px;
+      border: 0.5px solid var(--border);
+      border-radius: 8px; transition: background 0.2s;
+    }
+    .lesson-nav a:hover { background: var(--bg-secondary); color: var(--text); }
+
+    /* FOOTER */
+    footer {
+      border-top: 0.5px solid var(--border);
+      padding: 1.5rem 2rem;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 1rem;
+    }
+    .footer-logo { font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 700; }
+    .footer-logo span { color: var(--green); }
+    footer p { font-size: 13px; color: var(--text-secondary); }
+
+    @media (max-width: 640px) {
+      .page { padding: 2rem 1.25rem 4rem; }
+      nav { padding: 1rem 1.25rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a class="nav-logo" href="mathematique.html">Math<span>∑</span>tique</a>
+    <a class="btn-back" href="mathematique.html">← Retour aux chapitres</a>
+  </nav>
+
+  <div class="page">
+
+    <!-- BREADCRUMB -->
+    <div class="breadcrumb">
+      <a href="mathematique.html">Accueil</a>
+      <span class="sep">/</span>
+      <a href="mathematique.html#chapitres">Rappels</a>
+      <span class="sep">/</span>
+      <span>Nombres complexes</span>
+    </div>
+
+    <!-- HEADER -->
+    <span class="lesson-cat">Rappels mathématiques</span>
+    <h1 class="lesson-title">Les nombres complexes</h1>
+    <p class="lesson-intro">
+      Les nombres complexes étendent les réels en introduisant l'unité imaginaire $i$ telle que $i^2 = -1$.
+      Ils sont fondamentaux en physique, électronique et analyse mathématique.
+    </p>
+
+    <!-- TABLE DES MATIÈRES -->
+    <div class="toc">
+      <div class="toc-title">Table des matières</div>
+      <ol>
+        <li><a href="#definition">Définition et forme cartésienne</a></li>
+        <li><a href="#plan">Le plan complexe</a></li>
+        <li><a href="#polaire">Forme trigonométrique et polaire</a></li>
+        <li><a href="#euler">Formule d'Euler et forme exponentielle</a></li>
+        <li><a href="#proprietes">Propriétés des opérations</a></li>
+        <li><a href="#demo">Démonstration interactive</a></li>
+      </ol>
+    </div>
+
+    <!-- 1. DÉFINITION -->
+    <div class="lesson-section" id="definition">
+      <h2>1. Définition et forme cartésienne</h2>
+      <p>
+        Tout nombre complexe $z$ s'écrit sous la forme dite <strong>cartésienne</strong> :
+      </p>
+      <div class="formula-box">
+        <div class="fb-label">Forme cartésienne</div>
+        <div class="fb-formula">$$z = a + ib$$</div>
+      </div>
+      <p>où $a$ et $b$ sont des nombres réels :</p>
+      <div class="def-box">
+        <div class="def-label">Définition</div>
+        <p>
+          $a = \mathcal{Re}(z)$ est la <strong>partie réelle</strong> de $z$.<br/>
+          $b = \mathcal{Im}(z)$ est la <strong>partie imaginaire</strong> de $z$.<br/><br/>
+          L'unité imaginaire $i$ est le nombre complexe tel que $i^2 = -1$.<br/>
+          Le <strong>conjugué</strong> de $z$ est $z^* = a - ib$.
+        </p>
+      </div>
+      <div class="example-box">
+        <div class="ex-header">Exemple</div>
+        <div class="ex-body">
+          <p>Soit $z = 3 + 2i$</p>
+          <p>$\mathcal{Re}(z) = 3 \quad$ et $\quad \mathcal{Im}(z) = 2$</p>
+          <p>$z^* = 3 - 2i$</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. PLAN COMPLEXE -->
+    <div class="lesson-section" id="plan">
+      <h2>2. Le plan complexe</h2>
+      <p>
+        Un nombre complexe est défini par deux réels $a$ et $b$, on peut donc le représenter
+        géométriquement dans un plan appelé <strong>plan complexe</strong> ou <strong>plan de Gauss</strong>.
+        Le point $M$ de coordonnées $(a, b)$ représente $z = a + ib$.
+      </p>
+      <p>On définit alors deux grandeurs fondamentales :</p>
+      <div class="prop-list">
+        <div class="pl-title">Module et argument</div>
+        <table>
+          <tr>
+            <td>Module de $z$, noté $|z|$</td>
+            <td>$$|z| = \sqrt{zz^*} = \sqrt{a^2 + b^2}$$</td>
+          </tr>
+          <tr>
+            <td>Argument de $z$, noté $\arg(z)$</td>
+            <td>$$\tan[\arg(z)] = \frac{b}{a}$$</td>
+          </tr>
+        </table>
+      </div>
+      <p>
+        Le module $|z|$ est la <strong>distance</strong> entre l'origine O et le point $M(a, b)$.
+        L'argument $\arg(z)$ est l'<strong>angle</strong> formé entre l'axe des réels positifs et la demi-droite $[OM)$.
+      </p>
+
+      <!-- Plan de Gauss interactif -->
+      <div class="demo-box">
+        <h3>Plan de Gauss interactif</h3>
+        <p class="demo-sub">Déplacez $a$ et $b$ pour visualiser le nombre complexe.</p>
+        <div class="slider-row">
+          <label>Partie réelle $a$</label>
+          <input type="range" min="-5" max="5" value="3" step="0.5" id="planA" oninput="drawPlan()">
+          <span class="slider-val" id="planAVal">3</span>
+        </div>
+        <div class="slider-row">
+          <label>Partie imag. $b$</label>
+          <input type="range" min="-5" max="5" value="2" step="0.5" id="planB" oninput="drawPlan()">
+          <span class="slider-val" id="planBVal">2</span>
+        </div>
+        <canvas id="complexCanvas" width="400" height="300" style="margin-top:1rem;"></canvas>
+        <div class="result-display" style="margin-top:1rem;">
+          <div class="rd-main" id="planResult">$z = 3 + 2i$</div>
+          <div class="rd-label" id="planModule">$|z| = \sqrt{13} \approx 3.61$ — $\arg(z) \approx 33.7°$</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. FORME POLAIRE -->
+    <div class="lesson-section" id="polaire">
+      <h2>3. Forme trigonométrique et polaire</h2>
+      <p>
+        En posant $\rho = |z|$ (le module) et $\theta = \arg(z)$ (l'argument), on peut réécrire
+        tout nombre complexe sous sa <strong>forme polaire</strong> :
+      </p>
+      <div class="formula-box">
+        <div class="fb-label">Forme trigonométrique / polaire</div>
+        <div class="fb-formula">$$z = \rho(\cos\theta + i\sin\theta)$$</div>
+      </div>
+      <p>
+        Cette écriture met en évidence la <strong>géométrie</strong> du nombre complexe :
+        $\rho$ donne sa distance à l'origine, $\theta$ donne son orientation dans le plan.
+      </p>
+      <div class="example-box">
+        <div class="ex-header">Exemple : convertir $z = 1 + i$ en forme polaire</div>
+        <div class="ex-body">
+          <p>$\rho = |z| = \sqrt{1^2 + 1^2} = \sqrt{2}$</p>
+          <p>$\theta = \arg(z) = \arctan\!\left(\frac{1}{1}\right) = \frac{\pi}{4}$</p>
+          <p>Donc : $z = \sqrt{2}\!\left(\cos\frac{\pi}{4} + i\sin\frac{\pi}{4}\right)$</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. EULER -->
+    <div class="lesson-section" id="euler">
+      <h2>4. Formule d'Euler et forme exponentielle</h2>
+      <p>
+        Euler a démontré que pour tout réel $\theta$ :
+      </p>
+      <div class="formula-box">
+        <div class="fb-label">Formule d'Euler</div>
+        <div class="fb-formula">$$e^{i\theta} = \cos\theta + i\sin\theta$$</div>
+      </div>
+      <p>
+        On peut ainsi écrire tout complexe $z$ de module $\rho$ et d'argument $\theta$ sous sa
+        <strong>forme exponentielle</strong> :
+      </p>
+      <div class="formula-box">
+        <div class="fb-label">Forme exponentielle</div>
+        <div class="fb-formula">$$z = \rho\, e^{i\theta}$$</div>
+      </div>
+      <p>
+        Cette notation est extrêmement pratique, notamment en physique et en électronique.
+        Deux conséquences immédiates et célèbres :
+      </p>
+      <div class="prop-list">
+        <div class="pl-title">Conséquences de la formule d'Euler</div>
+        <table>
+          <tr>
+            <td>Identité d'Euler ($\theta = \pi$)</td>
+            <td>$$e^{i\pi} + 1 = 0$$</td>
+          </tr>
+          <tr>
+            <td>Formule de de Moivre</td>
+            <td>$$(\cos\theta + i\sin\theta)^n = \cos(n\theta) + i\sin(n\theta)$$</td>
+          </tr>
+          <tr>
+            <td>Cosinus en exponentielle</td>
+            <td>$$\cos\theta = \frac{e^{i\theta} + e^{-i\theta}}{2}$$</td>
+          </tr>
+          <tr>
+            <td>Sinus en exponentielle</td>
+            <td>$$\sin\theta = \frac{e^{i\theta} - e^{-i\theta}}{2i}$$</td>
+          </tr>
+        </table>
+      </div>
+      <div class="note-box">
+        <div class="note-label">Remarque</div>
+        <p>
+          L'identité $e^{i\pi} + 1 = 0$ relie les cinq constantes mathématiques fondamentales :
+          $e$, $i$, $\pi$, $1$ et $0$. Elle est souvent citée comme la plus belle équation des mathématiques.
+        </p>
+      </div>
+    </div>
+
+    <!-- 5. PROPRIÉTÉS -->
+    <div class="lesson-section" id="proprietes">
+      <h2>5. Propriétés des opérations</h2>
+      <p>
+        Soient $z_1 = \rho_1 e^{i\theta_1}$ et $z_2 = \rho_2 e^{i\theta_2}$ deux nombres complexes.
+      </p>
+      <div class="prop-list">
+        <div class="pl-title">Multiplication et division</div>
+        <table>
+          <tr>
+            <td>Produit (module)</td>
+            <td>$$|z_1 z_2| = |z_1| \cdot |z_2|$$</td>
+          </tr>
+          <tr>
+            <td>Produit (argument)</td>
+            <td>$$\arg(z_1 z_2) = \theta_1 + \theta_2$$</td>
+          </tr>
+          <tr>
+            <td>Forme exponentielle</td>
+            <td>$$z_1 z_2 = \rho_1 \rho_2\, e^{i(\theta_1 + \theta_2)}$$</td>
+          </tr>
+          <tr>
+            <td>Division</td>
+            <td>$$\frac{z_1}{z_2} = \frac{\rho_1}{\rho_2}\, e^{i(\theta_1 - \theta_2)}$$</td>
+          </tr>
+          <tr>
+            <td>Puissance $n$</td>
+            <td>$$z^n = \rho^n\, e^{in\theta}$$</td>
+          </tr>
+        </table>
+      </div>
+      <div class="prop-list" style="margin-top:1rem;">
+        <div class="pl-title">Conjugué</div>
+        <table>
+          <tr>
+            <td>$z + z^*$</td>
+            <td>$= 2\,\mathcal{Re}(z) = 2a$</td>
+          </tr>
+          <tr>
+            <td>$z - z^*$</td>
+            <td>$= 2i\,\mathcal{Im}(z) = 2ib$</td>
+          </tr>
+          <tr>
+            <td>$z \cdot z^*$</td>
+            <td>$= |z|^2 = a^2 + b^2$</td>
+          </tr>
+          <tr>
+            <td>$|z^*|$</td>
+            <td>$= |z|$</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- 6. DÉMO INTERACTIVE -->
+    <div class="lesson-section" id="demo">
+      <h2>6. Démonstration interactive</h2>
+      <p>
+        Saisissez un nombre complexe $z = a + ib$ et obtenez toutes ses représentations automatiquement.
+      </p>
+      <div class="demo-box">
+        <h3>Convertisseur de formes</h3>
+        <p class="demo-sub">Entrez $a$ et $b$ pour calculer module, argument et forme exponentielle.</p>
+        <div class="slider-row">
+          <label>Partie réelle $a$</label>
+          <input type="range" min="-8" max="8" value="3" step="0.5" id="convA" oninput="updateConverter()">
+          <span class="slider-val" id="convAVal">3</span>
+        </div>
+        <div class="slider-row">
+          <label>Partie imag. $b$</label>
+          <input type="range" min="-8" max="8" value="4" step="0.5" id="convB" oninput="updateConverter()">
+          <span class="slider-val" id="convBVal">4</span>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:1.25rem;">
+          <div class="result-display">
+            <div class="rd-main" id="convCartesian" style="font-size:18px;">$3 + 4i$</div>
+            <div class="rd-label">forme cartésienne</div>
+          </div>
+          <div class="result-display">
+            <div class="rd-main" id="convPolar" style="font-size:18px;">$5\,e^{0.927i}$</div>
+            <div class="rd-label">forme exponentielle</div>
+          </div>
+          <div class="result-display">
+            <div class="rd-main" id="convModule" style="font-size:18px;">$5$</div>
+            <div class="rd-label">module $|z|$</div>
+          </div>
+          <div class="result-display">
+            <div class="rd-main" id="convArg" style="font-size:18px;">$53.1°$</div>
+            <div class="rd-label">argument $\arg(z)$</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- NAV BAS DE PAGE -->
+    <div class="lesson-nav">
+      <a href="mathematique.html#chapitres">← Retour aux chapitres</a>
+      <a href="trigonometrie.html">Trigonométrie →</a>
+    </div>
+
+  </div><!-- /page -->
+
+  <footer>
+    <div class="footer-logo">Math<span>∑</span>tique</div>
+    <p>Rappels mathématiques — Nombres complexes</p>
+    <p style="font-size:12px;color:var(--text-tertiary);">Fait avec ♥ et beaucoup de $i$</p>
+  </footer>
+
+  <script>
+    /* ---- Plan de Gauss ---- */
+    function drawPlan() {
+      const a = parseFloat(document.getElementById('planA').value);
+      const b = parseFloat(document.getElementById('planB').value);
+      document.getElementById('planAVal').textContent = a;
+      document.getElementById('planBVal').textContent = b;
+
+      const canvas = document.getElementById('complexCanvas');
+      const ctx = canvas.getContext('2d');
+      const W = canvas.width, H = canvas.height;
+      const cx = W / 2, cy = H / 2;
+      const scale = 35;
+
+      // Colors from CSS (light/dark safe)
+      const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const bgColor = isDark ? '#1a1a18' : '#ffffff';
+      const gridColor = isDark ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.06)';
+      const axisColor = isDark ? 'rgba(255,255,255,0.25)' : 'rgba(0,0,0,0.2)';
+      const textColor = isDark ? '#888' : '#999';
+      const dotColor = '#534AB7';
+      const lineColor = isDark ? 'rgba(83,74,183,0.4)' : 'rgba(83,74,183,0.3)';
+      const angleColor = 'rgba(83,74,183,0.5)';
+
+      ctx.clearRect(0, 0, W, H);
+      ctx.fillStyle = bgColor;
+      ctx.fillRect(0, 0, W, H);
+
+      // Grid
+      ctx.strokeStyle = gridColor;
+      ctx.lineWidth = 0.5;
+      for (let x = -6; x <= 6; x++) {
+        ctx.beginPath();
+        ctx.moveTo(cx + x * scale, 0);
+        ctx.lineTo(cx + x * scale, H);
+        ctx.stroke();
+      }
+      for (let y = -5; y <= 5; y++) {
+        ctx.beginPath();
+        ctx.moveTo(0, cy + y * scale);
+        ctx.lineTo(W, cy + y * scale);
+        ctx.stroke();
+      }
+
+      // Axes
+      ctx.strokeStyle = axisColor;
+      ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(0, cy); ctx.lineTo(W, cy); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(cx, 0); ctx.lineTo(cx, H); ctx.stroke();
+
+      // Axis labels
+      ctx.fillStyle = textColor;
+      ctx.font = '11px DM Sans, sans-serif';
+      ctx.fillText('Re', W - 20, cy - 6);
+      ctx.fillText('Im', cx + 6, 14);
+      ctx.fillText('O', cx - 14, cy + 14);
+
+      const px = cx + a * scale;
+      const py = cy - b * scale;
+
+      // Angle arc
+      const angle = Math.atan2(b, a);
+      const mod = Math.sqrt(a * a + b * b);
+      if (mod > 0.1) {
+        ctx.strokeStyle = angleColor;
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.arc(cx, cy, 28, 0, -angle, angle < 0);
+        ctx.stroke();
+        ctx.fillStyle = '#534AB7';
+        ctx.font = '12px DM Sans, sans-serif';
+        ctx.fillText('θ', cx + 32 * Math.cos(-angle / 2) + 2, cy - 32 * Math.sin(-angle / 2) + 4);
+      }
+
+      // Dashed lines to point
+      ctx.setLineDash([4, 3]);
+      ctx.strokeStyle = lineColor;
+      ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(px, cy); ctx.lineTo(px, py); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(cx, py); ctx.lineTo(px, py); ctx.stroke();
+      ctx.setLineDash([]);
+
+      // Vector from O to z
+      ctx.strokeStyle = dotColor;
+      ctx.lineWidth = 2;
+      ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(px, py); ctx.stroke();
+
+      // Point
+      ctx.fillStyle = dotColor;
+      ctx.beginPath(); ctx.arc(px, py, 6, 0, 2 * Math.PI); ctx.fill();
+      ctx.fillStyle = '#fff';
+      ctx.beginPath(); ctx.arc(px, py, 3, 0, 2 * Math.PI); ctx.fill();
+
+      // Label z
+      ctx.fillStyle = dotColor;
+      ctx.font = 'bold 13px DM Sans, sans-serif';
+      const lx = px + (a >= 0 ? 10 : -40);
+      const ly = py + (b >= 0 ? -8 : 18);
+      const sign = b >= 0 ? '+' : '−';
+      ctx.fillText(`z = ${a} ${sign} ${Math.abs(b)}i`, lx, ly);
+
+      // Update text
+      const modVal = Math.sqrt(a * a + b * b);
+      const argDeg = (Math.atan2(b, a) * 180 / Math.PI).toFixed(1);
+      document.getElementById('planResult').textContent = `z = ${a} ${b >= 0 ? '+' : '−'} ${Math.abs(b)}i`;
+      document.getElementById('planModule').textContent = `|z| = ${modVal.toFixed(2)}  —  arg(z) = ${argDeg}°`;
+
+      if (window.renderMathInElement) {
+        renderMathInElement(document.getElementById('planResult'), { delimiters: [{left:'$',right:'$',display:false}] });
+        renderMathInElement(document.getElementById('planModule'), { delimiters: [{left:'$',right:'$',display:false}] });
+      }
+    }
+
+    /* ---- Convertisseur ---- */
+    function updateConverter() {
+      const a = parseFloat(document.getElementById('convA').value);
+      const b = parseFloat(document.getElementById('convB').value);
+      document.getElementById('convAVal').textContent = a;
+      document.getElementById('convBVal').textContent = b;
+
+      const mod = Math.sqrt(a * a + b * b);
+      const arg = Math.atan2(b, a);
+      const argDeg = (arg * 180 / Math.PI).toFixed(1);
+      const modStr = mod % 1 === 0 ? mod.toFixed(0) : mod.toFixed(2);
+      const argStr = arg.toFixed(3);
+      const sign = b >= 0 ? '+' : '−';
+
+      document.getElementById('convCartesian').textContent = `$${a} ${sign} ${Math.abs(b)}i$`;
+      document.getElementById('convPolar').textContent = `$${modStr}\\,e^{${argStr}i}$`;
+      document.getElementById('convModule').textContent = `$${modStr}$`;
+      document.getElementById('convArg').textContent = `$${argDeg}°$`;
+
+      if (window.renderMathInElement) {
+        ['convCartesian','convPolar','convModule','convArg'].forEach(id => {
+          renderMathInElement(document.getElementById(id), { delimiters: [{left:'$',right:'$',display:false}] });
+        });
+      }
+    }
+
+    /* ---- Init ---- */
+    document.addEventListener('DOMContentLoaded', () => {
+      drawPlan();
+      updateConverter();
+      setTimeout(() => {
+        if (window.renderMathInElement) {
+          renderMathInElement(document.body, {
+            delimiters: [
+              {left:'$$',right:'$$',display:true},
+              {left:'$',right:'$',display:false}
+            ]
+          });
+        }
+        drawPlan();
+        updateConverter();
+      }, 400);
+    });
+  </script>
+</body>
+</html>

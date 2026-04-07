@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fonctions & Primitives — MathΣtique</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" />
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]});"></script>
+  <style>
+    :root{--green:#1D9E75;--green-light:#E1F5EE;--green-dark:#0F6E56;--green-text:#04342C;--amber:#BA7517;--amber-light:#FAEEDA;--amber-dark:#854F0B;--blue:#185FA5;--blue-light:#E6F1FB;--text:#1a1a1a;--text-secondary:#666;--text-tertiary:#999;--bg:#ffffff;--bg-secondary:#f7f6f2;--bg-tertiary:#f0efe9;--border:rgba(0,0,0,0.1);--border-hover:rgba(0,0,0,0.2);--radius:12px;--radius-lg:16px}
+    @media(prefers-color-scheme:dark){:root{--text:#f0efe9;--text-secondary:#aaa;--text-tertiary:#666;--bg:#111110;--bg-secondary:#1a1a18;--bg-tertiary:#222220;--border:rgba(255,255,255,0.1);--border-hover:rgba(255,255,255,0.2);--green-light:#0a2e26;--green-text:#9FE1CB;--amber-light:#2a1e08;--blue-light:#0d1e30}}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{font-family:'DM Sans',sans-serif;color:var(--text);background:var(--bg);line-height:1.6;font-size:16px}
+    nav{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:1rem 2rem;background:var(--bg);border-bottom:0.5px solid var(--border)}
+    .nav-logo{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--text);text-decoration:none}
+    .nav-logo span{color:var(--green)}
+    .btn-back{display:inline-flex;align-items:center;gap:6px;font-size:14px;color:var(--text-secondary);text-decoration:none;padding:7px 14px;border:0.5px solid var(--border-hover);border-radius:8px;transition:background 0.2s}
+    .btn-back:hover{background:var(--bg-secondary);color:var(--text)}
+    .page{max-width:960px;margin:0 auto;padding:3rem 2rem 5rem}
+    .breadcrumb{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--text-tertiary);margin-bottom:2rem}
+    .breadcrumb a{color:var(--text-secondary);text-decoration:none}
+    .breadcrumb a:hover{color:var(--text)}
+    .lesson-cat{display:inline-block;font-size:12px;font-weight:500;color:var(--green-dark);background:var(--green-light);padding:4px 12px;border-radius:20px;margin-bottom:1rem}
+    .lesson-title{font-family:'Playfair Display',serif;font-size:clamp(28px,5vw,44px);font-weight:700;line-height:1.15;margin-bottom:1rem}
+    .lesson-intro{font-size:15px;color:var(--text-secondary);max-width:650px;line-height:1.8;margin-bottom:2.5rem}
+    .toc{background:var(--bg-secondary);border:0.5px solid var(--border);border-radius:var(--radius);padding:1.25rem 1.5rem;margin-bottom:3rem}
+    .toc-title{font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-tertiary);margin-bottom:0.75rem}
+    .toc ol{padding-left:1.25rem}
+    .toc li{font-size:14px;margin:5px 0}
+    .toc a{color:var(--green);text-decoration:none}
+    .toc a:hover{text-decoration:underline}
+    .lesson-section{margin-bottom:3rem}
+    .lesson-section h2{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;margin-bottom:1.25rem;padding-bottom:0.6rem;border-bottom:0.5px solid var(--border)}
+    .lesson-section p{font-size:15px;line-height:1.85;color:var(--text);margin-bottom:1rem}
+
+    /* GRAND TABLEAU */
+    .prim-table-wrap{overflow-x:auto;margin:1.25rem 0;border-radius:var(--radius);border:0.5px solid var(--border)}
+    .prim-table{width:100%;border-collapse:collapse;font-size:14px}
+    .prim-table thead tr{background:var(--bg-secondary)}
+    .prim-table th{padding:12px 16px;text-align:left;font-size:12px;font-weight:500;color:var(--text-secondary);text-transform:uppercase;letter-spacing:0.06em;border-bottom:0.5px solid var(--border);white-space:nowrap}
+    .prim-table td{padding:12px 16px;border-bottom:0.5px solid var(--border);vertical-align:middle;line-height:1.6}
+    .prim-table tr:last-child td{border-bottom:none}
+    .prim-table tr:nth-child(even) td{background:var(--bg-secondary)}
+    .prim-table td:first-child{font-weight:500;white-space:nowrap;color:var(--text-secondary);font-size:12px}
+    .prim-table td:nth-child(2){font-size:15px}
+    .prim-table td:nth-child(3){font-size:15px;color:var(--green-dark)}
+    .prim-table td:last-child{font-size:13px;color:var(--text-secondary);white-space:nowrap}
+
+    /* Groupes */
+    .group-header td{background:var(--bg-tertiary)!important;font-size:11px!important;font-weight:500!important;color:var(--text-tertiary)!important;text-transform:uppercase;letter-spacing:0.08em;padding:8px 16px!important}
+
+    .def-box{background:var(--green-light);border-left:3px solid var(--green);border-radius:0 var(--radius) var(--radius) 0;padding:1.25rem 1.5rem;margin:1.25rem 0}
+    .def-box .def-label{font-size:11px;font-weight:500;color:var(--green-dark);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:8px}
+    .def-box p{font-size:14px;line-height:1.75;color:var(--green-text);margin:0}
+    .note-box{background:var(--amber-light);border-left:3px solid var(--amber);border-radius:0 var(--radius) var(--radius) 0;padding:1rem 1.5rem;margin:1.25rem 0}
+    .note-box .note-label{font-size:11px;font-weight:500;color:var(--amber-dark);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:6px}
+    .note-box p{font-size:14px;color:var(--amber-dark);margin:0;line-height:1.7}
+    .formula-box{background:var(--bg-secondary);border:0.5px solid var(--border);border-radius:var(--radius);padding:1.5rem;margin:1.25rem 0;text-align:center}
+    .formula-box .fb-label{font-size:12px;color:var(--text-secondary);margin-bottom:0.75rem}
+
+    .lesson-nav{display:flex;justify-content:space-between;align-items:center;margin-top:4rem;padding-top:2rem;border-top:0.5px solid var(--border);flex-wrap:wrap;gap:1rem}
+    .lesson-nav a{display:inline-flex;align-items:center;gap:6px;font-size:14px;color:var(--text-secondary);text-decoration:none;padding:8px 16px;border:0.5px solid var(--border);border-radius:8px;transition:background 0.2s}
+    .lesson-nav a:hover{background:var(--bg-secondary);color:var(--text)}
+    footer{border-top:0.5px solid var(--border);padding:1.5rem 2rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+    .footer-logo{font-family:'Playfair Display',serif;font-size:16px;font-weight:700}
+    .footer-logo span{color:var(--green)}
+    footer p{font-size:13px;color:var(--text-secondary)}
+    @media(max-width:640px){.page{padding:2rem 1.25rem 4rem}nav{padding:1rem 1.25rem}}
+  </style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="index.html">Math<span>&#x3a3;</span>tique</a>
+  <a class="btn-back" href="index.html">&#8592; Retour aux chapitres</a>
+</nav>
+
+<div class="page">
+
+  <div class="breadcrumb">
+    <a href="index.html">Accueil</a><span>/</span>
+    <a href="index.html#chapitres">Rappels</a><span>/</span>
+    <span>Fonctions &amp; Primitives</span>
+  </div>
+
+  <span class="lesson-cat">Rappels math&eacute;matiques</span>
+  <h1 class="lesson-title">Fonctions et Primitives</h1>
+  <p class="lesson-intro">
+    Une primitive d'une fonction $f$ est une fonction $F$ telle que $F' = f$. Ce tableau regroupe les primitives des fonctions usuelles avec leurs domaines de d&eacute;finition et de validit&eacute;.
+  </p>
+
+  <div class="toc">
+    <div class="toc-title">Table des mati&egrave;res</div>
+    <ol>
+      <li><a href="#rappel">Rappel : d&eacute;riv&eacute;e et primitive</a></li>
+      <li><a href="#tableau">Tableau des primitives usuelles</a></li>
+      <li><a href="#regles">R&egrave;gles de calcul</a></li>
+      <li><a href="#methodes">M&eacute;thodes d'int&eacute;gration</a></li>
+    </ol>
+  </div>
+
+  <!-- 1. RAPPEL -->
+  <div class="lesson-section" id="rappel">
+    <h2>1. Rappel : d&eacute;riv&eacute;e et primitive</h2>
+    <div class="def-box">
+      <div class="def-label">D&eacute;finition</div>
+      <p>
+        On dit que $F$ est une <strong>primitive</strong> de $f$ sur un intervalle $I$ si $F$ est d&eacute;rivable sur $I$ et $F'(x) = f(x)$ pour tout $x \in I$.<br/><br/>
+        Si $F$ est une primitive de $f$, alors toutes les primitives de $f$ sont de la forme $F(x) + C$ o&ugrave; $C \in \mathbb{R}$ est une constante arbitraire.<br/><br/>
+        On note : $\displaystyle\int f(x)\,dx = F(x) + C$
+      </p>
+    </div>
+    <div class="formula-box">
+      <div class="fb-label">Lien int&eacute;grale / primitive (th&eacute;or&egrave;me fondamental)</div>
+      $$\int_a^b f(x)\,dx = \Big[F(x)\Big]_a^b = F(b) - F(a)$$
+    </div>
+  </div>
+
+  <!-- 2. TABLEAU -->
+  <div class="lesson-section" id="tableau">
+    <h2>2. Tableau des primitives usuelles</h2>
+    <p>Pour toutes les formules ci-dessous, $C \in \mathbb{R}$ est une constante d'int&eacute;gration.</p>
+
+    <div class="prim-table-wrap">
+      <table class="prim-table">
+        <thead>
+          <tr>
+            <th>Famille</th>
+            <th>Fonction $f(x)$</th>
+            <th>Primitive $F(x) + C$</th>
+            <th>Domaine de validit&eacute;</th>
+          </tr>
+        </thead>
+        <tbody>
+
+          <!-- PUISSANCES -->
+          <tr class="group-header"><td colspan="4">Puissances et polynômes</td></tr>
+          <tr><td>Constante</td><td>$a$</td><td>$ax$</td><td>$\mathbb{R}$</td></tr>
+          <tr><td>Identit&eacute;</td><td>$x$</td><td>$\dfrac{x^2}{2}$</td><td>$\mathbb{R}$</td></tr>
+          <tr><td>Puissance $n \neq -1$</td><td>$x^n$</td><td>$\dfrac{x^{n+1}}{n+1}$</td><td>$\mathbb{R}$ si $n \in \mathbb{N}$, sinon $\mathbb{R}^*_+$</td></tr>
+          <tr><td>Puissance r&eacute;elle</td><td>$x^\alpha,\ \alpha \neq -1$</td><td>$\dfrac{x^{\alpha+1}}{\alpha+1}$</td><td>$\mathbb{R}^*_+$</td></tr>
+          <tr><td>Inverse</td><td>$\dfrac{1}{x}$</td><td>$\ln|x|$</td><td>$\mathbb{R}^*_+$ ou $\mathbb{R}^*_-$</td></tr>
+          <tr><td>Inverse carr&eacute;</td><td>$\dfrac{1}{x^2}$</td><td>$-\dfrac{1}{x}$</td><td>$\mathbb{R}^*_+$ ou $\mathbb{R}^*_-$</td></tr>
+          <tr><td>Racine carr&eacute;e</td><td>$\sqrt{x}$</td><td>$\dfrac{2}{3}x^{3/2}$</td><td>$\mathbb{R}^*_+$</td></tr>
+
+          <!-- EXPONENTIELLES -->
+          <tr class="group-header"><td colspan="4">Fonctions exponentielles et logarithmes</td></tr>
+          <tr><td>Exponentielle</td><td>$e^x$</td><td>$e^x$</td><td>$\mathbb{R}$</td></tr>
+          <tr><td>Exponentielle affine</td><td>$e^{ax+b}$</td><td>$\dfrac{1}{a}e^{ax+b}$</td><td>$\mathbb{R}$, $a \neq 0$</td></tr>
+          <tr><td>Puissance de $a$</td><td>$a^x$</td><td>$\dfrac{a^x}{\ln a}$</td><td>$\mathbb{R}$, $a > 0,\ a \neq 1$</td></tr>
+          <tr><td>Logarithme</td><td>$\ln x$</td><td>$x\ln x - x$</td><td>$\mathbb{R}^*_+$</td></tr>
+          <tr><td>Inverse sur $\mathbb{R}^+$</td><td>$\dfrac{1}{x}$</td><td>$\ln x$</td><td>$\mathbb{R}^*_+$</td></tr>
+
+          <!-- TRIGONOMÉTRIQUES -->
+          <tr class="group-header"><td colspan="4">Fonctions trigonom&eacute;triques</td></tr>
+          <tr><td>Cosinus</td><td>$\cos x$</td><td>$\sin x$</td><td>$\mathbb{R}$</td></tr>
+          <tr><td>Sinus</td><td>$\sin x$</td><td>$-\cos x$</td><td>$\mathbb{R}$</td></tr>
+          <tr><td>Tangente</td><td>$\tan x$</td><td>$-\ln|\cos x|$</td><td>$\mathbb{R} \setminus \left\{\frac{\pi}{2}+k\pi\right\}$</td></tr>
+          <tr><td>$1/\cos^2$</td><td>$\dfrac{1}{\cos^2 x} = 1 + \tan^2 x$</td><td>$\tan x$</td><td>$\mathbb{R} \setminus \left\{\frac{\pi}{2}+k\pi\right\}$</td></tr>
+          <tr><td>$1/\sin^2$</td><td>$\dfrac{1}{\sin^2 x}$</td><td>$-\cot x$</td><td>$\mathbb{R} \setminus \{k\pi\}$</td></tr>
+
+          <!-- TRIGONOMÉTRIQUES INVERSES -->
+          <tr class="group-header"><td colspan="4">Fonctions trigonom&eacute;triques inverses</td></tr>
+          <tr><td>Arcsin</td><td>$\dfrac{1}{\sqrt{1-x^2}}$</td><td>$\arcsin x$</td><td>$]-1,\,1[$</td></tr>
+          <tr><td>Arccos</td><td>$-\dfrac{1}{\sqrt{1-x^2}}$</td><td>$\arccos x$</td><td>$]-1,\,1[$</td></tr>
+          <tr><td>Arctan</td><td>$\dfrac{1}{1+x^2}$</td><td>$\arctan x$</td><td>$\mathbb{R}$</td></tr>
+          <tr><td>Arctan (variante)</td><td>$\dfrac{1}{a^2+x^2}$</td><td>$\dfrac{1}{a}\arctan\dfrac{x}{a}$</td><td>$\mathbb{R}$, $a \neq 0$</td></tr>
+
+          <!-- HYPERBOLIQUES -->
+          <tr class="group-header"><td colspan="4">Fonctions hyperboliques</td></tr>
+          <tr><td>Cosinus hyperbolique</td><td>$\cosh x$</td><td>$\sinh x$</td><td>$\mathbb{R}$</td></tr>
+          <tr><td>Sinus hyperbolique</td><td>$\sinh x$</td><td>$\cosh x$</td><td>$\mathbb{R}$</td></tr>
+          <tr><td>$1/\cosh^2$</td><td>$\dfrac{1}{\cosh^2 x}$</td><td>$\tanh x$</td><td>$\mathbb{R}$</td></tr>
+
+          <!-- FORMES UTILES -->
+          <tr class="group-header"><td colspan="4">Formes utiles</td></tr>
+          <tr><td>Inverse de racine</td><td>$\dfrac{1}{\sqrt{a^2 - x^2}}$</td><td>$\arcsin\dfrac{x}{a}$</td><td>$]-a,\,a[$, $a > 0$</td></tr>
+          <tr><td>Fraction rationnelle</td><td>$\dfrac{1}{\sqrt{x^2 + a^2}}$</td><td>$\ln\!\left(x + \sqrt{x^2+a^2}\right)$</td><td>$\mathbb{R}$</td></tr>
+          <tr><td>Fraction rationnelle</td><td>$\dfrac{1}{\sqrt{x^2 - a^2}}$</td><td>$\ln\!\left|x + \sqrt{x^2-a^2}\right|$</td><td>$|x| > a > 0$</td></tr>
+          <tr><td>Compos&eacute;e usuelle</td><td>$\dfrac{f'(x)}{f(x)}$</td><td>$\ln|f(x)|$</td><td>$f(x) \neq 0$</td></tr>
+          <tr><td>Compos&eacute;e usuelle</td><td>$f'(x)\cdot e^{f(x)}$</td><td>$e^{f(x)}$</td><td>Domaine de $f$</td></tr>
+          <tr><td>Compos&eacute;e usuelle</td><td>$\dfrac{f'(x)}{2\sqrt{f(x)}}$</td><td>$\sqrt{f(x)}$</td><td>$f(x) > 0$</td></tr>
+
+        </tbody>
+      </table>
+    </div>
+
+    <div class="note-box">
+      <div class="note-label">Important</div>
+      <p>Ne pas oublier la <strong>constante d'int&eacute;gration $C$</strong> pour toute primitive calcul&eacute;e sans bornes. Elle dispara&icirc;t uniquement lors du calcul d'une int&eacute;grale d&eacute;finie $\int_a^b$.</p>
+    </div>
+  </div>
+
+  <!-- 3. RÈGLES -->
+  <div class="lesson-section" id="regles">
+    <h2>3. R&egrave;gles de calcul</h2>
+    <div class="formula-box">
+      <div class="fb-label">Lin&eacute;arit&eacute; de l'int&eacute;grale</div>
+      $$\int \left[\lambda f(x) + \mu g(x)\right]dx = \lambda\int f(x)\,dx + \mu\int g(x)\,dx$$
+    </div>
+    <div class="formula-box">
+      <div class="fb-label">Int&eacute;gration par parties</div>
+      $$\int_a^b u(x)\,v'(x)\,dx = \Big[u(x)v(x)\Big]_a^b - \int_a^b u'(x)\,v(x)\,dx$$
+    </div>
+    <div class="formula-box">
+      <div class="fb-label">Changement de variable</div>
+      $$\int_a^b f(\varphi(t))\,\varphi'(t)\,dt = \int_{\varphi(a)}^{\varphi(b)} f(x)\,dx$$
+    </div>
+    <div class="note-box">
+      <div class="note-label">Choix pour l'int&eacute;gration par parties</div>
+      <p>R&egrave;gle LIATE : choisir $u$ dans l'ordre <strong>L</strong>ogarithme, <strong>I</strong>nverse trig., <strong>A</strong>lg&eacute;brique (polyn&ocirc;me), <strong>T</strong>rigonom&eacute;trique, <strong>E</strong>xponentielle. On d&eacute;rive $u$ et on int&egrave;gre $v'$.</p>
+    </div>
+  </div>
+
+  <!-- 4. MÉTHODES -->
+  <div class="lesson-section" id="methodes">
+    <h2>4. M&eacute;thodes d'int&eacute;gration</h2>
+    <p>Selon la forme de la fonction &agrave; int&eacute;grer, diff&eacute;rentes strat&eacute;gies s'appliquent :</p>
+
+    <div class="prim-table-wrap">
+      <table class="prim-table">
+        <thead>
+          <tr>
+            <th>Forme de $f(x)$</th>
+            <th>M&eacute;thode</th>
+            <th>Exemple</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Polyn&ocirc;me</td><td>Int&eacute;gration terme &agrave; terme</td><td>$\int (3x^2 + 2x)\,dx = x^3 + x^2 + C$</td></tr>
+          <tr><td>$\frac{f'}{f}$</td><td>Logarithme direct</td><td>$\int \frac{2x}{x^2+1}\,dx = \ln(x^2+1) + C$</td></tr>
+          <tr><td>$f' \cdot e^f$</td><td>Exponentielle compos&eacute;e</td><td>$\int 2x\,e^{x^2}\,dx = e^{x^2} + C$</td></tr>
+          <tr><td>Produit $P(x) \cdot e^x$</td><td>Int&eacute;gration par parties</td><td>$\int x e^x dx = xe^x - e^x + C$</td></tr>
+          <tr><td>Fraction rationnelle</td><td>D&eacute;composition en &eacute;l&eacute;ments simples</td><td>$\int \frac{1}{x^2-1}\,dx$</td></tr>
+          <tr><td>$\sqrt{a^2 - x^2}$</td><td>Substitution $x = a\sin\theta$</td><td>$\int \sqrt{1-x^2}\,dx$</td></tr>
+          <tr><td>$\sqrt{x^2 + a^2}$</td><td>Substitution $x = a\sinh t$</td><td>$\int \sqrt{x^2+1}\,dx$</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="lesson-nav">
+    <a href="trigonometrie.html">&#8592; Trigonom&eacute;trie</a>
+    <a href="index.html">Retour &agrave; l'accueil &#8594;</a>
+  </div>
+
+</div>
+
+<footer>
+  <div class="footer-logo">Math<span>&#x3a3;</span>tique</div>
+  <p>Rappels math&eacute;matiques &mdash; Fonctions &amp; Primitives</p>
+  <p style="font-size:12px;color:var(--text-tertiary);">Fait avec &hearts; et beaucoup de $\int$</p>
+</footer>
+
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  setTimeout(function(){
+    if(window.renderMathInElement){
+      renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]});
+    }
+  },400);
+});
+</script>
+</body>
+</html>
