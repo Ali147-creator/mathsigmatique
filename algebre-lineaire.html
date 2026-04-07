@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Algèbre linéaire — MathΣtique</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" />
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body, { delimiters: [{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}] });"></script>
+  <style>
+    :root {
+      --green: #1D9E75;
+      --green-light: #E1F5EE;
+      --green-mid: #9FE1CB;
+      --green-dark: #0F6E56;
+      --amber: #d97706;
+      --amber-light: #fef3c7;
+      --amber-dark: #92400e;
+      --text: #1a1a1a;
+      --text-secondary: #666;
+      --text-tertiary: #999;
+      --bg: #ffffff;
+      --bg-secondary: #f7f6f2;
+      --bg-tertiary: #f0efe9;
+      --border: rgba(0,0,0,0.1);
+      --border-hover: rgba(0,0,0,0.2);
+      --radius: 12px;
+      --radius-lg: 16px;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --text: #f0efe9;
+        --text-secondary: #aaa;
+        --text-tertiary: #777;
+        --bg: #111110;
+        --bg-secondary: #1a1a18;
+        --bg-tertiary: #222220;
+        --border: rgba(255,255,255,0.1);
+        --border-hover: rgba(255,255,255,0.2);
+      }
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'DM Sans', sans-serif; color: var(--text); background: var(--bg); line-height: 1.6; font-size: 16px; }
+
+    nav { position: sticky; top: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 1rem 2rem; background: var(--bg); border-bottom: 0.5px solid var(--border); backdrop-filter: blur(8px); }
+    .nav-logo { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; color: var(--text); text-decoration: none; }
+    .nav-logo span { color: var(--green); }
+    .btn-back { display: inline-flex; align-items: center; gap: 6px; font-size: 14px; color: var(--text-secondary); text-decoration: none; padding: 7px 14px; border: 0.5px solid var(--border-hover); border-radius: 8px; transition: background 0.2s; }
+    .btn-back:hover { background: var(--bg-secondary); color: var(--text); }
+
+    .page { max-width: 780px; margin: 0 auto; padding: 3rem 2rem 6rem; }
+    .breadcrumb { display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--text-tertiary); margin-bottom: 2rem; }
+    .breadcrumb a { color: var(--text-secondary); text-decoration: none; }
+    .breadcrumb a:hover { color: var(--text); }
+    .breadcrumb span { color: var(--text-tertiary); }
+
+    .lesson-cat { display: inline-block; font-size: 12px; font-weight: 500; color: var(--green-dark); background: var(--green-light); padding: 4px 12px; border-radius: 20px; margin-bottom: 1rem; }
+    .lesson-title { font-family: 'Playfair Display', serif; font-size: clamp(28px, 5vw, 44px); font-weight: 700; line-height: 1.15; margin-bottom: 1rem; }
+    .lesson-intro { font-size: 15px; color: var(--text-secondary); max-width: 600px; line-height: 1.8; margin-bottom: 2.5rem; }
+
+    .toc { background: var(--bg-secondary); border: 0.5px solid var(--border); border-radius: var(--radius); padding: 1.25rem 1.5rem; margin-bottom: 3rem; }
+    .toc-title { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-tertiary); margin-bottom: 0.75rem; }
+    .toc ol { padding-left: 1.25rem; }
+    .toc li { font-size: 14px; margin: 5px 0; }
+    .toc a { color: var(--text-secondary); text-decoration: none; }
+    .toc a:hover { color: var(--green); }
+
+    .lesson-section { margin-bottom: 3rem; }
+    .lesson-section h2 { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; margin-bottom: 1.25rem; padding-bottom: 0.6rem; border-bottom: 0.5px solid var(--border); }
+    .lesson-section h3 { font-size: 16px; font-weight: 600; color: var(--green-dark); margin: 1.75rem 0 0.75rem; }
+    .lesson-section p { font-size: 15px; line-height: 1.85; color: var(--text); margin-bottom: 1rem; }
+
+    .def-box { background: var(--green-light); border-left: 3px solid var(--green); border-radius: 0 var(--radius) var(--radius) 0; padding: 1rem 1.5rem; margin: 1.25rem 0; }
+    .def-box .def-label { font-size: 11px; font-weight: 500; color: var(--green-dark); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 6px; }
+    .def-box p { font-size: 14px; margin: 0; line-height: 1.8; }
+
+    .thm-box { background: var(--bg-secondary); border: 0.5px solid var(--border); border-left: 3px solid var(--green); border-radius: 0 var(--radius) var(--radius) 0; padding: 1rem 1.5rem; margin: 1.25rem 0; }
+    .thm-box .thm-label { font-size: 11px; font-weight: 500; color: var(--green-dark); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 6px; }
+    .thm-box p { font-size: 14px; margin: 0 0 0.5rem; line-height: 1.8; }
+    .thm-box p:last-child { margin-bottom: 0; }
+
+    .note-box { background: var(--amber-light); border-left: 3px solid var(--amber); border-radius: 0 var(--radius) var(--radius) 0; padding: 1rem 1.5rem; margin: 1.25rem 0; }
+    .note-box .note-label { font-size: 11px; font-weight: 500; color: var(--amber-dark); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 6px; }
+    .note-box p { font-size: 14px; color: var(--amber-dark); margin: 0; line-height: 1.7; }
+
+    .example-box { border: 0.5px solid var(--border); border-radius: var(--radius); overflow: hidden; margin: 1.25rem 0; }
+    .example-box .ex-header { background: var(--bg-secondary); padding: 10px 1.25rem; font-size: 12px; font-weight: 500; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.07em; border-bottom: 0.5px solid var(--border); }
+    .example-box .ex-body { padding: 1.25rem; font-size: 14px; line-height: 1.8; }
+    .example-box .ex-body p { margin-bottom: 0.5rem; font-size: 14px; }
+
+    .prop-table { width: 100%; border-collapse: collapse; margin: 1.25rem 0; border: 0.5px solid var(--border); border-radius: var(--radius); overflow: hidden; font-size: 14px; }
+    .prop-table th { background: var(--bg-secondary); padding: 10px 16px; font-size: 13px; font-weight: 500; text-align: left; border-bottom: 0.5px solid var(--border); }
+    .prop-table td { padding: 10px 16px; border-bottom: 0.5px solid var(--border); line-height: 1.7; }
+    .prop-table tr:last-child td { border-bottom: none; }
+    .prop-table tr:nth-child(even) td { background: var(--bg-secondary); }
+
+    .lesson-nav { display: flex; justify-content: space-between; align-items: center; margin-top: 4rem; padding-top: 2rem; border-top: 0.5px solid var(--border); flex-wrap: wrap; gap: 1rem; }
+    .lesson-nav a { display: inline-flex; align-items: center; gap: 6px; font-size: 14px; color: var(--text-secondary); text-decoration: none; padding: 8px 16px; border: 0.5px solid var(--border); border-radius: 8px; transition: background 0.2s; }
+    .lesson-nav a:hover { background: var(--bg-secondary); color: var(--text); }
+
+    footer { border-top: 0.5px solid var(--border); padding: 1.5rem 2rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
+    .footer-logo { font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 700; }
+    .footer-logo span { color: var(--green); }
+    footer p { font-size: 13px; color: var(--text-secondary); }
+
+    @media (max-width: 640px) { .page { padding: 2rem 1.25rem 4rem; } nav { padding: 1rem 1.25rem; } }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="index.html">Math<span>&#x3a3;</span>tique</a>
+  <a class="btn-back" href="index.html">&#8592; Retour aux chapitres</a>
+</nav>
+
+<div class="page">
+
+  <div class="breadcrumb">
+    <a href="index.html">Accueil</a><span>/</span>
+    <a href="index.html#chapitres">Chapitres</a><span>/</span>
+    <span>Alg&egrave;bre lin&eacute;aire</span>
+  </div>
+
+  <span class="lesson-cat">Alg&egrave;bre</span>
+  <h1 class="lesson-title">R&eacute;visions d&rsquo;alg&egrave;bre lin&eacute;aire</h1>
+  <p class="lesson-intro">
+    L&rsquo;alg&egrave;bre lin&eacute;aire est le langage universel des math&eacute;matiques modernes. Espaces vectoriels, applications lin&eacute;aires, formes lin&eacute;aires : ce chapitre pose les fondations indispensables &agrave; toute la suite du programme.
+  </p>
+
+  <div class="toc">
+    <div class="toc-title">Plan du cours</div>
+    <ol>
+      <li><a href="#espaces">Espaces vectoriels</a></li>
+      <li><a href="#applications">Applications lin&eacute;aires</a></li>
+      <li><a href="#formes">Formes lin&eacute;aires et hyperplans</a></li>
+    </ol>
+  </div>
+
+  <!-- ===== I. ESPACES VECTORIELS ===== -->
+  <div class="lesson-section" id="espaces">
+    <h2>I — Espaces vectoriels</h2>
+
+    <h3>A — G&eacute;n&eacute;ralit&eacute;s</h3>
+    <p>Un $\mathbb{K}$-espace vectoriel est un ensemble muni d&rsquo;une addition et d&rsquo;une multiplication par un scalaire v&eacute;rifiant les axiomes usuels. Les exemples fondamentaux sont $\mathbb{K}^n$, $\mathbb{K}[X]$, $\mathcal{M}_{n,p}(\mathbb{K})$ et les espaces de fonctions $\mathbb{K}^X$.</p>
+
+    <h3>B — Sous-espaces vectoriels</h3>
+    <div class="def-box">
+      <div class="def-label">D&eacute;finition — Sous-espace vectoriel</div>
+      <p>$F$ est un sous-espace vectoriel de $E$ si et seulement si $0_E \in F$ et $\forall x, y \in F,\, \forall \lambda \in \mathbb{K},\; \lambda x + y \in F$.</p>
+    </div>
+    <p>Cette caract&eacute;risation (stabilit&eacute; par combinaison lin&eacute;aire) est la plus utilis&eacute;e en pratique. L&rsquo;intersection de deux sous-espaces est un sous-espace ; ce n&rsquo;est pas le cas en g&eacute;n&eacute;ral de leur union.</p>
+
+    <h3>C — Familles de vecteurs</h3>
+    <div class="def-box">
+      <div class="def-label">D&eacute;finition — Famille libre</div>
+      <p>$(u_i)_{i \in I}$ est libre si $\displaystyle\sum_{i \in I} \lambda_i u_i = 0_E \Rightarrow \forall i,\, \lambda_i = 0$. Autrement dit, la seule combinaison lin&eacute;aire nulle est la combinaison triviale.</p>
+    </div>
+    <div class="def-box">
+      <div class="def-label">D&eacute;finition — Famille g&eacute;n&eacute;ratrice</div>
+      <p>$(u_i)_{i \in I}$ est g&eacute;n&eacute;ratrice si tout vecteur de $E$ s&rsquo;&eacute;crit comme combinaison lin&eacute;aire de la famille : $E = \mathrm{Vect}_{i \in I}(u_i)$.</p>
+    </div>
+    <div class="def-box">
+      <div class="def-label">D&eacute;finition — Base</div>
+      <p>Une base est une famille &agrave; la fois libre et g&eacute;n&eacute;ratrice. Tout vecteur de $E$ s&rsquo;y d&eacute;compose de fa&ccedil;on <strong>unique</strong>.</p>
+    </div>
+
+    <div class="thm-box">
+      <div class="thm-label">Th&eacute;or&egrave;me — Famille de polynômes &eacute;chelonn&eacute;e</div>
+      <p>Toute famille de polynômes non nuls &eacute;chelonn&eacute;e en degr&eacute; est libre.</p>
+    </div>
+
+    <h3>D — Dimension finie</h3>
+    <div class="thm-box">
+      <div class="thm-label">Th&eacute;or&egrave;me — Dimension</div>
+      <p>Dans un espace de dimension finie $n$, toutes les bases ont le m&ecirc;me cardinal $n$.</p>
+      <p>Si $F$ est une famille de $n$ vecteurs : libre $\Leftrightarrow$ g&eacute;n&eacute;ratrice $\Leftrightarrow$ base.</p>
+    </div>
+    <div class="thm-box">
+      <div class="thm-label">Th&eacute;or&egrave;mes fondamentaux</div>
+      <p><strong>Base extraite :</strong> de toute famille g&eacute;n&eacute;ratrice on peut extraire une base.</p>
+      <p><strong>Base incompl&egrave;te :</strong> toute famille libre peut &ecirc;tre compl&eacute;t&eacute;e en une base.</p>
+      <p><strong>Dimension d&rsquo;un s.e.v. :</strong> si $F \subset E$ avec $\dim F = \dim E$, alors $F = E$.</p>
+    </div>
+
+    <h3>E — Rang d&rsquo;une famille</h3>
+    <div class="def-box">
+      <div class="def-label">D&eacute;finition — Rang</div>
+      <p>Le rang de $(u_1, \ldots, u_p)$ est $\dim \mathrm{Vect}(u_1, \ldots, u_p)$. La famille est libre ssi son rang vaut $p$, g&eacute;n&eacute;ratrice de $E$ ssi son rang vaut $\dim E$.</p>
+    </div>
+
+    <h3>F — Repr&eacute;sentation matricielle et changement de base</h3>
+    <p>Dans une base $\mathcal{B} = (e_1, \ldots, e_n)$, on repr&eacute;sente tout vecteur $x$ par ses coordonn&eacute;es $X = \mathrm{Mat}_\mathcal{B}(x) \in \mathcal{M}_{n,1}(\mathbb{K})$.</p>
+    <div class="thm-box">
+      <div class="thm-label">Matrice de passage</div>
+      <p>La matrice de passage $P = P_{\mathcal{B} \to \mathcal{B}'}$ a pour colonnes les coordonn&eacute;es des vecteurs de $\mathcal{B}'$ dans $\mathcal{B}$. Elle est inversible et $P^{-1} = P_{\mathcal{B}' \to \mathcal{B}}$.</p>
+      <p>Formule : $X = P X'$, c&rsquo;est-&agrave;-dire $X' = P^{-1} X$.</p>
+    </div>
+
+    <h3>G — Somme de sous-espaces</h3>
+    <div class="def-box">
+      <div class="def-label">D&eacute;finition — Somme directe</div>
+      <p>$F$ et $G$ sont en somme directe ($E = F \oplus G$) lorsque tout vecteur de $E$ se d&eacute;compose de fa&ccedil;on <em>unique</em> en somme d&rsquo;un &eacute;l&eacute;ment de $F$ et d&rsquo;un &eacute;l&eacute;ment de $G$.</p>
+    </div>
+    <div class="thm-box">
+      <div class="thm-label">Caract&eacute;risation et formule de Grassmann</div>
+      <p>$F \cap G = \{0_E\} \Leftrightarrow$ somme directe.</p>
+      <p>$\dim(F + G) = \dim F + \dim G - \dim(F \cap G)$.</p>
+      <p>En dimension finie, $F$ et $G$ sont suppl&eacute;mentaires dans $E$ ssi deux des trois conditions suivantes sont v&eacute;rifi&eacute;es : $E = F + G$,&ensp; $F \cap G = \{0\}$,&ensp; $\dim E = \dim F + \dim G$.</p>
+    </div>
+
+    <div class="example-box">
+      <div class="ex-header">Exemple — Sous-espace de $\mathbb{R}^3$</div>
+      <div class="ex-body">
+        <p>$F = \{(x,y,z) \in \mathbb{R}^3 \mid x + 2y - 3z = 0\}$ est un s.e.v. de $\mathbb{R}^3$ car $0 \in F$ et si $u, v \in F$, alors $(\lambda u + v)$ v&eacute;rifie aussi l&rsquo;&eacute;quation par lin&eacute;arit&eacute;.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== II. APPLICATIONS LINÉAIRES ===== -->
+  <div class="lesson-section" id="applications">
+    <h2>II — Applications lin&eacute;aires</h2>
+
+    <h3>A — D&eacute;finitions</h3>
+    <div class="def-box">
+      <div class="def-label">D&eacute;finition</div>
+      <p>$f : E \to F$ est lin&eacute;aire si $\forall x, y \in E,\, \forall \lambda \in \mathbb{K},\; f(\lambda x + y) = \lambda f(x) + f(y)$.</p>
+    </div>
+    <p>L&rsquo;ensemble $\mathcal{L}(E, F)$ est lui-m&ecirc;me un espace vectoriel. Si $E$ et $F$ sont de dimension finie, $\dim \mathcal{L}(E,F) = \dim E \times \dim F$.</p>
+
+    <div class="note-box">
+      <div class="note-label">Attention</div>
+      <p>Toute application lin&eacute;aire v&eacute;rifie $f(0_E) = 0_F$. C&rsquo;est un test rapide de non-lin&eacute;arit&eacute;.</p>
+    </div>
+
+    <h3>B — Image et noyau</h3>
+    <div class="def-box">
+      <div class="def-label">Image et noyau</div>
+      <p>$\mathrm{Im}(f) = f(E)$ est un s.e.v. de $F$. &ensp; $\mathrm{Ker}(f) = f^{-1}(\{0_F\})$ est un s.e.v. de $E$.</p>
+    </div>
+    <div class="thm-box">
+      <div class="thm-label">Th&eacute;or&egrave;me — Injectivit&eacute;</div>
+      <p>$f$ est injective $\Leftrightarrow$ $\mathrm{Ker}(f) = \{0_E\}$.</p>
+    </div>
+    <div class="thm-box">
+      <div class="thm-label">Formule du rang</div>
+      <p>Si $E$ est de dimension finie : $\dim E = \dim \mathrm{Ker}(f) + \mathrm{rg}(f)$.</p>
+    </div>
+    <div class="thm-box">
+      <div class="thm-label">Corollaire — Endomorphisme en dimension finie</div>
+      <p>Pour $f \in \mathcal{L}(E)$ avec $E$ de dimension finie :</p>
+      <p style="text-align:center;">$f$ injective $\Leftrightarrow$ $f$ surjective $\Leftrightarrow$ $f$ bijective.</p>
+    </div>
+
+    <h3>C — R&eacute;solution d&rsquo;une &eacute;quation lin&eacute;aire</h3>
+    <p>Pour r&eacute;soudre $f(x) = y$ avec $y \in \mathrm{Im}(f)$ et $x_0$ une solution particuli&egrave;re :</p>
+    $$\mathcal{S} = x_0 + \mathrm{Ker}(f)$$
+    <p>C&rsquo;est un sous-espace affine. Si $\mathrm{Ker}(f) = \{0\}$, la solution est unique ; sinon il y en a une infinit&eacute;.</p>
+
+    <h3>D — Repr&eacute;sentation matricielle</h3>
+    <div class="def-box">
+      <div class="def-label">Matrice d&rsquo;une application lin&eacute;aire</div>
+      <p>Dans des bases $\mathcal{B}$ de $E$ et $\mathcal{B}'$ de $F$, la matrice $\mathrm{Mat}_{\mathcal{B},\mathcal{B}'}(f)$ a pour $j$-i&egrave;me colonne les coordonn&eacute;es de $f(e_j)$ dans $\mathcal{B}'$.</p>
+    </div>
+    <div class="thm-box">
+      <div class="thm-label">Formule de changement de base</div>
+      <p>Si $M$ est la matrice de $f$ dans $\mathcal{B}$ et $M'$ dans $\mathcal{B}'$, avec $P = P_{\mathcal{B} \to \mathcal{B}'}$ :</p>
+      <p style="text-align:center;">$M' = P^{-1} M P$</p>
+      <p>Deux matrices repr&eacute;sentant le m&ecirc;me endomorphisme sont dites <strong>semblables</strong>. Elles ont m&ecirc;me rang, m&ecirc;me trace et m&ecirc;me d&eacute;terminant.</p>
+    </div>
+
+    <table class="prop-table">
+      <thead><tr><th>Monde vectoriel</th><th>Monde matriciel</th></tr></thead>
+      <tbody>
+        <tr><td>$x \in E$</td><td>$X \in \mathcal{M}_{n,1}(\mathbb{K})$</td></tr>
+        <tr><td>$f \in \mathcal{L}(E)$</td><td>$M \in \mathcal{M}_n(\mathbb{K})$</td></tr>
+        <tr><td>$f(x)$</td><td>$MX$</td></tr>
+        <tr><td>$f \circ g$</td><td>$MN$</td></tr>
+        <tr><td>$f^{-1}$, $f \in GL(E)$</td><td>$M^{-1}$, $M \in GL_n(\mathbb{K})$</td></tr>
+      </tbody>
+    </table>
+
+    <h3>E — Endomorphismes remarquables</h3>
+    <div class="def-box">
+      <div class="def-label">Projecteur vectoriel</div>
+      <p>$p \in \mathcal{L}(E)$ est un projecteur ssi $p \circ p = p$. Alors $E = \mathrm{Im}(p) \oplus \mathrm{Ker}(p)$, et dans une base adapt&eacute;e sa matrice est diagonale avec des $1$ et des $0$.</p>
+    </div>
+    <div class="def-box">
+      <div class="def-label">Sym&eacute;trie vectorielle</div>
+      <p>$s \in \mathcal{L}(E)$ est une sym&eacute;trie ssi $s \circ s = \mathrm{id}_E$. Alors $E = \mathrm{Ker}(s - \mathrm{id}) \oplus \mathrm{Ker}(s + \mathrm{id})$, et dans une base adapt&eacute;e sa matrice est diagonale avec des $1$ et des $-1$.</p>
+    </div>
+
+    <div class="example-box">
+      <div class="ex-header">Exemple — Endomorphisme de $\mathbb{R}^2[X]$</div>
+      <div class="ex-body">
+        <p>$\varphi : P \mapsto XP' - P$ est un endomorphisme de $\mathbb{R}_2[X]$. Sa matrice dans la base canonique est :</p>
+        <p>$$M = \begin{pmatrix} -1 & 0 & 0 \\ 0 & 0 & 0 \\ 0 & 0 & 1 \end{pmatrix}$$</p>
+        <p>On lit directement $\mathrm{Ker}(\varphi) = \mathrm{Vect}(X)$ et $\mathrm{Im}(\varphi) = \mathrm{Vect}(1, X^2)$.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== III. FORMES LINÉAIRES ET HYPERPLANS ===== -->
+  <div class="lesson-section" id="formes">
+    <h2>III — Formes lin&eacute;aires et hyperplans</h2>
+
+    <h3>A — Espace dual</h3>
+    <p>Une forme lin&eacute;aire est une application lin&eacute;aire de $E$ dans $\mathbb{K}$. L&rsquo;espace $E^* = \mathcal{L}(E, \mathbb{K})$ est appel&eacute; <strong>espace dual</strong>. En dimension finie, $\dim E^* = \dim E$.</p>
+    <p>Les formes lin&eacute;aires sur $\mathbb{K}^n$ sont exactement les applications $(x_1, \ldots, x_n) \mapsto \alpha_1 x_1 + \cdots + \alpha_n x_n$.</p>
+
+    <div class="thm-box">
+      <div class="thm-label">Base duale</div>
+      <p>Les formes coordonn&eacute;es $e_i^* : x \mapsto x_i$ associ&eacute;es &agrave; une base $\mathcal{B} = (e_1, \ldots, e_n)$ forment une base de $E^*$, appel&eacute;e <strong>base duale</strong> de $\mathcal{B}$. On a $e_i^*(e_j) = \delta_{i,j}$.</p>
+    </div>
+
+    <h3>B — Hyperplans</h3>
+    <div class="def-box">
+      <div class="def-label">D&eacute;finition — Hyperplan</div>
+      <p>Un hyperplan de $E$ est le noyau d&rsquo;une forme lin&eacute;aire <em>non nulle</em>.</p>
+    </div>
+    <div class="thm-box">
+      <div class="thm-label">Caract&eacute;risation</div>
+      <p>$H$ est un hyperplan de $E$ ssi $H$ admet une droite vectorielle comme suppl&eacute;mentaire, c&rsquo;est-&agrave;-dire : $\exists\, u \neq 0_E,\; E = H \oplus \mathrm{Vect}(u)$.</p>
+      <p>En dimension finie $n$ : $H$ est un hyperplan ssi $\dim H = n - 1$.</p>
+    </div>
+
+    <div class="thm-box">
+      <div class="thm-label">Th&eacute;or&egrave;me — Intersection de $p$ hyperplans</div>
+      <p>L&rsquo;intersection de $p$ hyperplans de $E$ (dim $n$) est un sous-espace de dimension $\geq n - p$.</p>
+      <p>Tout sous-espace de dimension $n - p$ est l&rsquo;intersection de $p$ hyperplans.</p>
+    </div>
+
+    <div class="note-box">
+      <div class="note-label">Lien avec les syst&egrave;mes lin&eacute;aires</div>
+      <p>L&rsquo;ensemble des solutions d&rsquo;un syst&egrave;me homog&egrave;ne de $p$ &eacute;quations en $n$ inconnues est l&rsquo;intersection de $p$ hyperplans de $\mathbb{K}^n$, donc un espace de dimension $\geq n - p$. L&rsquo;&eacute;galit&eacute; a lieu si et seulement si les &eacute;quations sont lin&eacute;airement ind&eacute;pendantes.</p>
+    </div>
+
+    <div class="example-box">
+      <div class="ex-header">Exemple — Hyperplan de $\mathbb{R}^4$</div>
+      <div class="ex-body">
+        <p>$F = \{(x,y,z,t) \in \mathbb{R}^4 \mid 3x - 2y + z = t\}$ est un hyperplan de $\mathbb{R}^4$ comme noyau de la forme lin&eacute;aire $(x,y,z,t) \mapsto 3x - 2y + z - t$. Un suppl&eacute;mentaire de $F$ est $\mathrm{Vect}(1,1,1,1)$.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="lesson-nav">
+    <a href="index.html">&#8592; Retour aux chapitres</a>
+    <a href="trigonometrie.html">Trigonom&eacute;trie &#8594;</a>
+  </div>
+
+</div>
+
+<footer>
+  <div class="footer-logo">Math<span>&#x3a3;</span>tique</div>
+  <p>&copy; 2026 &mdash; Les maths, enfin claires et simples.</p>
+</footer>
+
+</body>
+</html>
