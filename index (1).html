@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MathΣtique — Les maths, enfin claires</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" />
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body, { delimiters: [{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}] });"></script>
+
+  <style>
+    :root {
+      --green: #1D9E75;
+      --green-light: #E1F5EE;
+      --green-mid: #9FE1CB;
+      --green-dark: #0F6E56;
+      --text: #1a1a1a;
+      --text-secondary: #666;
+      --text-tertiary: #999;
+      --bg: #ffffff;
+      --bg-secondary: #f7f6f2;
+      --bg-tertiary: #f0efe9;
+      --border: rgba(0,0,0,0.1);
+      --border-hover: rgba(0,0,0,0.2);
+      --radius: 12px;
+      --radius-lg: 16px;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --text: #f0efe9;
+        --text-secondary: #aaa;
+        --text-tertiary: #777;
+        --bg: #111110;
+        --bg-secondary: #1a1a18;
+        --bg-tertiary: #222220;
+        --border: rgba(255,255,255,0.1);
+        --border-hover: rgba(255,255,255,0.2);
+      }
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.6;
+      font-size: 16px;
+    }
+
+    /* ——— NAV ——— */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1rem 2rem;
+      background: var(--bg);
+      border-bottom: 0.5px solid var(--border);
+      backdrop-filter: blur(8px);
+    }
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px; font-weight: 700;
+      color: var(--text); text-decoration: none;
+    }
+    .nav-logo span { color: var(--green); }
+    .nav-links { display: flex; gap: 24px; list-style: none; }
+    .nav-links a {
+      font-size: 14px; color: var(--text-secondary);
+      text-decoration: none; transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--text); }
+    .btn-primary {
+      background: var(--green); color: white;
+      border: none; padding: 8px 18px;
+      border-radius: 8px; font-size: 14px; font-weight: 500;
+      cursor: pointer; font-family: inherit;
+      text-decoration: none; display: inline-block;
+      transition: opacity 0.2s;
+    }
+    .btn-primary:hover { opacity: 0.85; }
+    .btn-outline {
+      background: transparent; color: var(--text);
+      border: 0.5px solid var(--border-hover);
+      padding: 8px 18px; border-radius: 8px;
+      font-size: 14px; font-weight: 500;
+      cursor: pointer; font-family: inherit;
+      text-decoration: none; display: inline-block;
+      transition: background 0.2s;
+    }
+    .btn-outline:hover { background: var(--bg-secondary); }
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; }
+    .hamburger span { width: 22px; height: 1.5px; background: var(--text); display: block; }
+
+    /* ——— HERO ——— */
+    .hero {
+      max-width: 1100px; margin: 0 auto;
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 3rem; align-items: center;
+      padding: 5rem 2rem 4rem;
+    }
+    .hero-tag {
+      display: inline-block; font-size: 12px; font-weight: 500;
+      color: var(--green-dark); background: var(--green-light);
+      padding: 4px 12px; border-radius: 20px; margin-bottom: 1rem;
+    }
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(34px, 5vw, 54px);
+      line-height: 1.15; font-weight: 700;
+    }
+    .hero h1 .accent { color: var(--green); }
+    .hero-subtitle {
+      font-size: 16px; color: var(--text-secondary);
+      margin-top: 1.25rem; line-height: 1.8; max-width: 420px;
+    }
+    .hero-cta { margin-top: 2rem; display: flex; gap: 12px; flex-wrap: wrap; }
+
+    .hero-stats {
+      display: flex; gap: 2rem; margin-top: 2.5rem;
+    }
+    .stat-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 26px; font-weight: 700; color: var(--green);
+    }
+    .stat-label { font-size: 12px; color: var(--text-secondary); margin-top: 2px; }
+
+    .formula-showcase {
+      background: var(--bg-secondary);
+      border-radius: var(--radius-lg);
+      border: 0.5px solid var(--border);
+      overflow: hidden;
+    }
+    .fs-header {
+      padding: 1rem 1.5rem;
+      border-bottom: 0.5px solid var(--border);
+      display: flex; align-items: center; gap: 8px;
+    }
+    .fs-dot { width: 10px; height: 10px; border-radius: 50%; }
+    .fs-title { font-size: 13px; color: var(--text-secondary); margin-left: 4px; }
+    .fs-body { padding: 2rem 1.5rem; text-align: center; }
+    .fs-formula {
+      font-family: 'Playfair Display', serif;
+      font-size: 32px; margin: 0.5rem 0 1rem;
+    }
+    .fs-desc { font-size: 13px; color: var(--text-secondary); line-height: 1.6; }
+    .fs-tabs {
+      display: flex; border-top: 0.5px solid var(--border);
+    }
+    .fs-tab {
+      flex: 1; padding: 10px;
+      font-size: 12px; color: var(--text-secondary);
+      text-align: center; cursor: pointer;
+      border: none; background: none; font-family: inherit;
+      transition: background 0.2s, color 0.2s;
+    }
+    .fs-tab:hover { background: var(--bg-tertiary); }
+    .fs-tab.active {
+      color: var(--green); background: var(--green-light);
+      font-weight: 500;
+    }
+    .fs-tab + .fs-tab { border-left: 0.5px solid var(--border); }
+
+    /* ——— SECTIONS ——— */
+    section { max-width: 1100px; margin: 0 auto; padding: 3.5rem 2rem; }
+    .section-header { margin-bottom: 2rem; }
+    .section-header h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 28px; font-weight: 700; margin-bottom: 6px;
+    }
+    .section-header p { font-size: 15px; color: var(--text-secondary); }
+    hr.divider {
+      border: none; border-top: 0.5px solid var(--border);
+      margin: 0 2rem;
+    }
+
+    /* ——— CHAPTERS ——— */
+    .chapters-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+      gap: 16px;
+    }
+    .chapter-card {
+      background: var(--bg);
+      border: 0.5px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.4rem;
+      cursor: pointer;
+      transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+      text-decoration: none; color: inherit;
+      display: block;
+    }
+    .chapter-card:hover {
+      border-color: var(--border-hover);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+    }
+    .chapter-icon {
+      width: 44px; height: 44px; border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px; margin-bottom: 14px; font-weight: 700;
+    }
+    .chapter-card h3 { font-size: 15px; font-weight: 500; margin-bottom: 6px; }
+    .chapter-card p { font-size: 13px; color: var(--text-secondary); line-height: 1.55; }
+    .chapter-badge {
+      display: inline-block; margin-top: 12px;
+      font-size: 11px; padding: 3px 9px; border-radius: 20px;
+      font-weight: 500;
+    }
+    .badge-green { background: var(--green-light); color: var(--green-dark); }
+    .badge-blue { background: #E6F1FB; color: #185FA5; }
+    .badge-amber { background: #FAEEDA; color: #854F0B; }
+    .badge-purple { background: #EEEDFE; color: #3C3489; }
+
+    /* ——— INTERACTIVE ——— */
+    .interactive-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;
+    }
+    .demo-box {
+      background: var(--bg-secondary);
+      border: 0.5px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 1.75rem;
+    }
+    .demo-box h3 { font-size: 16px; font-weight: 500; margin-bottom: 0.5rem; }
+    .demo-box .demo-subtitle { font-size: 13px; color: var(--text-secondary); margin-bottom: 1.25rem; }
+    .formula-display {
+      background: var(--bg); border-radius: 10px;
+      padding: 1rem; text-align: center;
+      border: 0.5px solid var(--border);
+      font-family: 'Playfair Display', serif; font-size: 20px;
+      margin-bottom: 1.25rem; min-height: 60px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .slider-row { display: flex; align-items: center; gap: 10px; margin: 8px 0; }
+    .slider-row label { font-size: 13px; color: var(--text-secondary); width: 90px; flex-shrink: 0; }
+    .slider-row input[type=range] { flex: 1; accent-color: var(--green); }
+    .slider-val { font-size: 13px; font-weight: 500; min-width: 28px; text-align: right; }
+    .result-pill {
+      background: var(--green-light); color: var(--green-dark);
+      border-radius: 10px; padding: 14px;
+      text-align: center; margin-top: 1.25rem;
+    }
+    .result-pill .rp-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 30px; font-weight: 700; color: var(--green);
+    }
+    .result-pill .rp-label { font-size: 12px; color: var(--green-dark); margin-top: 2px; }
+
+    /* ——— FORMULAS REFERENCE ——— */
+    .formulas-list { display: flex; flex-direction: column; gap: 12px; }
+    .formula-row {
+      background: var(--bg);
+      border: 0.5px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1rem 1.25rem;
+      display: grid; grid-template-columns: 1fr 2fr;
+      gap: 1rem; align-items: center;
+      transition: border-color 0.2s;
+    }
+    .formula-row:hover { border-color: var(--border-hover); }
+    .fr-name { font-size: 14px; font-weight: 500; }
+    .fr-sub { font-size: 12px; color: var(--text-secondary); margin-top: 2px; }
+    .fr-formula { font-family: 'Playfair Display', serif; font-size: 18px; text-align: right; }
+
+    /* ——— ABOUT ——— */
+    .about-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
+    }
+    .about-card {
+      background: var(--bg-secondary);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      border: 0.5px solid var(--border);
+    }
+    .about-card .ac-icon {
+      width: 40px; height: 40px; border-radius: 10px;
+      background: var(--green-light); color: var(--green-dark);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px; margin-bottom: 1rem;
+    }
+    .about-card h3 { font-size: 15px; font-weight: 500; margin-bottom: 6px; }
+    .about-card p { font-size: 13px; color: var(--text-secondary); line-height: 1.6; }
+
+    /* ——— RAPPELS CHAPTER PAGE ——— */
+    .chapter-page { display: none; }
+    .chapter-page.active { display: block; }
+    .main-content { }
+
+    .breadcrumb {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 13px; color: var(--text-secondary);
+      margin-bottom: 2rem;
+    }
+    .breadcrumb a { color: var(--text-secondary); text-decoration: none; cursor: pointer; }
+    .breadcrumb a:hover { color: var(--text); }
+    .breadcrumb span { color: var(--text-tertiary); }
+
+    .lesson-header {
+      margin-bottom: 2.5rem;
+    }
+    .lesson-cat {
+      display: inline-block; font-size: 12px; font-weight: 500;
+      color: #3C3489; background: #EEEDFE;
+      padding: 4px 12px; border-radius: 20px; margin-bottom: 1rem;
+    }
+    .lesson-header h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(28px, 4vw, 42px); font-weight: 700;
+      line-height: 1.2; margin-bottom: 0.75rem;
+    }
+    .lesson-header p { font-size: 15px; color: var(--text-secondary); max-width: 620px; line-height: 1.7; }
+
+    .lesson-toc {
+      background: var(--bg-secondary);
+      border: 0.5px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 2.5rem;
+    }
+    .lesson-toc h4 { font-size: 13px; font-weight: 500; color: var(--text-secondary); margin-bottom: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; }
+    .lesson-toc ol { padding-left: 1.25rem; }
+    .lesson-toc li { font-size: 14px; margin: 4px 0; }
+    .lesson-toc a { color: var(--green); text-decoration: none; }
+    .lesson-toc a:hover { text-decoration: underline; }
+
+    .lesson-block {
+      margin-bottom: 2.5rem;
+    }
+    .lesson-block h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px; font-weight: 700;
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 0.5px solid var(--border);
+    }
+    .lesson-block p { font-size: 15px; line-height: 1.8; color: var(--text); margin-bottom: 0.75rem; }
+
+    .def-box {
+      background: #EEEDFE; border-left: 3px solid #534AB7;
+      border-radius: 0 var(--radius) var(--radius) 0;
+      padding: 1.25rem 1.5rem; margin: 1.25rem 0;
+    }
+    .def-box .def-label { font-size: 11px; font-weight: 500; color: #3C3489; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 6px; }
+    .def-box p { font-size: 14px; line-height: 1.7; color: #26215C; margin: 0; }
+
+    .formula-box {
+      background: var(--bg-secondary);
+      border: 0.5px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem 1.5rem; margin: 1.25rem 0;
+      text-align: center;
+    }
+    .formula-box .fb-label { font-size: 12px; color: var(--text-secondary); margin-bottom: 0
+      border-top: 0.5px solid var(--border);
+      padding: 2rem;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 1rem;
+      max-width: 100%;
+    }
+    .footer-logo {
+      font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700;
+    }
+    .footer-logo span { color: var(--green); }
+    footer p { font-size: 13px; color: var(--text-secondary); }
+
+    /* ——— RESPONSIVE ——— */
+    @media (max-width: 768px) {
+      .hero { grid-template-columns: 1fr; padding: 3rem 1.5rem; }
+      .formula-showcase { display: none; }
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+      .interactive-grid { grid-template-columns: 1fr; }
+      .about-grid { grid-template-columns: 1fr; }
+      .formula-row { grid-template-columns: 1fr; }
+      .fr-formula { text-align: left; }
+      section { padding: 2.5rem 1.5rem; }
+      .hero-stats { gap: 1.25rem; }
+    }
+
+    /* ——— MOBILE NAV ——— */
+    .mobile-nav {
+      display: none; flex-direction: column;
+      background: var(--bg); border-top: 0.5px solid var(--border);
+      padding: 1rem 1.5rem; gap: 12px;
+    }
+    .mobile-nav.open { display: flex; }
+    .mobile-nav a { font-size: 15px; color: var(--text-secondary); text-decoration: none; padding: 6px 0; }
+
+    /* ——— ANIMATIONS ——— */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .hero-left { animation: fadeUp 0.6s ease both; }
+    .hero-right { animation: fadeUp 0.6s 0.15s ease both; }
+    .chapter-card { animation: fadeUp 0.4s ease both; }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a class="nav-logo" href="#">Math<span>∑</span>tique</a>
+    <ul class="nav-links">
+      <li><a href="#chapitres">Chapitres</a></li>
+      <li><a href="#interactif">Exercices</a></li>
+      <li><a href="#formules">Formules</a></li>
+      <li><a href="#a-propos">À propos</a></li>
+    </ul>
+    <div style="display:flex;gap:10px;align-items:center;">
+      <a class="btn-primary" href="#chapitres">Commencer</a>
+      <div class="hamburger" onclick="toggleMenu()" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+  </nav>
+
+  <div class="mobile-nav" id="mobileNav">
+    <a href="#chapitres" onclick="toggleMenu()">Chapitres</a>
+    <a href="#interactif" onclick="toggleMenu()">Exercices interactifs</a>
+    <a href="#formules" onclick="toggleMenu()">Référence formules</a>
+    <a href="#a-propos" onclick="toggleMenu()">À propos</a>
+  </div>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-left">
+      <span class="hero-tag">✦ Apprendre les maths autrement</span>
+      <h1>Les maths,<br>enfin <span class="accent">claires</span><br>et simples.</h1>
+      <p class="hero-subtitle">
+        Découvrez les mathématiques à travers des explications visuelles, des exemples concrets et des démonstrations interactives. Accessible à tous les niveaux.
+      </p>
+      <div class="hero-cta">
+        <a class="btn-primary" href="#chapitres">Explorer les chapitres</a>
+        <a class="btn-outline" href="#interactif">Essayer une démo</a>
+      </div>
+      <div class="hero-stats">
+        <div>
+          <div class="stat-num">7</div>
+          <div class="stat-label">Chapitres</div>
+        </div>
+        <div>
+          <div class="stat-num">∞</div>
+          <div class="stat-label">Curiosité</div>
+        </div>
+        <div>
+          <div class="stat-num">0€</div>
+          <div class="stat-label">Gratuit</div>
+        </div>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="formula-showcase">
+        <div class="fs-header">
+          <div class="fs-dot" style="background:#e74c3c;"></div>
+          <div class="fs-dot" style="background:#f39c12;margin-left:4px;"></div>
+          <div class="fs-dot" style="background:#2ecc71;margin-left:4px;"></div>
+          <span class="fs-title">formule-du-jour.math</span>
+        </div>
+        <div class="fs-body" id="showcaseBody">
+          <div style="font-size:13px;color:var(--text-secondary);margin-bottom:8px;">Théorème de Pythagore</div>
+          <div class="fs-formula" id="showcaseFormula">$a^2 + b^2 = c^2$</div>
+          <div class="fs-desc" id="showcaseDesc">Dans un triangle rectangle, le carré de l'hypoténuse est égal à la somme des carrés des deux autres côtés.</div>
+        </div>
+        <div class="fs-tabs">
+          <button class="fs-tab active" onclick="showFormula(0, this)">Pythagore</button>
+          <button class="fs-tab" onclick="showFormula(1, this)">Euler</button>
+          <button class="fs-tab" onclick="showFormula(2, this)">Quadratique</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider" />
+
+  <!-- CHAPITRES -->
+  <section id="chapitres">
+    <div class="section-header">
+      <h2>Chapitres</h2>
+      <p>Choisissez un sujet pour commencer votre apprentissage.</p>
+    </div>
+
+    <!-- RAPPELS -->
+    <div style="margin-bottom:2rem;">
+      <p style="font-size:12px;font-weight:500;color:var(--text-tertiary);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.75rem;">Rappels</p>
+      <div class="chapters-grid" style="margin-bottom:0;">
+        <a class="chapter-card" href="nombres-complexes.html" style="border-color:#534AB7;border-width:1px;">
+          <div class="chapter-icon" style="background:#EEEDFE;color:#3C3489;font-size:16px;"><i>i</i></div>
+          <h3>Nombres complexes</h3>
+          <p>Forme cartésienne, polaire, exponentielle. Formule d'Euler et propriétés.</p>
+          <span class="chapter-badge badge-purple">Rappels</span>
+        </a>
+        <a class="chapter-card" href="trigonometrie.html" style="border-color:#1D9E75;border-width:1px;">
+          <div class="chapter-icon" style="background:#E1F5EE;color:#0F6E56;font-size:16px;">cos</div>
+          <h3>Trigonométrie</h3>
+          <p>Cercle trigonométrique, valeurs remarquables, symétries et formules d'addition.</p>
+          <span class="chapter-badge badge-green">Rappels</span>
+        </a>
+        <a class="chapter-card" href="fonctions-primitives.html" style="border-color:#1D9E75;border-width:1px;">
+          <div class="chapter-icon" style="background:#E1F5EE;color:#0F6E56;font-size:14px;">f'</div>
+          <h3>Fonctions &amp; Primitives</h3>
+          <p>Dérivées, primitives, fonctions usuelles et techniques de calcul intégral.</p>
+          <span class="chapter-badge badge-green">Rappels</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- LYCÉE -->
+    <div style="margin-bottom:2rem;">
+      <p style="font-size:12px;font-weight:500;color:var(--text-tertiary);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.75rem;">Lyc&eacute;e</p>
+      <div class="chapters-grid" style="margin-bottom:0;">
+        <a class="chapter-card" href="#interactif">
+          <div class="chapter-icon" style="background:#E1F5EE;color:#0F6E56;">△</div>
+          <h3>Géométrie</h3>
+          <p>Formes, angles, théorèmes et propriétés dans l'espace euclidien.</p>
+          <span class="chapter-badge badge-green">Lycée</span>
+        </a>
+        <a class="chapter-card" href="#interactif">
+          <div class="chapter-icon" style="background:#E6F1FB;color:#185FA5;font-size:14px;">f(x)</div>
+          <h3>Fonctions</h3>
+          <p>Fonctions, limites, continuité et représentation graphique des courbes.</p>
+          <span class="chapter-badge badge-blue">Lycée</span>
+        </a>
+        <a class="chapter-card" href="#interactif">
+          <div class="chapter-icon" style="background:#FAEEDA;color:#854F0B;font-size:14px;">%</div>
+          <h3>Probabilités</h3>
+          <p>Chances, lois de probabilité, statistiques descriptives et inférence.</p>
+          <span class="chapter-badge badge-amber">Lycée</span>
+        </a>
+        <a class="chapter-card" href="#interactif">
+          <div class="chapter-icon" style="background:#E1F5EE;color:#0F6E56;font-size:14px;">…</div>
+          <h3>Suites &amp; Séries</h3>
+          <p>Convergence, récurrence, suites arithmétiques et géométriques.</p>
+          <span class="chapter-badge badge-green">Lycée</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- LICENCE -->
+    <div style="margin-bottom:2rem;">
+      <p style="font-size:12px;font-weight:500;color:var(--text-tertiary);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.75rem;">Licence — Mathématiques</p>
+      <div class="chapters-grid" style="margin-bottom:0;">
+        <a class="chapter-card" href="algebre-lineaire.html" style="border-color:#185FA5;border-width:1px;">
+          <div class="chapter-icon" style="background:#E6F1FB;color:#185FA5;font-size:13px;">[ ]</div>
+          <h3>Algèbre linéaire</h3>
+          <p>Matrices, vecteurs, espaces vectoriels et transformations linéaires.</p>
+        </a>
+        <a class="chapter-card" href="#" style="border-color:#185FA5;border-width:1px;opacity:0.6;cursor:default;">
+          <div class="chapter-icon" style="background:#E6F1FB;color:#185FA5;font-size:14px;">∫</div>
+          <h3>Analyse</h3>
+          <p>Suites, séries, limites, continuité et théorèmes fondamentaux.</p>
+          <span class="chapter-badge badge-blue">Bientôt</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- LICENCE — PHYSIQUE -->
+    <div style="margin-bottom:2rem;">
+      <p style="font-size:12px;font-weight:500;color:var(--text-tertiary);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.75rem;">Licence — Physique</p>
+      <div class="chapters-grid" style="margin-bottom:0;">
+        <a class="chapter-card" href="optique-ondulatoire.html" style="border-color:#185FA5;border-width:1px;">
+          <div class="chapter-icon" style="background:#E6F1FB;color:#185FA5;font-size:16px;">〰</div>
+          <h3>Optique ondulatoire</h3>
+          <p>Interférences, Young, Fresnel, Michelson, Fabry-Pérot, réseaux, diffraction, polarisation.</p>
+          <span class="chapter-badge badge-blue">Licence · 3 pages</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- INTERACTIF -->
+  <section id="interactif">
+    <div class="section-header">
+      <h2>Démonstrations interactives</h2>
+      <p>Modifiez les valeurs et observez les résultats en temps réel.</p>
+    </div>
+    <div class="interactive-grid">
+
+      <!-- Triangle area -->
+      <div class="demo-box">
+        <h3>Aire d'un triangle</h3>
+        <p class="demo-subtitle">Formule : $A = \frac{1}{2} \times b \times h$</p>
+        <div class="formula-display" id="triFormula">$A = \frac{1}{2} \times 8 \times 5 = 20$</div>
+        <div class="slider-row">
+          <label>Base (b)</label>
+          <input type="range" min="1" max="20" value="8" step="1" id="triBase" oninput="updateTriangle()" />
+          <span class="slider-val" id="triBaseVal">8</span>
+        </div>
+        <div class="slider-row">
+          <label>Hauteur (h)</label>
+          <input type="range" min="1" max="20" value="5" step="1" id="triH" oninput="updateTriangle()" />
+          <span class="slider-val" id="triHVal">5</span>
+        </div>
+        <div class="result-pill">
+          <div class="rp-num" id="triResult">20</div>
+          <div class="rp-label">unités² — aire du triangle</div>
+        </div>
+      </div>
+
+
+      <!-- Pythagorean theorem -->
+      <div class="demo-box">
+        <h3>Théorème de Pythagore</h3>
+        <p class="demo-subtitle">Trouver l'hypoténuse : $c = \sqrt{a^2 + b^2}$</p>
+        <div class="formula-display" id="pythFormula">$c = \sqrt{9 + 16} = 5$</div>
+        <div class="slider-row">
+          <label>Côté a</label>
+          <input type="range" min="1" max="20" value="3" step="1" id="pythA" oninput="updatePythagore()" />
+          <span class="slider-val" id="pythAVal">3</span>
+        </div>
+        <div class="slider-row">
+          <label>Côté b</label>
+          <input type="range" min="1" max="20" value="4" step="1" id="pythB" oninput="updatePythagore()" />
+          <span class="slider-val" id="pythBVal">4</span>
+        </div>
+        <div class="result-pill">
+          <div class="rp-num" id="pythResult">5.00</div>
+          <div class="rp-label">longueur de l'hypoténuse c</div>
+        </div>
+      </div>
+
+      <!-- Circumference -->
+      <div class="demo-box">
+        <h3>Cercle : périmètre &amp; aire</h3>
+        <p class="demo-subtitle">$P = 2\pi r \quad$ et $\quad A = \pi r^2$</p>
+        <div class="formula-display" id="circFormula">$P = 2\pi \times 5 \approx 31.4$</div>
+        <div class="slider-row">
+          <label>Rayon (r)</label>
+          <input type="range" min="1" max="30" value="5" step="1" id="circR" oninput="updateCircle()" />
+          <span class="slider-val" id="circRVal">5</span>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:1.25rem;">
+          <div class="result-pill">
+            <div class="rp-num" id="circPerim" style="font-size:22px;">31.4</div>
+            <div class="rp-label">périmètre (unités)</div>
+          </div>
+          <div class="result-pill">
+            <div class="rp-num" id="circArea" style="font-size:22px;">78.5</div>
+            <div class="rp-label">aire (unités²)</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- FORMULES REFERENCE -->
+  <section id="formules">
+    <div class="section-header">
+      <h2>Référence des formules</h2>
+      <p>Les formules essentielles à connaître, classées par thème.</p>
+    </div>
+    <div class="formulas-list">
+      <div class="formula-row">
+        <div>
+          <div class="fr-name">Théorème de Pythagore</div>
+          <div class="fr-sub">Géométrie — Triangle rectangle</div>
+        </div>
+        <div class="fr-formula">$a^2 + b^2 = c^2$</div>
+      </div>
+      <div class="formula-row">
+        <div>
+          <div class="fr-name">Aire d'un cercle</div>
+          <div class="fr-sub">Géométrie — Surfaces</div>
+        </div>
+        <div class="fr-formula">$A = \pi r^2$</div>
+      </div>
+      <div class="formula-row">
+        <div>
+          <div class="fr-name">Identité d'Euler</div>
+          <div class="fr-sub">Analyse complexe</div>
+        </div>
+        <div class="fr-formula">$e^{i\pi} + 1 = 0$</div>
+      </div>
+      <div class="formula-row">
+        <div>
+          <div class="fr-name">Formule quadratique</div>
+          <div class="fr-sub">Algèbre — Équations du 2nd degré</div>
+        </div>
+        <div class="fr-formula">$x = \dfrac{-b \pm \sqrt{b^2 - 4ac}}{2a}$</div>
+      </div>
+      <div class="formula-row">
+        <div>
+          <div class="fr-name">Dérivée d'une puissance</div>
+          <div class="fr-sub">Calcul différentiel</div>
+        </div>
+        <div class="fr-formula">$\frac{d}{dx}x^n = nx^{n-1}$</div>
+      </div>
+      <div class="formula-row">
+        <div>
+          <div class="fr-name">Intégrale de base</div>
+          <div class="fr-sub">Calcul intégral</div>
+        </div>
+        <div class="fr-formula">$\int x^n dx = \frac{x^{n+1}}{n+1} + C$</div>
+      </div>
+      <div class="formula-row">
+        <div>
+          <div class="fr-name">Loi des grands nombres</div>
+          <div class="fr-sub">Probabilités — Espérance</div>
+        </div>
+        <div class="fr-formula">$E[X] = \sum x \cdot P(x)$</div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- À PROPOS -->
+  <section id="a-propos">
+    <div class="section-header">
+      <h2>Pourquoi MathΣtique ?</h2>
+      <p>Un site pensé pour rendre les mathématiques accessibles à tous.</p>
+    </div>
+    <div class="about-grid">
+      <div class="about-card">
+        <div class="ac-icon">◈</div>
+        <h3>Explications claires</h3>
+        <p>Chaque concept est expliqué de façon progressive, sans jargon inutile, avec des exemples du quotidien.</p>
+      </div>
+      <div class="about-card">
+        <div class="ac-icon">⟳</div>
+        <h3>Interactivité</h3>
+        <p>Manipulez les valeurs en direct pour comprendre intuitivement comment les formules fonctionnent.</p>
+      </div>
+      <div class="about-card">
+        <div class="ac-icon">∑</div>
+        <h3>Formules précises</h3>
+        <p>Toutes les formules sont rendues avec KaTeX pour un affichage mathématique de qualité typographique.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">Math<span>∑</span>tique</div>
+    <p>Site éducatif de mathématiques — Libre et gratuit</p>
+    <p style="font-size:13px;color:var(--text-tertiary);">Fait avec ♥ et beaucoup de π</p>
+  </footer>
+
+  <script>
+    // Mobile menu
+    function toggleMenu() {
+      document.getElementById('mobileNav').classList.toggle('open');
+    }
+
+    // Formulas showcase tabs
+    const formulas = [
+      {
+        title: 'Théorème de Pythagore',
+        formula: '$a^2 + b^2 = c^2$',
+        desc: 'Dans un triangle rectangle, le carré de l\'hypoténuse est égal à la somme des carrés des deux autres côtés.'
+      },
+      {
+        title: 'Identité d\'Euler',
+        formula: '$e^{i\\pi} + 1 = 0$',
+        desc: 'La plus belle équation des mathématiques, reliant cinq constantes fondamentales : e, i, π, 1 et 0.'
+      },
+      {
+        title: 'Formule quadratique',
+        formula: '$x = \\dfrac{-b \\pm \\sqrt{b^2 - 4ac}}{2a}$',
+        desc: 'Permet de résoudre toute équation du second degré ax² + bx + c = 0.'
+      }
+    ];
+
+    function showFormula(index, btn) {
+      document.querySelectorAll('.fs-tab').forEach(t => t.classList.remove('active'));
+      btn.classList.add('active');
+      const f = formulas[index];
+      document.querySelector('.fs-body .fs-title, #showcaseBody > div:first-child').textContent = f.title;
+      document.getElementById('showcaseFormula').textContent = f.formula;
+      document.getElementById('showcaseDesc').textContent = f.desc;
+      if (window.renderMathInElement) {
+        renderMathInElement(document.getElementById('showcaseFormula'), {
+          delimiters: [{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]
+        });
+      }
+    }
+
+    // Triangle
+    function updateTriangle() {
+      const b = parseInt(document.getElementById('triBase').value);
+      const h = parseInt(document.getElementById('triH').value);
+      document.getElementById('triBaseVal').textContent = b;
+      document.getElementById('triHVal').textContent = h;
+      const area = Math.round(0.5 * b * h * 10) / 10;
+      document.getElementById('triResult').textContent = area;
+      document.getElementById('triFormula').textContent = `$A = \\frac{1}{2} \\times ${b} \\times ${h} = ${area}$`;
+      if (window.renderMathInElement) renderMathInElement(document.getElementById('triFormula'), {delimiters:[{left:'$',right:'$',display:false}]});
+    }
+
+    // Compound interest
+    function updateCompound() {
+      const P = parseInt(document.getElementById('compP').value);
+      const r = parseInt(document.getElementById('compR').value) / 100;
+      const n = parseInt(document.getElementById('compN').value);
+      document.getElementById('compPVal').textContent = P;
+      document.getElementById('compRVal').textContent = Math.round(r * 100);
+      document.getElementById('compNVal').textContent = n;
+      const A = Math.round(P * Math.pow(1 + r, n));
+      document.getElementById('compResult').textContent = A.toLocaleString('fr-FR') + ' €';
+      const rDisp = (r * 100).toFixed(0);
+      document.getElementById('compFormula').textContent = `$${P} \\times (1.${rDisp.padStart(2,'0')})^{${n}} \\approx ${A.toLocaleString('fr-FR')}$`;
+      if (window.renderMathInElement) renderMathInElement(document.getElementById('compFormula'), {delimiters:[{left:'$',right:'$',display:false}]});
+    }
+
+    // Pythagore
+    function updatePythagore() {
+      const a = parseInt(document.getElementById('pythA').value);
+      const b = parseInt(document.getElementById('pythB').value);
+      document.getElementById('pythAVal').textContent = a;
+      document.getElementById('pythBVal').textContent = b;
+      const c = Math.sqrt(a * a + b * b);
+      document.getElementById('pythResult').textContent = c.toFixed(2);
+      document.getElementById('pythFormula').textContent = `$c = \\sqrt{${a*a} + ${b*b}} \\approx ${c.toFixed(2)}$`;
+      if (window.renderMathInElement) renderMathInElement(document.getElementById('pythFormula'), {delimiters:[{left:'$',right:'$',display:false}]});
+    }
+
+    // Circle
+    function updateCircle() {
+      const r = parseInt(document.getElementById('circR').value);
+      document.getElementById('circRVal').textContent = r;
+      const P = (2 * Math.PI * r).toFixed(1);
+      const A = (Math.PI * r * r).toFixed(1);
+      document.getElementById('circPerim').textContent = P;
+      document.getElementById('circArea').textContent = A;
+      document.getElementById('circFormula').textContent = `$P = 2\\pi \\times ${r} \\approx ${P}$`;
+      if (window.renderMathInElement) renderMathInElement(document.getElementById('circFormula'), {delimiters:[{left:'$',right:'$',display:false}]});
+    }
+
+    // Init KaTeX after load
+    document.addEventListener('DOMContentLoaded', () => {
+      setTimeout(() => {
+        if (window.renderMathInElement) {
+          renderMathInElement(document.body, {
+            delimiters: [
+              {left:'$$',right:'$$',display:true},
+              {left:'$',right:'$',display:false}
+            ]
+          });
+        }
+      }, 300);
+    });
+  </script>
+</body>
+</html>

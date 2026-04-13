@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Optique ondulatoire (3/3) — MathΣtique</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"/>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]})"></script>
+  <style>
+    :root{
+      --blue:#185FA5;--blue-light:#E6F1FB;--blue-mid:#93C2F0;--blue-dark:#0d3d6e;
+      --green:#1D9E75;--green-light:#E1F5EE;--green-dark:#0F6E56;
+      --amber:#BA7517;--amber-light:#FAEEDA;--amber-dark:#854F0B;
+      --text:#1a1a1a;--text-secondary:#666;--text-tertiary:#999;
+      --bg:#ffffff;--bg-secondary:#f7f6f2;--bg-tertiary:#f0efe9;
+      --border:rgba(0,0,0,0.1);--border-hover:rgba(0,0,0,0.22);
+      --radius:12px;--radius-lg:16px
+    }
+    @media(prefers-color-scheme:dark){:root{
+      --text:#f0efe9;--text-secondary:#aaa;--text-tertiary:#666;
+      --bg:#111110;--bg-secondary:#1a1a18;--bg-tertiary:#222220;
+      --border:rgba(255,255,255,0.1);--border-hover:rgba(255,255,255,0.22);
+      --blue-light:#0a1e35;--green-light:#0a2e26;--amber-light:#2a1e08
+    }}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{font-family:'DM Sans',sans-serif;color:var(--text);background:var(--bg);line-height:1.6;font-size:16px}
+    nav{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:.9rem 2rem;background:var(--bg);border-bottom:.5px solid var(--border);backdrop-filter:blur(8px)}
+    .nav-logo{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--text);text-decoration:none}
+    .nav-logo span{color:var(--green)}
+    .nav-right{display:flex;align-items:center;gap:10px}
+    .btn-back{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--text-secondary);text-decoration:none;padding:6px 13px;border:.5px solid var(--border-hover);border-radius:8px;transition:background .2s}
+    .btn-back:hover{background:var(--bg-secondary);color:var(--text)}
+    .page-badge{font-size:12px;color:var(--text-tertiary);background:var(--bg-secondary);padding:4px 10px;border-radius:20px;border:.5px solid var(--border)}
+    .page{max-width:840px;margin:0 auto;padding:3rem 2rem 5rem}
+    .breadcrumb{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--text-tertiary);margin-bottom:2rem;flex-wrap:wrap}
+    .breadcrumb a{color:var(--text-secondary);text-decoration:none}
+    .breadcrumb a:hover{color:var(--text)}
+    .lesson-cat{display:inline-block;font-size:12px;font-weight:500;color:var(--blue-dark);background:var(--blue-light);padding:4px 12px;border-radius:20px;margin-bottom:1rem}
+    .lesson-title{font-family:'Playfair Display',serif;font-size:clamp(26px,4vw,38px);font-weight:700;line-height:1.15;margin-bottom:.75rem}
+    .page-strip{display:flex;gap:8px;margin-bottom:2.5rem;flex-wrap:wrap}
+    .pg-btn{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:500;padding:7px 15px;border-radius:8px;text-decoration:none;border:.5px solid var(--border);color:var(--text-secondary);transition:all .2s}
+    .pg-btn:hover{background:var(--bg-secondary);border-color:var(--border-hover);color:var(--text)}
+    .pg-btn.active{background:var(--blue);border-color:var(--blue);color:#fff}
+    .toc{background:var(--bg-secondary);border:.5px solid var(--border);border-radius:var(--radius);padding:1.25rem 1.5rem;margin-bottom:3rem}
+    .toc-title{font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:.08em;color:var(--text-tertiary);margin-bottom:.75rem}
+    .toc ol{padding-left:1.25rem}
+    .toc li{font-size:14px;margin:5px 0}
+    .toc a{color:var(--blue);text-decoration:none}
+    .toc a:hover{text-decoration:underline}
+    .lesson-section{margin-bottom:3.5rem}
+    .lesson-section h2{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;margin-bottom:1.25rem;padding-bottom:.6rem;border-bottom:.5px solid var(--border)}
+    .lesson-section p{font-size:15px;line-height:1.85;margin-bottom:1rem}
+    .lesson-section h3{font-size:16px;font-weight:600;margin:1.5rem 0 .75rem}
+    .def-box{background:var(--blue-light);border-left:3px solid var(--blue);border-radius:0 var(--radius) var(--radius) 0;padding:1.25rem 1.5rem;margin:1.25rem 0}
+    .def-box .def-label{font-size:11px;font-weight:500;color:var(--blue-dark);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px}
+    .def-box p{font-size:14px;line-height:1.75;margin:0}
+    .formula-box{background:var(--bg-secondary);border:.5px solid var(--border);border-radius:var(--radius);padding:1.5rem;margin:1.25rem 0;text-align:center}
+    .formula-box .fb-label{font-size:12px;color:var(--text-secondary);margin-bottom:.75rem}
+    .formula-box .fb-desc{font-size:12px;color:var(--text-secondary);margin-top:.75rem;line-height:1.6}
+    .note-box{background:var(--amber-light);border-left:3px solid var(--amber);border-radius:0 var(--radius) var(--radius) 0;padding:1rem 1.5rem;margin:1.25rem 0}
+    .note-box .note-label{font-size:11px;font-weight:500;color:var(--amber-dark);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px}
+    .note-box p{font-size:14px;color:var(--amber-dark);margin:0;line-height:1.7}
+    .example-box{border:.5px solid var(--border);border-radius:var(--radius);overflow:hidden;margin:1.25rem 0}
+    .example-box .ex-header{background:var(--bg-secondary);padding:10px 1.25rem;font-size:12px;font-weight:500;color:var(--text-secondary);text-transform:uppercase;letter-spacing:.07em;border-bottom:.5px solid var(--border)}
+    .example-box .ex-body{padding:1.25rem;font-size:14px;line-height:1.85}
+    .example-box .ex-body p{margin-bottom:.5rem}
+    .prop-list{background:var(--bg-secondary);border:.5px solid var(--border);border-radius:var(--radius);padding:1.25rem 1.5rem;margin:1.25rem 0}
+    .prop-list .pl-title{font-size:13px;font-weight:500;color:var(--text-secondary);margin-bottom:1rem;text-transform:uppercase;letter-spacing:.06em}
+    .prop-list table{width:100%;border-collapse:collapse}
+    .prop-list td{font-size:14px;padding:8px 12px;border-bottom:.5px solid var(--border);vertical-align:middle}
+    .prop-list tr:last-child td{border-bottom:none}
+    .prop-list td:first-child{color:var(--text-secondary);width:40%}
+    .demo-box{background:var(--bg-secondary);border:.5px solid var(--border);border-radius:var(--radius-lg);padding:1.75rem;margin:1.5rem 0}
+    .demo-box h3{font-size:16px;font-weight:600;margin-bottom:.35rem}
+    .demo-box .demo-sub{font-size:13px;color:var(--text-secondary);margin-bottom:1.25rem}
+    .slider-row{display:flex;align-items:center;gap:10px;margin:8px 0}
+    .slider-row label{font-size:13px;color:var(--text-secondary);width:190px;flex-shrink:0}
+    .slider-row input[type=range]{flex:1;accent-color:var(--blue)}
+    .slider-val{font-size:13px;font-weight:500;min-width:70px;text-align:right;font-variant-numeric:tabular-nums}
+    .result-display{background:var(--bg);border-radius:10px;padding:1rem 1.25rem;text-align:center;margin-top:1.25rem;border:.5px solid var(--border)}
+    .result-display .rd-main{font-family:'Playfair Display',serif;font-size:18px;color:var(--blue)}
+    .result-display .rd-label{font-size:12px;color:var(--text-secondary);margin-top:4px}
+    .result-display .rd-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:8px}
+    .result-display .rd-grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px}
+    .result-display .rd-cell{background:var(--bg-secondary);border-radius:8px;padding:8px 10px}
+    .result-display .rd-cell .rc-val{font-family:'Playfair Display',serif;font-size:15px;color:var(--blue);font-weight:700}
+    .result-display .rd-cell .rc-lbl{font-size:11px;color:var(--text-secondary);margin-top:2px}
+    canvas{display:block;margin:.75rem auto 0;border-radius:var(--radius);max-width:100%}
+    .lesson-nav{display:flex;justify-content:space-between;align-items:center;margin-top:4rem;padding-top:2rem;border-top:.5px solid var(--border);flex-wrap:wrap;gap:1rem}
+    .lesson-nav a{display:inline-flex;align-items:center;gap:6px;font-size:14px;color:var(--text-secondary);text-decoration:none;padding:9px 18px;border:.5px solid var(--border);border-radius:8px;transition:background .2s;font-weight:500}
+    .lesson-nav a:hover{background:var(--bg-secondary);color:var(--text)}
+    .lesson-nav a.fin{background:var(--green);color:#fff;border-color:var(--green)}
+    .lesson-nav a.fin:hover{opacity:.88}
+    footer{border-top:.5px solid var(--border);padding:2rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+    .footer-logo{font-family:'Playfair Display',serif;font-size:18px;font-weight:700}
+    .footer-logo span{color:var(--green)}
+    footer p{font-size:13px;color:var(--text-secondary)}
+    @media(max-width:768px){.page{padding:2rem 1.25rem 4rem}.slider-row label{width:130px}.result-display .rd-grid{grid-template-columns:1fr 1fr}}
+  </style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="index.html">Math<span>∑</span>tique</a>
+  <div class="nav-right">
+    <span class="page-badge">Page 3 / 3</span>
+    <a class="btn-back" href="index.html">← Chapitres</a>
+  </div>
+</nav>
+
+<div class="page">
+  <div class="breadcrumb">
+    <a href="index.html">Accueil</a><span>›</span>
+    <a href="optique-ondulatoire.html">Optique ondulatoire</a><span>›</span>
+    <span style="color:var(--text)">Fabry-Pérot &amp; Réseaux</span>
+  </div>
+
+  <span class="lesson-cat">Licence · Physique</span>
+  <h1 class="lesson-title">Optique ondulatoire — Page 3</h1>
+
+  <div class="page-strip">
+    <a class="pg-btn" href="optique-ondulatoire.html">1 · Bases &amp; Young</a>
+    <a class="pg-btn" href="optique-ondulatoire-2.html">2 · Lames &amp; Michelson</a>
+    <a class="pg-btn active" href="optique-ondulatoire-3.html">3 · Fabry-Pérot &amp; Réseaux</a>
+  </div>
+
+  <div class="toc">
+    <div class="toc-title">Table des matières — Page 3</div>
+    <ol>
+      <li><a href="#fabry-perot">Interféromètre de Fabry-Pérot</a></li>
+      <li><a href="#reseaux">Réseaux en transmission</a></li>
+      <li><a href="#diffraction">Diffraction</a></li>
+      <li><a href="#polarisation">Polarisation</a></li>
+    </ol>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════
+       1. FABRY-PÉROT
+  ════════════════════════════════════════════════ -->
+  <div class="lesson-section" id="fabry-perot">
+    <h2>1. Interféromètre de Fabry-Pérot</h2>
+    <p>L'interféromètre de Fabry-Pérot (1897) est formé de deux miroirs partiellement réfléchissants parallèles, séparés d'une distance $e$. Contrairement au Michelson (2 ondes), il exploite les <strong>interférences à ondes multiples</strong> : chaque aller-retour entre les miroirs génère une onde transmise, et toutes ces ondes interfèrent.</p>
+
+    <h3>Formule d'Airy — transmittance</h3>
+    <p>Si $R$ est le coefficient de réflexion en intensité de chaque miroir, la transmittance (fraction d'intensité transmise) en fonction de la différence de marche $\delta = 2ne\cos\theta$ est :</p>
+
+    <div class="formula-box">
+      <div class="fb-label">Formule d'Airy</div>
+      $$\mathcal{T} = \frac{(1-R)^2}{1 + R^2 - 2R\cos\varphi} = \frac{1}{1 + \mathcal{F}\sin^2(\varphi/2)}$$
+      <div class="fb-desc">
+        $\varphi = 2\pi\delta/\lambda_0 = 4\pi ne\cos\theta/\lambda_0$ : déphasage par aller-retour · $\mathcal{F} = 4R/(1-R)^2$ : <em>finesse en coefficient</em>
+      </div>
+    </div>
+
+    <p>La transmittance vaut 1 (maximum) quand $\varphi = 2p\pi$, soit $\delta = p\lambda_0$. Les pics de transmission sont très étroits quand $R$ est grand (miroirs très réfléchissants).</p>
+
+    <h3>Finesse et pouvoir de résolution</h3>
+    <div class="formula-box">
+      <div class="fb-label">Finesse $\mathcal{F}^*$ et pouvoir de résolution</div>
+      $$\mathcal{F}^* = \frac{\pi\sqrt{R}}{1-R} \qquad \mathcal{R} = \frac{\lambda}{\delta\lambda} = p\,\mathcal{F}^*$$
+      <div class="fb-desc">$p$ : ordre d'interférence · La finesse mesure le nombre de pics par intervalle spectral libre (ISL = $\lambda_0^2/(2ne)$)</div>
+    </div>
+
+    <div class="prop-list">
+      <div class="pl-title">Comparaison Michelson / Fabry-Pérot</div>
+      <table>
+        <tr><td>Nombre d'ondes</td><td>Michelson : 2 · Fabry-Pérot : multiple ($\gg 2$)</td></tr>
+        <tr><td>Profil des franges</td><td>Michelson : sinusoïdal · FP : pics très fins (Airy)</td></tr>
+        <tr><td>Pouvoir de résolution</td><td>FP très supérieur ($\mathcal{R}$ jusqu'à $10^7$)</td></tr>
+        <tr><td>Application typique</td><td>Michelson : métrologie · FP : spectroscopie haute résolution</td></tr>
+      </table>
+    </div>
+
+    <div class="demo-box">
+      <h3>Animation — Fabry-Pérot : profil de transmission (Airy)</h3>
+      <p class="demo-sub">Comparez la largeur des pics selon la réflectivité des miroirs.</p>
+      <div class="slider-row">
+        <label>Réflectivité $R$</label>
+        <input type="range" id="fp_R" min="0.3" max="0.99" step="0.01" value="0.85" oninput="updateFP()">
+        <span class="slider-val" id="fp_RVal">0.85</span>
+      </div>
+      <div class="slider-row">
+        <label>Épaisseur $e$ (mm)</label>
+        <input type="range" id="fp_e" min="1" max="20" step="0.5" value="5" oninput="updateFP()">
+        <span class="slider-val" id="fp_eVal">5.0 mm</span>
+      </div>
+      <div class="slider-row">
+        <label>Longueur d'onde $\lambda_0$ (nm)</label>
+        <input type="range" id="fp_l" min="380" max="780" value="633" oninput="updateFP()">
+        <span class="slider-val" id="fp_lVal">633 nm</span>
+      </div>
+      <!-- Profil Airy (graphe) -->
+      <canvas id="fpAiry" width="760" height="200" style="background:#060606;border-radius:var(--radius)"></canvas>
+      <!-- Schéma dispositif + figure d'anneaux -->
+      <canvas id="fpSchema" width="760" height="160" style="background:var(--bg-tertiary);border-radius:var(--radius);border:.5px solid var(--border);margin-top:6px"></canvas>
+      <canvas id="fpAnneaux" width="380" height="280" style="background:#060606;border-radius:var(--radius);margin:6px auto;display:block"></canvas>
+      <div class="result-display">
+        <div class="rd-grid">
+          <div class="rd-cell"><div class="rc-val" id="fpFinesse">—</div><div class="rc-lbl">Finesse $\mathcal{F}^*$</div></div>
+          <div class="rd-cell"><div class="rc-val" id="fpISL">—</div><div class="rc-lbl">Intervalle spectral libre</div></div>
+          <div class="rd-cell"><div class="rc-val" id="fpResolution">—</div><div class="rc-lbl">Pouvoir de résolution ($p\approx2ne/\lambda$)</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════
+       2. RÉSEAUX EN TRANSMISSION
+  ════════════════════════════════════════════════ -->
+  <div class="lesson-section" id="reseaux">
+    <h2>2. Réseaux en transmission</h2>
+    <p>Un réseau de diffraction en transmission est composé de $N$ fentes équidistantes de largeur $a$, séparées par un pas $d$ (distance entre fentes consécutives). L'onde transmise est la superposition de $N$ ondes diffractées, produisant une figure d'interférences à $N$ sources avec enveloppe de diffraction.</p>
+
+    <h3>Équation du réseau</h3>
+    <div class="formula-box">
+      <div class="fb-label">Condition de diffraction constructive — équation fondamentale du réseau</div>
+      $$d\!\left(\sin\theta_i + \sin\theta_d\right) = p\,\lambda_0$$
+      <div class="fb-desc">$d$ : pas du réseau · $\theta_i$ : angle d'incidence · $\theta_d$ : angle de diffraction · $p$ : ordre de diffraction ($p = 0, \pm1, \pm2, \ldots$)</div>
+    </div>
+
+    <p>En incidence normale ($\theta_i = 0$), la relation se simplifie en $d\sin\theta_p = p\lambda_0$.</p>
+
+    <h3>Intensité diffractée — réseau de N fentes</h3>
+    <div class="formula-box">
+      <div class="fb-label">Intensité — réseau de $N$ fentes de largeur $a$, pas $d$</div>
+      $$I(\theta) = I_0 \underbrace{\left(\frac{\sin\alpha}{\alpha}\right)^2}_{\text{Diffraction}} \cdot \underbrace{\left(\frac{\sin N\beta}{N\sin\beta}\right)^2}_{\text{Interférences}}$$
+      <div class="fb-desc">$\alpha = \pi a \sin\theta/\lambda_0$ · $\beta = \pi d \sin\theta/\lambda_0$</div>
+    </div>
+
+    <h3>Pouvoir de résolution du réseau</h3>
+    <div class="formula-box">
+      <div class="fb-label">Pouvoir de résolution à l'ordre $p$</div>
+      $$\mathcal{R} = \frac{\lambda}{\delta\lambda} = p\,N$$
+      <div class="fb-desc">$N$ : nombre total de traits éclairés · Un réseau avec $N=1000$ traits donne $\mathcal{R}=1000$ à l'ordre 1.</div>
+    </div>
+
+    <div class="example-box">
+      <div class="ex-header">Exemple — réseau 600 traits/mm</div>
+      <div class="ex-body">
+        <p>$d = 1/600\ \text{mm} \approx 1667\ \text{nm}$. Pour $\lambda_0 = 589\ \text{nm}$ (sodium) à l'ordre 1 :</p>
+        <p>$$\sin\theta_1 = \frac{589}{1667} \approx 0{,}353 \quad \Rightarrow \quad \theta_1 \approx 20{,}7°$$</p>
+        <p>L'ordre maximum accessible : $p_\text{max} = \lfloor d/\lambda_0 \rfloor = \lfloor 2{,}83 \rfloor = 2$.</p>
+      </div>
+    </div>
+
+    <div class="demo-box">
+      <h3>Animation — Réseau en transmission</h3>
+      <p class="demo-sub">Figure de diffraction en temps réel avec enveloppe de fente unique et pics du réseau.</p>
+      <div class="slider-row">
+        <label>Pas du réseau $d$ (µm)</label>
+        <input type="range" id="res_d" min="1.0" max="10.0" step="0.1" value="3.0" oninput="updateReseau()">
+        <span class="slider-val" id="res_dVal">3.0 µm</span>
+      </div>
+      <div class="slider-row">
+        <label>Largeur de fente $a$ (µm)</label>
+        <input type="range" id="res_a" min="0.2" max="3.0" step="0.1" value="0.8" oninput="updateReseau()">
+        <span class="slider-val" id="res_aVal">0.8 µm</span>
+      </div>
+      <div class="slider-row">
+        <label>Nombre de fentes $N$</label>
+        <input type="range" id="res_N" min="2" max="30" step="1" value="8" oninput="updateReseau()">
+        <span class="slider-val" id="res_NVal">8</span>
+      </div>
+      <div class="slider-row">
+        <label>Angle d'incidence $\theta_i$ (°)</label>
+        <input type="range" id="res_theta_i" min="-30" max="30" step="1" value="0" oninput="updateReseau()">
+        <span class="slider-val" id="res_theta_iVal">0°</span>
+      </div>
+      <div class="slider-row">
+        <label>Lumière blanche</label>
+        <input type="range" id="res_white" min="0" max="1" step="1" value="0" oninput="updateReseau()">
+        <span class="slider-val" id="res_whiteVal">Non</span>
+      </div>
+      <!-- Schéma réseau -->
+      <canvas id="resSchema" width="760" height="120" style="background:var(--bg-tertiary);border-radius:var(--radius);border:.5px solid var(--border)"></canvas>
+      <!-- Graphe de diffraction -->
+      <canvas id="resGraph" width="760" height="200" style="background:#060606;border-radius:var(--radius);margin-top:6px"></canvas>
+      <!-- Figure lumière blanche ou mono -->
+      <canvas id="resFranges" width="760" height="90" style="background:#060606;border-radius:var(--radius);margin-top:6px"></canvas>
+      <div class="result-display">
+        <div class="rd-grid">
+          <div class="rd-cell"><div class="rc-val" id="resOrdres">—</div><div class="rc-lbl">Ordres accessibles</div></div>
+          <div class="rd-cell"><div class="rc-val" id="resResolution">—</div><div class="rc-lbl">Pouvoir de résolution (ord. 1)</div></div>
+          <div class="rd-cell"><div class="rc-val" id="resAngles">—</div><div class="rc-lbl">Angle ordre 1 ($\lambda$=550 nm)</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════
+       3. DIFFRACTION
+  ════════════════════════════════════════════════ -->
+  <div class="lesson-section" id="diffraction">
+    <h2>3. Diffraction</h2>
+    <p>La diffraction est le phénomène par lequel une onde contourne les obstacles et se propage dans les zones d'ombre géométrique. Elle est d'autant plus marquée que $\lambda$ est grand devant la taille de l'ouverture.</p>
+
+    <h3>Diffraction de Fraunhofer par une fente</h3>
+    <div class="formula-box">
+      <div class="fb-label">Intensité — fente de largeur $a$ (diffraction de Fraunhofer)</div>
+      $$I(\theta) = I_0\left(\frac{\sin\alpha}{\alpha}\right)^2, \quad \alpha = \frac{\pi a\sin\theta}{\lambda_0}$$
+      <div class="fb-desc">Premiers zéros : $\sin\theta = \pm p\lambda_0/a$, $p=1,2,\ldots$ · Largeur angulaire du pic central : $\Delta\theta \approx 2\lambda_0/a$</div>
+    </div>
+
+    <h3>Critère de Rayleigh</h3>
+    <div class="def-box">
+      <div class="def-label">Critère de Rayleigh — limite de résolution angulaire</div>
+      <p>Deux sources ponctuelles sont juste résolues quand le maximum de diffraction de l'une coïncide avec le premier minimum de l'autre :</p>
+    </div>
+    <div class="formula-box">
+      <div class="fb-label">Fente : $\theta_R = \lambda_0/a$ · Ouverture circulaire (télescope, œil) : $\theta_R = 1{,}22\,\lambda_0/D$</div>
+    </div>
+
+    <div class="demo-box">
+      <h3>Animation — Diffraction par une fente</h3>
+      <p class="demo-sub">Figure de diffraction de Fraunhofer avec enveloppe analytique.</p>
+      <div class="slider-row">
+        <label>Largeur de fente $a$ (µm)</label>
+        <input type="range" id="diff_a" min="0.5" max="20" step="0.5" value="5" oninput="updateDiff()">
+        <span class="slider-val" id="diff_aVal">5.0 µm</span>
+      </div>
+      <div class="slider-row">
+        <label>Longueur d'onde $\lambda_0$ (nm)</label>
+        <input type="range" id="diff_l" min="380" max="780" value="550" oninput="updateDiff()">
+        <span class="slider-val" id="diff_lVal">550 nm</span>
+      </div>
+      <canvas id="diffGraph" width="760" height="200" style="background:#060606;border-radius:var(--radius)"></canvas>
+      <canvas id="diffFrange" width="760" height="80" style="background:#060606;border-radius:var(--radius);margin-top:6px"></canvas>
+      <div class="result-display">
+        <div class="rd-grid2">
+          <div class="rd-cell"><div class="rc-val" id="diffLargeur">—</div><div class="rc-lbl">Largeur angulaire pic central $2\lambda/a$</div></div>
+          <div class="rd-cell"><div class="rc-val" id="diffRayleigh">—</div><div class="rc-lbl">Critère de Rayleigh $\lambda/a$</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════
+       4. POLARISATION
+  ════════════════════════════════════════════════ -->
+  <div class="lesson-section" id="polarisation">
+    <h2>4. Polarisation</h2>
+    <p>Une onde électromagnétique transversale peut être <strong>polarisée</strong> : le vecteur champ électrique $\vec{E}$ oscille selon une direction privilégiée. La lumière naturelle est non polarisée (toutes les directions d'oscillation sont présentes et varient aléatoirement).</p>
+
+    <h3>Types de polarisation</h3>
+    <div class="prop-list">
+      <div class="pl-title">États de polarisation</div>
+      <table>
+        <tr><td>Rectiligne (linéaire)</td><td>$\vec{E}$ oscille selon un axe fixe. Ex. : après un polariseur.</td></tr>
+        <tr><td>Circulaire</td><td>$\vec{E}$ tourne à vitesse angulaire constante, amplitude constante.</td></tr>
+        <tr><td>Elliptique</td><td>Cas général : $\vec{E}$ décrit une ellipse. Comprend linéaire et circulaire comme cas particuliers.</td></tr>
+        <tr><td>Non polarisée</td><td>Direction de $\vec{E}$ varie aléatoirement (lumière naturelle).</td></tr>
+      </table>
+    </div>
+
+    <h3>Loi de Malus</h3>
+    <p>Lorsqu'une lumière polarisée linéairement d'intensité $I_0$ traverse un polariseur dont l'axe fait un angle $\theta$ avec la direction de polarisation :</p>
+    <div class="formula-box">
+      <div class="fb-label">Loi de Malus</div>
+      $$I = I_0 \cos^2\theta$$
+      <div class="fb-desc">Pour $\theta = 0°$ : $I = I_0$ (transmission totale) · Pour $\theta = 90°$ : $I = 0$ (extinction)</div>
+    </div>
+
+    <h3>Angle de Brewster</h3>
+    <p>À l'angle de Brewster $\theta_B$, la lumière réfléchie par une surface diélectrique est totalement polarisée (composante $p$ absente) :</p>
+    <div class="formula-box">
+      <div class="fb-label">Angle de Brewster</div>
+      $$\tan\theta_B = \frac{n_2}{n_1}$$
+    </div>
+
+    <div class="demo-box">
+      <h3>Animation — Loi de Malus &amp; polarisation</h3>
+      <p class="demo-sub">Visualisez l'intensité transmise en fonction de l'angle entre deux polariseurs croisés.</p>
+      <div class="slider-row">
+        <label>Angle analyseur $\theta$ (°)</label>
+        <input type="range" id="pol_theta" min="0" max="360" step="1" value="0" oninput="updatePol()">
+        <span class="slider-val" id="pol_thetaVal">0°</span>
+      </div>
+      <div class="slider-row">
+        <label>Longueur d'onde $\lambda_0$ (nm)</label>
+        <input type="range" id="pol_l" min="380" max="780" value="520" oninput="updatePol()">
+        <span class="slider-val" id="pol_lVal">520 nm</span>
+      </div>
+      <canvas id="polCanvas" width="760" height="300" style="background:#060606;border-radius:var(--radius)"></canvas>
+      <div class="result-display">
+        <div class="rd-grid2">
+          <div class="rd-cell"><div class="rc-val" id="polI">I₀</div><div class="rc-lbl">Intensité transmise $I = I_0\cos^2\theta$</div></div>
+          <div class="rd-cell"><div class="rc-val" id="polAngle">0°</div><div class="rc-lbl">Angle entre polariseurs</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="lesson-nav">
+    <a href="optique-ondulatoire-2.html">← Page 2 : Lames &amp; Michelson</a>
+    <a class="fin" href="index.html">✓ Fin du chapitre</a>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-logo">Math<span>∑</span>tique</div>
+  <p>Site éducatif — Libre et gratuit</p>
+  <p style="font-size:13px;color:var(--text-tertiary)">Fait avec ♥ et beaucoup de π</p>
+</footer>
+
+<script>
+/* ═══ UTILITAIRES ═══ */
+function wlToRGB(wl){
+  let r,g,b;
+  if(wl>=380&&wl<440){r=-(wl-440)/60;g=0;b=1}
+  else if(wl<490){r=0;g=(wl-440)/50;b=1}
+  else if(wl<510){r=0;g=1;b=-(wl-510)/20}
+  else if(wl<580){r=(wl-510)/70;g=1;b=0}
+  else if(wl<645){r=1;g=-(wl-645)/65;b=0}
+  else{r=1;g=0;b=0}
+  const f=wl<420?0.3+0.7*(wl-380)/40:wl>700?0.3+0.7*(780-wl)/80:1;
+  return[Math.round(255*r*f),Math.round(255*g*f),Math.round(255*b*f)];
+}
+
+/* ═══ FABRY-PÉROT ═══ */
+function updateFP(){
+  const R=parseFloat(document.getElementById('fp_R').value);
+  const e_mm=parseFloat(document.getElementById('fp_e').value);
+  const lnm=parseFloat(document.getElementById('fp_l').value);
+  const lambda=lnm*1e-9;
+  const e=e_mm*1e-3;
+  document.getElementById('fp_RVal').textContent=R.toFixed(2);
+  document.getElementById('fp_eVal').textContent=e_mm.toFixed(1)+' mm';
+  document.getElementById('fp_lVal').textContent=lnm.toFixed(0)+' nm';
+  const F_coeff=4*R/((1-R)*(1-R));
+  const finesse=Math.PI*Math.sqrt(R)/(1-R);
+  const ISL_nm=lambda*lambda/(2*e)*1e9;
+  const p0=Math.round(2*e/lambda);
+  const res_pow=p0*finesse;
+  document.getElementById('fpFinesse').textContent=finesse.toFixed(1);
+  document.getElementById('fpISL').textContent=ISL_nm.toFixed(4)+' nm';
+  document.getElementById('fpResolution').textContent=res_pow.toExponential(2);
+  const [rv,gv,bv]=wlToRGB(lnm);
+
+  // Profil Airy
+  const canvas=document.getElementById('fpAiry');
+  const ctx=canvas.getContext('2d');
+  const W=canvas.width,H=canvas.height;
+  ctx.clearRect(0,0,W,H);
+  ctx.fillStyle='#060606';ctx.fillRect(0,0,W,H);
+  // Grid
+  ctx.strokeStyle='rgba(255,255,255,0.07)';ctx.lineWidth=1;
+  for(let y=0;y<H;y+=H/4){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();}
+  // Y axis labels
+  ctx.fillStyle='rgba(255,255,255,0.35)';ctx.font='10px DM Sans,sans-serif';ctx.textAlign='right';
+  ctx.fillText('T=1',36,14);ctx.fillText('0.5',36,H/2+4);ctx.fillText('0',36,H-4);
+
+  // Plot several orders
+  ctx.beginPath();
+  ctx.strokeStyle=`rgb(${rv},${gv},${bv})`;ctx.lineWidth=2;
+  for(let px=0;px<W;px++){
+    // x axis: phase from -6π to 6π (3 orders each side)
+    const phi=((px/W)-0.5)*12*Math.PI;
+    const T=1/(1+F_coeff*Math.sin(phi/2)*Math.sin(phi/2));
+    const y=H-(T*(H-20)+10);
+    px===0?ctx.moveTo(px,y):ctx.lineTo(px,y);
+  }
+  ctx.stroke();
+  // Reference sinusoidal (2 beams)
+  ctx.beginPath();ctx.strokeStyle='rgba(255,255,255,0.2)';ctx.lineWidth=1.5;ctx.setLineDash([4,4]);
+  for(let px=0;px<W;px++){
+    const phi=((px/W)-0.5)*12*Math.PI;
+    const T_2=Math.pow(Math.cos(phi/2),2);
+    const y=H-(T_2*(H-20)+10);
+    px===0?ctx.moveTo(px,y):ctx.lineTo(px,y);
+  }
+  ctx.stroke();ctx.setLineDash([]);
+  // Legend
+  ctx.fillStyle=`rgb(${rv},${gv},${bv})`;ctx.font='11px DM Sans,sans-serif';ctx.textAlign='left';
+  ctx.fillText(`Fabry-Pérot (R=${R.toFixed(2)})`,50,18);
+  ctx.fillStyle='rgba(255,255,255,0.5)';
+  ctx.fillText('2 ondes (référence)',50,34);
+  // X label
+  ctx.fillStyle='rgba(255,255,255,0.35)';ctx.textAlign='center';
+  ctx.fillText('Phase φ →',W/2,H-4);
+
+  // Schéma FP
+  const sc=document.getElementById('fpSchema');
+  const sctx=sc.getContext('2d');
+  const SW=sc.width,SH=sc.height;
+  const isDark=window.matchMedia('(prefers-color-scheme:dark)').matches;
+  sctx.clearRect(0,0,SW,SH);
+  sctx.fillStyle=isDark?'#222220':'#f0efe9';sctx.fillRect(0,0,SW,SH);
+  // Source
+  sctx.fillStyle=`rgb(${rv},${gv},${bv})`;sctx.fillRect(10,SH/2-10,28,20);
+  sctx.fillStyle=isDark?'#f0efe9':'#1a1a1a';sctx.font='11px DM Sans,sans-serif';sctx.textAlign='center';sctx.fillText('Source',24,SH/2+28);
+  // Miroir M1
+  const m1x=160;
+  sctx.strokeStyle=isDark?'#93C2F0':'#185FA5';sctx.lineWidth=5;
+  sctx.beginPath();sctx.moveTo(m1x,SH/2-45);sctx.lineTo(m1x,SH/2+45);sctx.stroke();
+  sctx.fillStyle=isDark?'#93C2F0':'#185FA5';sctx.font='11px DM Sans,sans-serif';sctx.textAlign='center';
+  sctx.fillText('M₁',m1x,SH/2+58);sctx.fillText(`R=${R.toFixed(2)}`,m1x,SH/2+72);
+  // Miroir M2
+  const m2x=580;
+  sctx.beginPath();sctx.moveTo(m2x,SH/2-45);sctx.lineTo(m2x,SH/2+45);sctx.stroke();
+  sctx.fillText('M₂',m2x,SH/2+58);sctx.fillText(`R=${R.toFixed(2)}`,m2x,SH/2+72);
+  // Cavité
+  sctx.strokeStyle=`rgba(${rv},${gv},${bv},0.6)`;sctx.lineWidth=1.5;
+  sctx.beginPath();sctx.moveTo(38,SH/2);sctx.lineTo(m1x,SH/2);sctx.stroke();
+  // Rebonds internes
+  const yOff=[0,-10,10,-5,5,-3,3];
+  for(let i=0;i<yOff.length;i++){
+    sctx.strokeStyle=`rgba(${rv},${gv},${bv},${0.6-i*0.07})`;sctx.lineWidth=1.5-i*0.15;
+    sctx.beginPath();sctx.moveTo(m1x,SH/2+yOff[i]);sctx.lineTo(m2x,SH/2+yOff[i]);sctx.stroke();
+  }
+  // Faisceau transmis
+  sctx.strokeStyle=`rgba(${rv},${gv},${bv},0.7)`;sctx.lineWidth=2;
+  sctx.beginPath();sctx.moveTo(m2x,SH/2);sctx.lineTo(m2x+100,SH/2);sctx.stroke();
+  sctx.fillStyle=isDark?'#f0efe9':'#1a1a1a';sctx.textAlign='center';sctx.font='11px DM Sans,sans-serif';
+  sctx.fillText('e = '+e_mm.toFixed(1)+' mm',(m1x+m2x)/2,SH/2-18);
+  sctx.fillText('Transmis →',m2x+55,SH/2-10);
+
+  // Anneaux FP
+  const ac=document.getElementById('fpAnneaux');
+  const actx=ac.getContext('2d');
+  const AW=ac.width,AH=ac.height;
+  const cx=AW/2,cy=AH/2;
+  const imgData=actx.createImageData(AW,AH);
+  const maxR=Math.min(cx,cy)*0.95;
+  for(let py=0;py<AH;py++){
+    for(let px=0;px<AW;px++){
+      const dx=(px-cx)/maxR,dy=(py-cy)/maxR;
+      const rho=Math.sqrt(dx*dx+dy*dy);
+      if(rho>1){const idx=(py*AW+px)*4;imgData.data[idx+3]=255;continue;}
+      const cosTheta=Math.sqrt(1-rho*rho*0.5);
+      const phi_here=4*Math.PI*e*cosTheta/lambda;
+      const T=1/(1+F_coeff*Math.sin(phi_here/2)*Math.sin(phi_here/2));
+      const idx=(py*AW+px)*4;
+      imgData.data[idx]=Math.round(rv*T);
+      imgData.data[idx+1]=Math.round(gv*T);
+      imgData.data[idx+2]=Math.round(bv*T);
+      imgData.data[idx+3]=255;
+    }
+  }
+  actx.putImageData(imgData,0,0);
+  actx.strokeStyle='rgba(255,255,255,0.15)';actx.lineWidth=1;
+  actx.beginPath();actx.arc(cx,cy,maxR,0,2*Math.PI);actx.stroke();
+  actx.fillStyle='rgba(255,255,255,0.4)';actx.font='11px DM Sans,sans-serif';actx.textAlign='center';
+  actx.fillText('Anneaux FP (transmission)',cx,AH-8);
+}
+
+/* ═══ RÉSEAUX ═══ */
+function updateReseau(){
+  const d_um=parseFloat(document.getElementById('res_d').value);
+  const a_um=parseFloat(document.getElementById('res_a').value);
+  const N=parseInt(document.getElementById('res_N').value);
+  const theta_i_deg=parseFloat(document.getElementById('res_theta_i').value);
+  const isWhite=parseInt(document.getElementById('res_white').value)===1;
+  const d=d_um*1e-6,a=a_um*1e-6;
+  const theta_i=theta_i_deg*Math.PI/180;
+  document.getElementById('res_dVal').textContent=d_um.toFixed(1)+' µm';
+  document.getElementById('res_aVal').textContent=a_um.toFixed(1)+' µm';
+  document.getElementById('res_NVal').textContent=N;
+  document.getElementById('res_theta_iVal').textContent=theta_i_deg+'°';
+  document.getElementById('res_whiteVal').textContent=isWhite?'Oui':'Non';
+  const lambda_ref=550e-9;
+  const p_max=Math.floor(d*(1+Math.abs(Math.sin(theta_i)))/lambda_ref);
+  const sin_p1=lambda_ref/d-Math.sin(theta_i);
+  const theta_p1=Math.abs(sin_p1)<=1?Math.asin(sin_p1)*180/Math.PI:null;
+  document.getElementById('resOrdres').textContent=`±${p_max}`;
+  document.getElementById('resResolution').textContent=N;
+  document.getElementById('resAngles').textContent=theta_p1?theta_p1.toFixed(1)+'°':'Impossible';
+  const isDark=window.matchMedia('(prefers-color-scheme:dark)').matches;
+
+  // Schéma réseau
+  const sc=document.getElementById('resSchema');
+  const ctx=sc.getContext('2d');
+  const SW=sc.width,SH=sc.height;
+  ctx.clearRect(0,0,SW,SH);
+  ctx.fillStyle=isDark?'#222220':'#f0efe9';ctx.fillRect(0,0,SW,SH);
+  const [rv,gv,bv]=wlToRGB(550);
+  const resx=330;
+  ctx.strokeStyle=isDark?'#93C2F0':'#185FA5';ctx.lineWidth=3;
+  ctx.beginPath();ctx.moveTo(resx,0);ctx.lineTo(resx,SH);ctx.stroke();
+  const spacing=SW/40;
+  ctx.strokeStyle=isDark?'rgba(147,194,240,0.3)':'rgba(24,95,165,0.2)';ctx.lineWidth=1;
+  for(let x=resx-spacing;x>50;x-=spacing){
+    ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,SH);ctx.stroke();
+  }
+  // Rayon incident
+  const incAngle=theta_i_deg*Math.PI/180;
+  const incLen=250;
+  ctx.strokeStyle=`rgba(${rv},${gv},${bv},0.8)`;ctx.lineWidth=2;
+  ctx.beginPath();
+  ctx.moveTo(resx-incLen*Math.cos(incAngle),SH/2+incLen*Math.sin(incAngle));
+  ctx.lineTo(resx,SH/2);ctx.stroke();
+  ctx.fillStyle=isDark?'#aaa':'#555';ctx.font='11px DM Sans,sans-serif';ctx.textAlign='center';
+  ctx.fillText(`θ_i = ${theta_i_deg}°`,resx-130,SH/2-10);
+  // Ordres diffractés
+  const lambdas_show=isWhite?[430,480,530,580,630,680]:[550];
+  for(const wl_nm of lambdas_show){
+    const wl=wl_nm*1e-9;
+    const [cr,cg,cb]=wlToRGB(wl_nm);
+    for(let p=-3;p<=3;p++){
+      const sinTd=p*wl/d-Math.sin(theta_i);
+      if(Math.abs(sinTd)>0.99)continue;
+      const td=Math.asin(sinTd);
+      const len=270;
+      ctx.strokeStyle=`rgba(${cr},${cg},${cb},${isWhite?0.5:0.7})`;ctx.lineWidth=isWhite?1:1.5;
+      ctx.beginPath();ctx.moveTo(resx,SH/2);
+      ctx.lineTo(resx+len*Math.cos(td),SH/2-len*Math.sin(td));ctx.stroke();
+      if(!isWhite&&wl_nm===550){
+        ctx.fillStyle='rgba(255,255,255,0.5)';ctx.font='10px DM Sans,sans-serif';ctx.textAlign='left';
+        const lx=resx+len*Math.cos(td)+4,ly=SH/2-len*Math.sin(td);
+        ctx.fillText('p='+p,lx,ly);
+      }
+    }
+  }
+  ctx.fillStyle=isDark?'#93C2F0':'#185FA5';ctx.font='11px DM Sans,sans-serif';ctx.textAlign='center';
+  ctx.fillText('Réseau',resx,SH-6);
+
+  // Graphe intensité
+  const gc=document.getElementById('resGraph');
+  const gctx=gc.getContext('2d');
+  const GW=gc.width,GH=gc.height;
+  gctx.clearRect(0,0,GW,GH);
+  gctx.fillStyle='#060606';gctx.fillRect(0,0,GW,GH);
+  // Grid
+  gctx.strokeStyle='rgba(255,255,255,0.06)';gctx.lineWidth=1;
+  for(let i=0;i<4;i++){const y=i*(GH-20)/3+10;gctx.beginPath();gctx.moveTo(40,y);gctx.lineTo(GW,y);gctx.stroke();}
+  gctx.fillStyle='rgba(255,255,255,0.3)';gctx.font='10px DM Sans,sans-serif';gctx.textAlign='right';
+  gctx.fillText('I_max',38,14);gctx.fillText('0',38,GH-6);
+  // Plot
+  const lambdas_plot=isWhite?[420,450,480,510,540,570,600,630,660,700]:[550];
+  for(const wl_nm of lambdas_plot){
+    const wl=wl_nm*1e-9;
+    const [cr,cg,cb]=wlToRGB(wl_nm);
+    gctx.beginPath();
+    gctx.strokeStyle=`rgba(${cr},${cg},${cb},${isWhite?0.45:0.9})`;gctx.lineWidth=isWhite?1.2:2;
+    for(let px=0;px<GW;px++){
+      const sinT=((px/GW)-0.5)*2.0; // sin(theta) de -1 à 1
+      if(Math.abs(sinT)>0.99){continue;}
+      const alpha_d=Math.PI*a*(sinT+Math.sin(theta_i))/wl;
+      const beta_d=Math.PI*d*(sinT+Math.sin(theta_i))/wl;
+      const Idiff=Math.abs(alpha_d)<1e-8?1:Math.pow(Math.sin(alpha_d)/alpha_d,2);
+      const Iint=Math.abs(Math.sin(beta_d))<1e-8?1:Math.pow(Math.sin(N*beta_d)/(N*Math.sin(beta_d)),2);
+      const I=Idiff*Iint;
+      const y=GH-10-(I*(GH-20));
+      px===0?gctx.moveTo(px,y):gctx.lineTo(px,y);
+    }
+    gctx.stroke();
+  }
+  // Axis labels
+  gctx.fillStyle='rgba(255,255,255,0.3)';gctx.font='10px DM Sans,sans-serif';gctx.textAlign='center';
+  gctx.fillText('sin θ → (de -1 à 1)',GW/2,GH-2);
+  // Order markers
+  for(let p=-p_max;p<=p_max;p++){
+    const sinTd=p*(isWhite?0.55e-6:lambda_ref)/d-Math.sin(theta_i);
+    if(Math.abs(sinTd)>0.99)continue;
+    const xPos=((sinTd/2)+0.5)*GW;
+    gctx.strokeStyle='rgba(255,255,255,0.25)';gctx.lineWidth=1;gctx.setLineDash([3,3]);
+    gctx.beginPath();gctx.moveTo(xPos,0);gctx.lineTo(xPos,GH-18);gctx.stroke();
+    gctx.setLineDash([]);
+    gctx.fillStyle='rgba(255,255,255,0.4)';gctx.textAlign='center';gctx.font='10px DM Sans,sans-serif';
+    gctx.fillText('p='+p,xPos,GH-18);
+  }
+
+  // Figure de franges (bande colorée)
+  const fc=document.getElementById('resFranges');
+  const fctx=fc.getContext('2d');
+  const FW=fc.width,FH=fc.height;
+  const imgData=fctx.createImageData(FW,FH);
+  const lambdas_fr=isWhite?[420,450,480,510,540,560,590,620,650,700]:[parseInt(document.getElementById('fp_l').value)||550];
+  for(let px=0;px<FW;px++){
+    const sinT=((px/FW)-0.5)*1.2;
+    if(Math.abs(sinT)>1){
+      for(let py=0;py<FH;py++){const idx=(py*FW+px)*4;imgData.data[idx+3]=255;}
+      continue;
+    }
+    let Rs=0,Gs=0,Bs=0,tot=0;
+    for(const wl_nm of lambdas_fr){
+      const wl=wl_nm*1e-9;
+      const alpha_d=Math.PI*a*(sinT+Math.sin(theta_i))/wl;
+      const beta_d=Math.PI*d*(sinT+Math.sin(theta_i))/wl;
+      const Idiff=Math.abs(alpha_d)<1e-8?1:Math.pow(Math.sin(alpha_d)/alpha_d,2);
+      const Iint=Math.abs(Math.sin(beta_d))<1e-8?1:Math.pow(Math.sin(N*beta_d)/(N*Math.sin(beta_d)),2);
+      const I=Idiff*Iint;
+      const[cr,cg,cb]=wlToRGB(wl_nm);
+      Rs+=cr*I;Gs+=cg*I;Bs+=cb*I;tot++;
+    }
+    const sc2=tot;
+    for(let py=0;py<FH;py++){
+      const idx=(py*FW+px)*4;
+      imgData.data[idx]=Math.min(255,Math.round(Rs/sc2*(isWhite?2.5:1)));
+      imgData.data[idx+1]=Math.min(255,Math.round(Gs/sc2*(isWhite?2.5:1)));
+      imgData.data[idx+2]=Math.min(255,Math.round(Bs/sc2*(isWhite?2.5:1)));
+      imgData.data[idx+3]=255;
+    }
+  }
+  fctx.putImageData(imgData,0,0);
+}
+
+/* ═══ DIFFRACTION ═══ */
+function updateDiff(){
+  const a_um=parseFloat(document.getElementById('diff_a').value);
+  const lnm=parseFloat(document.getElementById('diff_l').value);
+  const lambda=lnm*1e-9,a=a_um*1e-6;
+  document.getElementById('diff_aVal').textContent=a_um.toFixed(1)+' µm';
+  document.getElementById('diff_lVal').textContent=lnm.toFixed(0)+' nm';
+  const largeur=2*lambda/a*180/Math.PI;
+  const rayleigh=lambda/a*180/Math.PI;
+  document.getElementById('diffLargeur').textContent=largeur.toFixed(2)+'°';
+  document.getElementById('diffRayleigh').textContent=rayleigh.toFixed(2)+'°';
+  const [rv,gv,bv]=wlToRGB(lnm);
+
+  // Graphe
+  const gc=document.getElementById('diffGraph');
+  const gctx=gc.getContext('2d');
+  const GW=gc.width,GH=gc.height;
+  gctx.clearRect(0,0,GW,GH);
+  gctx.fillStyle='#060606';gctx.fillRect(0,0,GW,GH);
+  gctx.strokeStyle='rgba(255,255,255,0.06)';gctx.lineWidth=1;
+  for(let i=0;i<4;i++){const y=i*(GH-20)/3+10;gctx.beginPath();gctx.moveTo(40,y);gctx.lineTo(GW,y);gctx.stroke();}
+  gctx.fillStyle='rgba(255,255,255,0.3)';gctx.font='10px DM Sans,sans-serif';gctx.textAlign='right';
+  gctx.fillText('I₀',38,14);gctx.fillText('0',38,GH-6);
+  gctx.beginPath();gctx.strokeStyle=`rgb(${rv},${gv},${bv})`;gctx.lineWidth=2;
+  for(let px=0;px<GW;px++){
+    const sinT=((px/GW)-0.5)*2;
+    const alpha_d=Math.PI*a*sinT/lambda;
+    const I=Math.abs(alpha_d)<1e-8?1:Math.pow(Math.sin(alpha_d)/alpha_d,2);
+    const y=GH-10-(I*(GH-20));
+    px===0?gctx.moveTo(px,y):gctx.lineTo(px,y);
+  }
+  gctx.stroke();
+  // Minima markers
+  gctx.setLineDash([3,3]);gctx.strokeStyle='rgba(255,255,255,0.2)';gctx.lineWidth=1;
+  for(let p=1;p<=5;p++){
+    const sinT=p*lambda/a;
+    if(sinT>1)break;
+    const xPos_p=((sinT/2)+0.5)*GW;
+    const xPos_n=((-sinT/2)+0.5)*GW;
+    gctx.beginPath();gctx.moveTo(xPos_p,10);gctx.lineTo(xPos_p,GH-18);gctx.stroke();
+    gctx.beginPath();gctx.moveTo(xPos_n,10);gctx.lineTo(xPos_n,GH-18);gctx.stroke();
+    gctx.fillStyle='rgba(255,255,255,0.3)';gctx.font='10px DM Sans,sans-serif';gctx.textAlign='center';
+    gctx.fillText('±'+p,xPos_p,GH-4);
+  }
+  gctx.setLineDash([]);
+  gctx.fillStyle='rgba(255,255,255,0.3)';gctx.font='10px DM Sans,sans-serif';gctx.textAlign='center';
+  gctx.fillText('sin θ →',GW/2,GH-4);
+
+  // Frange
+  const fc=document.getElementById('diffFrange');
+  const fctx=fc.getContext('2d');
+  const FW=fc.width,FH=fc.height;
+  const imgData=fctx.createImageData(FW,FH);
+  for(let px=0;px<FW;px++){
+    const sinT=((px/FW)-0.5)*2;
+    const alpha_d=Math.PI*a*sinT/lambda;
+    const I=Math.abs(alpha_d)<1e-8?1:Math.pow(Math.sin(alpha_d)/alpha_d,2);
+    for(let py=0;py<FH;py++){
+      const idx=(py*FW+px)*4;
+      imgData.data[idx]=Math.round(rv*I);
+      imgData.data[idx+1]=Math.round(gv*I);
+      imgData.data[idx+2]=Math.round(bv*I);
+      imgData.data[idx+3]=255;
+    }
+  }
+  fctx.putImageData(imgData,0,0);
+}
+
+/* ═══ POLARISATION ═══ */
+function updatePol(){
+  const theta_deg=parseFloat(document.getElementById('pol_theta').value);
+  const lnm=parseFloat(document.getElementById('pol_l').value);
+  const theta=theta_deg*Math.PI/180;
+  const I_rel=Math.pow(Math.cos(theta),2);
+  document.getElementById('pol_thetaVal').textContent=theta_deg+'°';
+  document.getElementById('pol_lVal').textContent=lnm.toFixed(0)+' nm';
+  document.getElementById('polI').textContent=(I_rel).toFixed(3)+' I₀';
+  document.getElementById('polAngle').textContent=theta_deg+'°';
+  const [rv,gv,bv]=wlToRGB(lnm);
+
+  const canvas=document.getElementById('polCanvas');
+  const ctx=canvas.getContext('2d');
+  const W=canvas.width,H=canvas.height;
+  ctx.clearRect(0,0,W,H);
+  ctx.fillStyle='#060606';ctx.fillRect(0,0,W,H);
+
+  // --- Représentation visuelle côté gauche : oscillation E ---
+  const cx1=180,cy1=H/2;
+  // Polariseur 1 : axe vertical (0°)
+  ctx.strokeStyle='rgba(255,255,255,0.15)';ctx.lineWidth=1;
+  ctx.beginPath();ctx.arc(cx1,cy1,70,0,2*Math.PI);ctx.stroke();
+  ctx.strokeStyle=`rgba(${rv},${gv},${bv},0.8)`;ctx.lineWidth=2.5;
+  ctx.beginPath();ctx.moveTo(cx1,cy1-65);ctx.lineTo(cx1,cy1+65);ctx.stroke();
+  ctx.fillStyle='rgba(255,255,255,0.5)';ctx.font='12px DM Sans,sans-serif';ctx.textAlign='center';
+  ctx.fillText('Polariseur 1',cx1,cy1-80);ctx.fillText('(θ = 0°)',cx1,cy1+90);
+
+  // Flèche E incident
+  ctx.strokeStyle=`rgba(${rv},${gv},${bv},0.9)`;ctx.lineWidth=2;
+  ctx.setLineDash([5,4]);
+  ctx.beginPath();ctx.moveTo(cx1-120,cy1);ctx.lineTo(cx1-80,cy1);ctx.stroke();
+  ctx.setLineDash([]);
+
+  // Polariseur 2 : axe à theta
+  const cx2=560,cy2=H/2;
+  ctx.strokeStyle='rgba(255,255,255,0.15)';ctx.lineWidth=1;
+  ctx.beginPath();ctx.arc(cx2,cy2,70,0,2*Math.PI);ctx.stroke();
+  ctx.strokeStyle=`rgba(${rv},${gv},${bv},${I_rel*0.9+0.1})`;ctx.lineWidth=2.5;
+  ctx.beginPath();
+  ctx.moveTo(cx2+65*Math.sin(theta),cy2-65*Math.cos(theta));
+  ctx.lineTo(cx2-65*Math.sin(theta),cy2+65*Math.cos(theta));
+  ctx.stroke();
+  ctx.fillStyle='rgba(255,255,255,0.5)';ctx.font='12px DM Sans,sans-serif';ctx.textAlign='center';
+  ctx.fillText('Polariseur 2 (analyseur)',cx2,cy2-80);
+  ctx.fillText(`θ = ${theta_deg}°`,cx2,cy2+90);
+
+  // Vecteur E transmis
+  const Emag=55*I_rel;
+  if(Emag>1){
+    ctx.strokeStyle=`rgba(${rv},${gv},${bv},0.9)`;ctx.lineWidth=2.5;
+    ctx.beginPath();ctx.moveTo(cx2,cy2);
+    ctx.lineTo(cx2+Emag*Math.sin(theta),cy2-Emag*Math.cos(theta));ctx.stroke();
+    ctx.beginPath();ctx.moveTo(cx2,cy2);
+    ctx.lineTo(cx2-Emag*Math.sin(theta),cy2+Emag*Math.cos(theta));ctx.stroke();
+  }
+
+  // Flèche entre les deux polariseurs
+  ctx.strokeStyle=`rgba(${rv},${gv},${bv},0.5)`;ctx.lineWidth=1.5;ctx.setLineDash([4,4]);
+  ctx.beginPath();ctx.moveTo(cx1+75,cy1);ctx.lineTo(cx2-75,cy2);ctx.stroke();
+  ctx.setLineDash([]);
+
+  // Graphe cos² en bas
+  const plotY=H-55,plotH=40;
+  ctx.strokeStyle='rgba(255,255,255,0.06)';ctx.lineWidth=1;
+  ctx.beginPath();ctx.moveTo(40,plotY-plotH);ctx.lineTo(W-40,plotY-plotH);ctx.stroke();
+  ctx.beginPath();ctx.moveTo(40,plotY);ctx.lineTo(W-40,plotY);ctx.stroke();
+  // Curve
+  ctx.beginPath();ctx.strokeStyle=`rgba(${rv},${gv},${bv},0.7)`;ctx.lineWidth=1.5;
+  for(let px=0;px<W-80;px++){
+    const th=(px/(W-80))*2*Math.PI;
+    const Iv=Math.pow(Math.cos(th),2);
+    const y=plotY-Iv*plotH;
+    px===0?ctx.moveTo(px+40,y):ctx.lineTo(px+40,y);
+  }
+  ctx.stroke();
+  // Current position marker
+  const markerX=((theta_deg/360)*(W-80))+40;
+  ctx.strokeStyle='white';ctx.lineWidth=1.5;
+  ctx.beginPath();ctx.moveTo(markerX,plotY-plotH-4);ctx.lineTo(markerX,plotY+4);ctx.stroke();
+  // Fill
+  ctx.fillStyle='rgba(255,255,255,0.35)';ctx.font='10px DM Sans,sans-serif';ctx.textAlign='left';
+  ctx.fillText('0°',40,plotY+12);ctx.textAlign='center';ctx.fillText('90°',(W-80)/4+40,plotY+12);
+  ctx.fillText('180°',(W-80)/2+40,plotY+12);ctx.fillText('270°',3*(W-80)/4+40,plotY+12);
+  ctx.textAlign='right';ctx.fillText('360°',W-40,plotY+12);
+  ctx.textAlign='left';ctx.fillText('I = I₀·cos²θ',44,plotY-plotH-8);
+  ctx.fillStyle=`rgba(${rv},${gv},${bv},0.8)`;
+  ctx.fillText(`I = ${I_rel.toFixed(3)} I₀`,markerX+4,plotY-plotH*I_rel-6);
+}
+
+/* ═══ INIT ═══ */
+document.addEventListener('DOMContentLoaded',()=>{
+  setTimeout(()=>{
+    updateFP();
+    updateReseau();
+    updateDiff();
+    updatePol();
+    if(window.renderMathInElement)
+      renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]});
+  },350);
+});
+</script>
+</body>
+</html>

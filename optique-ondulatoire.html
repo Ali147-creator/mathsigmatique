@@ -1,198 +1,192 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Optique ondulatoire — MathΣtique</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" />
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Optique ondulatoire (1/3) — MathΣtique</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"/>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
-    onload="renderMathInElement(document.body, {delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]});"></script>
+    onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]})"></script>
   <style>
     :root{
       --blue:#185FA5;--blue-light:#E6F1FB;--blue-mid:#93C2F0;--blue-dark:#0d3d6e;
       --green:#1D9E75;--green-light:#E1F5EE;--green-dark:#0F6E56;
       --amber:#BA7517;--amber-light:#FAEEDA;--amber-dark:#854F0B;
+      --purple:#534AB7;--purple-light:#EEEDFE;--purple-dark:#3C3489;
       --text:#1a1a1a;--text-secondary:#666;--text-tertiary:#999;
       --bg:#ffffff;--bg-secondary:#f7f6f2;--bg-tertiary:#f0efe9;
-      --border:rgba(0,0,0,0.1);--border-hover:rgba(0,0,0,0.2);
+      --border:rgba(0,0,0,0.1);--border-hover:rgba(0,0,0,0.22);
       --radius:12px;--radius-lg:16px
     }
-    @media(prefers-color-scheme:dark){
-      :root{
-        --text:#f0efe9;--text-secondary:#aaa;--text-tertiary:#666;
-        --bg:#111110;--bg-secondary:#1a1a18;--bg-tertiary:#222220;
-        --border:rgba(255,255,255,0.1);--border-hover:rgba(255,255,255,0.2);
-        --blue-light:#0a1e35;--green-light:#0a2e26;--amber-light:#2a1e08
-      }
-    }
+    @media(prefers-color-scheme:dark){:root{
+      --text:#f0efe9;--text-secondary:#aaa;--text-tertiary:#666;
+      --bg:#111110;--bg-secondary:#1a1a18;--bg-tertiary:#222220;
+      --border:rgba(255,255,255,0.1);--border-hover:rgba(255,255,255,0.22);
+      --blue-light:#0a1e35;--green-light:#0a2e26;--amber-light:#2a1e08;--purple-light:#1a1840
+    }}
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
     html{scroll-behavior:smooth}
     body{font-family:'DM Sans',sans-serif;color:var(--text);background:var(--bg);line-height:1.6;font-size:16px}
 
     /* NAV */
-    nav{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:1rem 2rem;background:var(--bg);border-bottom:0.5px solid var(--border);backdrop-filter:blur(8px)}
+    nav{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:.9rem 2rem;background:var(--bg);border-bottom:.5px solid var(--border);backdrop-filter:blur(8px)}
     .nav-logo{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--text);text-decoration:none}
     .nav-logo span{color:var(--green)}
-    .btn-back{display:inline-flex;align-items:center;gap:6px;font-size:14px;color:var(--text-secondary);text-decoration:none;padding:7px 14px;border:0.5px solid var(--border-hover);border-radius:8px;transition:background 0.2s}
+    .nav-right{display:flex;align-items:center;gap:10px}
+    .btn-back{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--text-secondary);text-decoration:none;padding:6px 13px;border:.5px solid var(--border-hover);border-radius:8px;transition:background .2s}
     .btn-back:hover{background:var(--bg-secondary);color:var(--text)}
+    .page-badge{font-size:12px;color:var(--text-tertiary);background:var(--bg-secondary);padding:4px 10px;border-radius:20px;border:.5px solid var(--border)}
 
     /* PAGE */
-    .page{max-width:820px;margin:0 auto;padding:3rem 2rem 5rem}
+    .page{max-width:840px;margin:0 auto;padding:3rem 2rem 5rem}
     .breadcrumb{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--text-tertiary);margin-bottom:2rem;flex-wrap:wrap}
     .breadcrumb a{color:var(--text-secondary);text-decoration:none}
     .breadcrumb a:hover{color:var(--text)}
-
-    /* LESSON HEADER */
     .lesson-cat{display:inline-block;font-size:12px;font-weight:500;color:var(--blue-dark);background:var(--blue-light);padding:4px 12px;border-radius:20px;margin-bottom:1rem}
     .lesson-title{font-family:'Playfair Display',serif;font-size:clamp(28px,5vw,44px);font-weight:700;line-height:1.15;margin-bottom:1rem}
-    .lesson-intro{font-size:15px;color:var(--text-secondary);max-width:600px;line-height:1.8;margin-bottom:2.5rem}
+    .lesson-intro{font-size:15px;color:var(--text-secondary);max-width:620px;line-height:1.8;margin-bottom:2rem}
+
+    /* PAGINATION STRIP */
+    .page-strip{display:flex;gap:8px;margin-bottom:2.5rem;flex-wrap:wrap}
+    .pg-btn{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:500;padding:7px 15px;border-radius:8px;text-decoration:none;border:.5px solid var(--border);color:var(--text-secondary);transition:all .2s}
+    .pg-btn:hover{background:var(--bg-secondary);border-color:var(--border-hover);color:var(--text)}
+    .pg-btn.active{background:var(--blue);border-color:var(--blue);color:#fff}
+    .pg-btn.active:hover{opacity:.9}
 
     /* TOC */
-    .toc{background:var(--bg-secondary);border:0.5px solid var(--border);border-radius:var(--radius);padding:1.25rem 1.5rem;margin-bottom:3rem}
-    .toc-title{font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-tertiary);margin-bottom:0.75rem}
+    .toc{background:var(--bg-secondary);border:.5px solid var(--border);border-radius:var(--radius);padding:1.25rem 1.5rem;margin-bottom:3rem}
+    .toc-title{font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:.08em;color:var(--text-tertiary);margin-bottom:.75rem}
     .toc ol{padding-left:1.25rem}
     .toc li{font-size:14px;margin:5px 0}
     .toc a{color:var(--blue);text-decoration:none}
     .toc a:hover{text-decoration:underline}
 
     /* SECTIONS */
-    .lesson-section{margin-bottom:3rem}
-    .lesson-section h2{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;margin-bottom:1.25rem;padding-bottom:0.6rem;border-bottom:0.5px solid var(--border)}
-    .lesson-section p{font-size:15px;line-height:1.85;color:var(--text);margin-bottom:1rem}
+    .lesson-section{margin-bottom:3.5rem}
+    .lesson-section h2{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;margin-bottom:1.25rem;padding-bottom:.6rem;border-bottom:.5px solid var(--border)}
+    .lesson-section p{font-size:15px;line-height:1.85;margin-bottom:1rem}
+    .lesson-section h3{font-size:16px;font-weight:600;margin:1.5rem 0 .75rem;color:var(--text)}
 
     /* BOXES */
     .def-box{background:var(--blue-light);border-left:3px solid var(--blue);border-radius:0 var(--radius) var(--radius) 0;padding:1.25rem 1.5rem;margin:1.25rem 0}
-    .def-box .def-label{font-size:11px;font-weight:500;color:var(--blue-dark);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:8px}
-    .def-box p{font-size:14px;line-height:1.75;color:var(--text);margin:0}
-
-    .formula-box{background:var(--bg-secondary);border:0.5px solid var(--border);border-radius:var(--radius);padding:1.5rem;margin:1.25rem 0;text-align:center}
-    .formula-box .fb-label{font-size:12px;color:var(--text-secondary);margin-bottom:0.75rem}
-    .formula-box .fb-desc{font-size:12px;color:var(--text-secondary);margin-top:0.75rem;line-height:1.6}
-
+    .def-box .def-label{font-size:11px;font-weight:500;color:var(--blue-dark);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px}
+    .def-box p{font-size:14px;line-height:1.75;margin:0}
+    .formula-box{background:var(--bg-secondary);border:.5px solid var(--border);border-radius:var(--radius);padding:1.5rem;margin:1.25rem 0;text-align:center}
+    .formula-box .fb-label{font-size:12px;color:var(--text-secondary);margin-bottom:.75rem}
+    .formula-box .fb-desc{font-size:12px;color:var(--text-secondary);margin-top:.75rem;line-height:1.6}
     .note-box{background:var(--amber-light);border-left:3px solid var(--amber);border-radius:0 var(--radius) var(--radius) 0;padding:1rem 1.5rem;margin:1.25rem 0}
-    .note-box .note-label{font-size:11px;font-weight:500;color:var(--amber-dark);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:6px}
+    .note-box .note-label{font-size:11px;font-weight:500;color:var(--amber-dark);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px}
     .note-box p{font-size:14px;color:var(--amber-dark);margin:0;line-height:1.7}
-
-    .example-box{border:0.5px solid var(--border);border-radius:var(--radius);overflow:hidden;margin:1.25rem 0}
-    .example-box .ex-header{background:var(--bg-secondary);padding:10px 1.25rem;font-size:12px;font-weight:500;color:var(--text-secondary);text-transform:uppercase;letter-spacing:0.07em;border-bottom:0.5px solid var(--border)}
+    .example-box{border:.5px solid var(--border);border-radius:var(--radius);overflow:hidden;margin:1.25rem 0}
+    .example-box .ex-header{background:var(--bg-secondary);padding:10px 1.25rem;font-size:12px;font-weight:500;color:var(--text-secondary);text-transform:uppercase;letter-spacing:.07em;border-bottom:.5px solid var(--border)}
     .example-box .ex-body{padding:1.25rem;font-size:14px;line-height:1.85}
-    .example-box .ex-body p{margin-bottom:0.5rem;font-size:14px}
-
-    .prop-list{background:var(--bg-secondary);border:0.5px solid var(--border);border-radius:var(--radius);padding:1.25rem 1.5rem;margin:1.25rem 0}
-    .prop-list .pl-title{font-size:13px;font-weight:500;color:var(--text-secondary);margin-bottom:1rem;text-transform:uppercase;letter-spacing:0.06em}
+    .example-box .ex-body p{margin-bottom:.5rem}
+    .prop-list{background:var(--bg-secondary);border:.5px solid var(--border);border-radius:var(--radius);padding:1.25rem 1.5rem;margin:1.25rem 0}
+    .prop-list .pl-title{font-size:13px;font-weight:500;color:var(--text-secondary);margin-bottom:1rem;text-transform:uppercase;letter-spacing:.06em}
     .prop-list table{width:100%;border-collapse:collapse}
-    .prop-list td{font-size:14px;padding:8px 12px;border-bottom:0.5px solid var(--border);vertical-align:middle}
+    .prop-list td{font-size:14px;padding:8px 12px;border-bottom:.5px solid var(--border);vertical-align:middle}
     .prop-list tr:last-child td{border-bottom:none}
     .prop-list td:first-child{color:var(--text-secondary);width:40%}
 
-    /* INTERACTIVE DEMO */
-    .demo-box{background:var(--bg-secondary);border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:1.75rem;margin:1.5rem 0}
-    .demo-box h3{font-size:16px;font-weight:500;margin-bottom:0.4rem}
+    /* DEMO */
+    .demo-box{background:var(--bg-secondary);border:.5px solid var(--border);border-radius:var(--radius-lg);padding:1.75rem;margin:1.5rem 0}
+    .demo-box h3{font-size:16px;font-weight:600;margin-bottom:.35rem}
     .demo-box .demo-sub{font-size:13px;color:var(--text-secondary);margin-bottom:1.25rem}
     .slider-row{display:flex;align-items:center;gap:10px;margin:8px 0}
-    .slider-row label{font-size:13px;color:var(--text-secondary);width:160px;flex-shrink:0}
+    .slider-row label{font-size:13px;color:var(--text-secondary);width:170px;flex-shrink:0}
     .slider-row input[type=range]{flex:1;accent-color:var(--blue)}
-    .slider-val{font-size:13px;font-weight:500;min-width:60px;text-align:right}
-    .result-display{background:var(--bg);border-radius:10px;padding:1rem;text-align:center;margin-top:1.25rem;border:0.5px solid var(--border)}
+    .slider-val{font-size:13px;font-weight:500;min-width:65px;text-align:right;font-variant-numeric:tabular-nums}
+    .result-display{background:var(--bg);border-radius:10px;padding:1rem 1.25rem;text-align:center;margin-top:1.25rem;border:.5px solid var(--border)}
     .result-display .rd-main{font-family:'Playfair Display',serif;font-size:18px;color:var(--blue)}
     .result-display .rd-label{font-size:12px;color:var(--text-secondary);margin-top:4px}
-    canvas{display:block;margin:1rem auto 0;border-radius:var(--radius);background:var(--bg);border:0.5px solid var(--border);max-width:100%}
-
-    /* COMING SOON */
-    .coming-soon-section{
-      background:var(--bg-secondary);border:0.5px dashed var(--border-hover);
-      border-radius:var(--radius-lg);padding:2rem;margin:1.5rem 0;
-      text-align:center;opacity:0.75;
-    }
-    .coming-soon-section .cs-icon{font-size:24px;margin-bottom:0.75rem}
-    .coming-soon-section h3{font-size:16px;font-weight:500;margin-bottom:0.5rem}
-    .coming-soon-section p{font-size:13px;color:var(--text-secondary)}
-    .badge-soon{display:inline-block;background:var(--blue-light);color:var(--blue-dark);font-size:11px;font-weight:500;padding:3px 10px;border-radius:20px;margin-bottom:1rem}
+    .result-display .rd-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px}
+    .result-display .rd-cell{background:var(--bg-secondary);border-radius:8px;padding:8px 10px}
+    .result-display .rd-cell .rc-val{font-family:'Playfair Display',serif;font-size:16px;color:var(--blue);font-weight:700}
+    .result-display .rd-cell .rc-lbl{font-size:11px;color:var(--text-secondary);margin-top:2px}
+    canvas{display:block;margin:.75rem auto 0;border-radius:var(--radius);max-width:100%}
 
     /* LESSON NAV */
-    .lesson-nav{display:flex;justify-content:space-between;align-items:center;margin-top:4rem;padding-top:2rem;border-top:0.5px solid var(--border);flex-wrap:wrap;gap:1rem}
-    .lesson-nav a{display:inline-flex;align-items:center;gap:6px;font-size:14px;color:var(--text-secondary);text-decoration:none;padding:8px 16px;border:0.5px solid var(--border);border-radius:8px;transition:background 0.2s}
+    .lesson-nav{display:flex;justify-content:space-between;align-items:center;margin-top:4rem;padding-top:2rem;border-top:.5px solid var(--border);flex-wrap:wrap;gap:1rem}
+    .lesson-nav a{display:inline-flex;align-items:center;gap:6px;font-size:14px;color:var(--text-secondary);text-decoration:none;padding:9px 18px;border:.5px solid var(--border);border-radius:8px;transition:background .2s;font-weight:500}
     .lesson-nav a:hover{background:var(--bg-secondary);color:var(--text)}
+    .lesson-nav a.next{background:var(--blue);color:#fff;border-color:var(--blue)}
+    .lesson-nav a.next:hover{opacity:.88}
 
-    /* FOOTER */
-    footer{border-top:0.5px solid var(--border);padding:2rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;max-width:100%}
+    footer{border-top:.5px solid var(--border);padding:2rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
     .footer-logo{font-family:'Playfair Display',serif;font-size:18px;font-weight:700}
     .footer-logo span{color:var(--green)}
     footer p{font-size:13px;color:var(--text-secondary)}
 
     @media(max-width:768px){
       .page{padding:2rem 1.25rem 4rem}
-      .lesson-nav{flex-direction:column}
+      .slider-row label{width:130px}
     }
   </style>
 </head>
 <body>
 
-<!-- NAV -->
 <nav>
   <a class="nav-logo" href="index.html">Math<span>∑</span>tique</a>
-  <a class="btn-back" href="index.html">← Retour aux chapitres</a>
+  <div class="nav-right">
+    <span class="page-badge">Page 1 / 3</span>
+    <a class="btn-back" href="index.html">← Chapitres</a>
+  </div>
 </nav>
 
-<!-- PAGE -->
 <div class="page">
 
-  <!-- BREADCRUMB -->
   <div class="breadcrumb">
-    <a href="index.html">Accueil</a>
-    <span>›</span>
-    <span>Licence</span>
-    <span>›</span>
-    <span>Physique</span>
-    <span>›</span>
-    <span style="color:var(--text);">Optique ondulatoire</span>
+    <a href="index.html">Accueil</a><span>›</span>
+    <span>Licence · Physique</span><span>›</span>
+    <span style="color:var(--text)">Optique ondulatoire</span>
   </div>
 
-  <!-- HEADER -->
   <span class="lesson-cat">Licence · Physique</span>
   <h1 class="lesson-title">Optique ondulatoire</h1>
-  <p class="lesson-intro">
-    La lumière est une onde électromagnétique. L'optique ondulatoire étudie les phénomènes — interférences, diffraction, polarisation — qui ne peuvent être expliqués par le modèle géométrique (rayon lumineux) et qui révèlent la nature profondément ondulatoire de la lumière.
-  </p>
+  <p class="lesson-intro">La lumière est une onde électromagnétique transversale. L'optique ondulatoire révèle les phénomènes — interférences, diffraction, polarisation — inaccessibles au modèle des rayons lumineux.</p>
 
-  <!-- TABLE DES MATIÈRES -->
+  <div class="page-strip">
+    <a class="pg-btn active" href="optique-ondulatoire.html">1 · Bases &amp; Young</a>
+    <a class="pg-btn" href="optique-ondulatoire-2.html">2 · Lames &amp; Michelson</a>
+    <a class="pg-btn" href="optique-ondulatoire-3.html">3 · Fabry-Pérot &amp; Réseaux</a>
+  </div>
+
   <div class="toc">
-    <div class="toc-title">Table des matières</div>
+    <div class="toc-title">Table des matières — Page 1</div>
     <ol>
       <li><a href="#ondes">Nature ondulatoire de la lumière</a></li>
       <li><a href="#coherence">Cohérence et sources lumineuses</a></li>
-      <li><a href="#interferences">Interférences à deux ondes</a></li>
-      <li><a href="#fentes-young">Fentes d'Young</a></li>
-      <li><a href="#diffraction">Diffraction — Bientôt</a></li>
-      <li><a href="#polarisation">Polarisation — Bientôt</a></li>
+      <li><a href="#interferences">Conditions d'interférences</a></li>
+      <li><a href="#young-fentes">Fentes d'Young</a></li>
+      <li><a href="#young-trous">Trous d'Young</a></li>
+      <li><a href="#biprisme">Biprisme de Fresnel</a></li>
     </ol>
   </div>
 
-  <!-- SECTION 1 -->
+  <!-- ═══════════════════════════════════════════════
+       1. NATURE ONDULATOIRE
+  ════════════════════════════════════════════════ -->
   <div class="lesson-section" id="ondes">
     <h2>1. Nature ondulatoire de la lumière</h2>
-    <p>
-      La lumière est une onde électromagnétique transversale qui se propage dans le vide à la vitesse $c \approx 3{,}00 \times 10^8\ \text{m/s}$. Elle est caractérisée par sa longueur d'onde $\lambda$ (ou de façon équivalente sa fréquence $\nu$).
-    </p>
-
-    <div class="def-box">
-      <div class="def-label">Relation fondamentale</div>
-      <p>La longueur d'onde dans le vide $\lambda_0$, la fréquence $\nu$ et la célérité $c$ sont liées par :</p>
-    </div>
+    <p>La lumière est une onde électromagnétique transversale se propageant dans le vide à $c \approx 3{,}00 \times 10^8\ \text{m/s}$. Elle est caractérisée par sa longueur d'onde $\lambda_0$ et sa fréquence $\nu$, liées par :</p>
 
     <div class="formula-box">
-      <div class="fb-label">Relation longueur d'onde – fréquence</div>
-      $$c = \lambda_0 \, \nu$$
-      <div class="fb-desc">$c \approx 3{,}00 \times 10^8\ \text{m/s}$ &nbsp;·&nbsp; $\lambda_0$ en mètres &nbsp;·&nbsp; $\nu$ en hertz (Hz)</div>
+      <div class="fb-label">Relation fondamentale</div>
+      $$c = \lambda_0\,\nu$$
+      <div class="fb-desc">$\lambda_0$ en mètres · $\nu$ en hertz · $c \approx 3{,}00\times10^8\ \text{m/s}$</div>
     </div>
 
-    <p>
-      Dans un milieu d'indice optique $n > 1$, la vitesse de phase devient $v = c/n$ et la longueur d'onde est réduite : $\lambda = \lambda_0 / n$. La fréquence, elle, ne change pas lors d'un changement de milieu.
-    </p>
+    <p>Dans un milieu d'indice $n$, la lumière se propage à $v = c/n$ avec une longueur d'onde réduite $\lambda = \lambda_0/n$. La fréquence reste inchangée lors d'un changement de milieu. L'expression d'une onde plane monochromatique progressive est :</p>
+
+    <div class="formula-box">
+      <div class="fb-label">Onde plane monochromatique progressive</div>
+      $$s(x,t)=A\cos\!\bigl(\omega t - kx + \varphi_0\bigr)$$
+      <div class="fb-desc">$\omega=2\pi\nu$ : pulsation (rad/s) · $k=2\pi/\lambda$ : vecteur d'onde (rad/m) · $A$ : amplitude · $\varphi_0$ : phase initiale</div>
+    </div>
 
     <div class="prop-list">
       <div class="pl-title">Spectre visible</div>
@@ -205,89 +199,89 @@
       </table>
     </div>
 
-    <p>
-      L'expression mathématique d'une onde plane progressive monochromatique se propageant selon $x$ est :
-    </p>
-
-    <div class="formula-box">
-      <div class="fb-label">Onde plane monochromatique</div>
-      $$s(x, t) = A \cos\!\left(\omega t - kx + \varphi_0\right)$$
-      <div class="fb-desc">
-        $A$ : amplitude &nbsp;·&nbsp; $\omega = 2\pi\nu$ : pulsation (rad/s) &nbsp;·&nbsp; $k = 2\pi/\lambda$ : vecteur d'onde (rad/m) &nbsp;·&nbsp; $\varphi_0$ : phase à l'origine
+    <!-- ANIMATION onde -->
+    <div class="demo-box">
+      <h3>Animation — Onde plane progressive</h3>
+      <p class="demo-sub">Visualisez comment la phase se propage en fonction du temps et de la longueur d'onde.</p>
+      <div class="slider-row">
+        <label>Longueur d'onde $\lambda$ (nm)</label>
+        <input type="range" id="waveL" min="380" max="780" value="520" oninput="drawWave()">
+        <span class="slider-val" id="waveLVal">520 nm</span>
       </div>
+      <div class="slider-row">
+        <label>Vitesse d'animation</label>
+        <input type="range" id="waveSpeed" min="1" max="10" value="4">
+        <span class="slider-val" id="waveSpeedVal">4</span>
+      </div>
+      <canvas id="waveCanvas" width="760" height="110" style="background:#0a0a0a;border-radius:var(--radius)"></canvas>
     </div>
   </div>
 
-  <!-- SECTION 2 -->
+  <!-- ═══════════════════════════════════════════════
+       2. COHÉRENCE
+  ════════════════════════════════════════════════ -->
   <div class="lesson-section" id="coherence">
     <h2>2. Cohérence et sources lumineuses</h2>
-    <p>
-      Pour observer des interférences stables, il faut que les ondes soient <strong>cohérentes</strong> : elles doivent entretenir une relation de phase constante dans le temps. En pratique, une source réelle émet des trains d'onde de durée finie $\tau_c$, appelée <em>temps de cohérence</em>.
-    </p>
+    <p>Pour observer des interférences stables, les ondes doivent entretenir une <strong>relation de phase constante</strong> dans le temps : elles sont dites <em>cohérentes</em>.</p>
 
     <div class="def-box">
       <div class="def-label">Cohérence temporelle</div>
-      <p>
-        Deux ondes issues de la même source sont cohérentes si leur différence de marche $\delta$ reste inférieure à la longueur de cohérence $L_c = c \, \tau_c$. Au-delà, les interférences disparaissent et l'on observe une intensité uniforme.
-      </p>
+      <p>Caractérisée par la <strong>longueur de cohérence</strong> $L_c = c\,\tau_c$ (avec $\tau_c$ le temps de cohérence). Deux ondes issues de la même source n'interfèrent de façon visible que si leur différence de marche $\delta < L_c$. Une source monochromatique parfaite aurait $L_c = \infty$.</p>
     </div>
 
     <div class="def-box">
       <div class="def-label">Cohérence spatiale</div>
-      <p>
-        Deux points d'une même source étendue sont cohérents si la source est vue sous un angle inférieur à l'angle de cohérence. En pratique, on utilise une fente source très fine ou un laser pour assurer la cohérence spatiale.
-      </p>
+      <p>Une source étendue produit des ondes incohérentes entre points distincts. On limite la taille angulaire de la source (fente fine, diaphragme) pour garantir la cohérence spatiale sur la zone d'interférence.</p>
+    </div>
+
+    <div class="prop-list">
+      <div class="pl-title">Longueurs de cohérence typiques</div>
+      <table>
+        <tr><td>Lumière blanche</td><td>$L_c \approx 1\ \mu\text{m}$ (quelques longueurs d'onde)</td></tr>
+        <tr><td>Lampe vapeur de mercure filtrée</td><td>$L_c \approx 2 – 5\ \text{cm}$</td></tr>
+        <tr><td>Laser He-Ne multimode</td><td>$L_c \approx 20\ \text{cm}$</td></tr>
+        <tr><td>Laser He-Ne monomode stabilisé</td><td>$L_c \approx 10\ \text{m}$ à plusieurs centaines de mètres</td></tr>
+      </table>
     </div>
 
     <div class="note-box">
-      <div class="note-label">Remarque pratique</div>
-      <p>Un laser est une source quasi-monochromatique avec une très grande longueur de cohérence ($L_c$ pouvant dépasser le mètre). Une lampe spectrale filtrée a une cohérence bien plus faible ($L_c \sim$ quelques mm à quelques cm).</p>
+      <div class="note-label">Lien avec la largeur spectrale</div>
+      <p>La cohérence temporelle est d'autant meilleure que la source est monochromatique : $L_c \approx \lambda_0^2 / \Delta\lambda$, où $\Delta\lambda$ est la largeur spectrale de la source.</p>
     </div>
   </div>
 
-  <!-- SECTION 3 -->
+  <!-- ═══════════════════════════════════════════════
+       3. CONDITIONS D'INTERFÉRENCES
+  ════════════════════════════════════════════════ -->
   <div class="lesson-section" id="interferences">
-    <h2>3. Interférences à deux ondes</h2>
-    <p>
-      Lorsque deux ondes cohérentes se superposent en un point M, l'amplitude résultante dépend de leur <strong>déphasage</strong>. On parle d'<em>interférences constructives</em> quand elles se renforcent, et d'<em>interférences destructives</em> quand elles s'annulent.
-    </p>
+    <h2>3. Conditions d'interférences</h2>
+    <p>En un point M où se superposent deux ondes cohérentes d'amplitudes égales, l'intensité résultante dépend du <strong>déphasage</strong> $\Delta\varphi$ lié à la différence de marche $\delta$ :</p>
 
     <div class="formula-box">
-      <div class="fb-label">Intensité résultante (deux ondes de même amplitude)</div>
-      $$I = 4I_0 \cos^2\!\left(\frac{\Delta\varphi}{2}\right)$$
-      <div class="fb-desc">
-        $I_0$ : intensité de chaque source individuelle &nbsp;·&nbsp; $\Delta\varphi$ : déphasage entre les deux ondes en M
-      </div>
+      <div class="fb-label">Intensité résultante — deux ondes de même amplitude</div>
+      $$I = 4I_0\cos^2\!\!\left(\frac{\Delta\varphi}{2}\right) = 2I_0\!\left(1+\cos\Delta\varphi\right)$$
     </div>
 
-    <p>Le déphasage est directement lié à la <strong>différence de marche</strong> $\delta$ (différence de chemin optique parcouru) :</p>
-
     <div class="formula-box">
-      <div class="fb-label">Déphasage ↔ différence de marche</div>
+      <div class="fb-label">Déphasage et différence de marche</div>
       $$\Delta\varphi = \frac{2\pi}{\lambda_0}\,\delta$$
     </div>
 
     <div class="prop-list">
-      <div class="pl-title">Conditions d'interférences</div>
+      <div class="pl-title">Conditions</div>
       <table>
-        <tr>
-          <td>Constructives (maximum)</td>
-          <td>$\delta = p\,\lambda_0$ &nbsp; ($p \in \mathbb{Z}$)</td>
-        </tr>
-        <tr>
-          <td>Destructives (minimum)</td>
-          <td>$\delta = \left(p + \dfrac{1}{2}\right)\lambda_0$ &nbsp; ($p \in \mathbb{Z}$)</td>
-        </tr>
+        <tr><td>Constructives (frange brillante)</td><td>$\delta = p\lambda_0$, $p\in\mathbb{Z}$ &nbsp;→&nbsp; $I = 4I_0$</td></tr>
+        <tr><td>Destructives (frange sombre)</td><td>$\delta = (p+\tfrac{1}{2})\lambda_0$ &nbsp;→&nbsp; $I = 0$</td></tr>
       </table>
     </div>
 
-    <!-- INTERACTIVE DEMO -->
+    <!-- ANIMATION interférences générales -->
     <div class="demo-box">
-      <h3>Démonstration interactive — Intensité interférométrique</h3>
-      <p class="demo-sub">Faites varier la différence de marche et observez l'intensité résultante.</p>
+      <h3>Animation — Intensité interférométrique</h3>
+      <p class="demo-sub">Faites varier $\delta$ et observez la figure d'interférences en temps réel.</p>
       <div class="slider-row">
         <label>Différence de marche $\delta$ (nm)</label>
-        <input type="range" id="deltaSlider" min="0" max="1200" value="0" oninput="updateInterf()">
+        <input type="range" id="deltaSlider" min="0" max="1400" value="0" oninput="updateInterf()">
         <span class="slider-val" id="deltaVal">0 nm</span>
       </div>
       <div class="slider-row">
@@ -295,57 +289,44 @@
         <input type="range" id="lambdaSlider" min="380" max="780" value="550" oninput="updateInterf()">
         <span class="slider-val" id="lambdaVal">550 nm</span>
       </div>
-      <canvas id="interfCanvas" width="700" height="90"></canvas>
+      <canvas id="interfCanvas" width="760" height="80" style="background:#0a0a0a;border-radius:var(--radius)"></canvas>
       <div class="result-display">
-        <div class="rd-main" id="interfResult">I = 4I₀</div>
-        <div class="rd-label" id="interfType">Interférences constructives — ordre p = 0</div>
+        <div class="rd-main" id="interfResult">I = 4 I₀</div>
+        <div class="rd-label" id="interfType">Interférences constructives — ordre 0</div>
       </div>
     </div>
   </div>
 
-  <!-- SECTION 4 -->
-  <div class="lesson-section" id="fentes-young">
+  <!-- ═══════════════════════════════════════════════
+       4. FENTES D'YOUNG
+  ════════════════════════════════════════════════ -->
+  <div class="lesson-section" id="young-fentes">
     <h2>4. Fentes d'Young</h2>
-    <p>
-      Le dispositif des fentes d'Young est l'expérience historique (Thomas Young, 1801) qui a établi la nature ondulatoire de la lumière. Deux fentes $S_1$ et $S_2$, séparées d'une distance $a$, éclairées par une source cohérente, projettent sur un écran distant de $D$ une figure d'interférences : des franges alternativement brillantes et sombres.
-    </p>
-
-    <div class="def-box">
-      <div class="def-label">Différence de marche aux fentes d'Young</div>
-      <p>Pour un point M situé à la hauteur $x$ sur l'écran (axe $Ox$ perpendiculaire à l'axe optique) :</p>
-    </div>
+    <p>Le dispositif de Thomas Young (1801) est le dispositif de référence en optique ondulatoire. Deux fentes parallèles $S_1$ et $S_2$, séparées d'une distance $a$, sont éclairées par une source cohérente. Sur un écran à distance $D \gg a$, on observe une figure de franges périodiques.</p>
 
     <div class="formula-box">
-      <div class="fb-label">Différence de marche — approximation paraxiale ($x \ll D$)</div>
-      $$\delta = S_2M - S_1M \approx \frac{a \, x}{D}$$
-      <div class="fb-desc">
-        $a$ : écartement des fentes &nbsp;·&nbsp; $D$ : distance fentes–écran &nbsp;·&nbsp; $x$ : position sur l'écran
-      </div>
+      <div class="fb-label">Différence de marche — approximation paraxiale</div>
+      $$\delta(x) = \frac{a\,x}{D}$$
+      <div class="fb-desc">$a$ : écartement des fentes · $D$ : distance fentes–écran · $x$ : position sur l'écran (axe centré sur l'axe optique)</div>
     </div>
-
-    <p>
-      Les franges brillantes (constructives) sont situées aux ordres entiers $p$, et la distance entre deux franges consécutives définit l'<strong>interfrange</strong> $i$ :
-    </p>
 
     <div class="formula-box">
       <div class="fb-label">Interfrange</div>
-      $$i = \frac{\lambda_0 \, D}{a}$$
-      <div class="fb-desc">Plus les fentes sont rapprochées ou plus l'écran est loin, plus les franges sont espacées.</div>
+      $$i = \frac{\lambda_0\,D}{a}$$
+      <div class="fb-desc">Les franges brillantes sont aux positions $x_p = p\,i$, les franges sombres à $x_p = (p+\tfrac{1}{2})\,i$</div>
     </div>
 
     <div class="example-box">
       <div class="ex-header">Exemple numérique</div>
       <div class="ex-body">
-        <p>On éclaire deux fentes espacées de $a = 0{,}5\ \text{mm}$ avec de la lumière verte ($\lambda_0 = 550\ \text{nm}$). L'écran est placé à $D = 1{,}5\ \text{m}$.</p>
-        <p>$$i = \frac{550 \times 10^{-9} \times 1{,}5}{0{,}5 \times 10^{-3}} = 1{,}65 \times 10^{-3}\ \text{m} = 1{,}65\ \text{mm}$$</p>
-        <p>Les franges brillantes sont donc séparées de <strong>1,65 mm</strong>.</p>
+        <p>$a = 0{,}5\ \text{mm}$, $D = 1{,}5\ \text{m}$, $\lambda_0 = 550\ \text{nm}$ (vert) :</p>
+        <p>$$i = \frac{550\times10^{-9}\times 1{,}5}{0{,}5\times10^{-3}} = 1{,}65\ \text{mm}$$</p>
       </div>
     </div>
 
-    <!-- INTERACTIVE DEMO Young -->
     <div class="demo-box">
-      <h3>Fentes d'Young — figure d'interférences</h3>
-      <p class="demo-sub">Ajustez les paramètres pour voir évoluer la figure de franges.</p>
+      <h3>Animation — Fentes d'Young (figure de franges)</h3>
+      <p class="demo-sub">Ajustez les paramètres pour observer la figure d'interférences sur l'écran.</p>
       <div class="slider-row">
         <label>Écartement $a$ (mm)</label>
         <input type="range" id="youngA" min="0.1" max="2.0" step="0.05" value="0.5" oninput="updateYoung()">
@@ -353,7 +334,7 @@
       </div>
       <div class="slider-row">
         <label>Distance $D$ (cm)</label>
-        <input type="range" id="youngD" min="50" max="300" step="10" value="150" oninput="updateYoung()">
+        <input type="range" id="youngD" min="50" max="300" step="5" value="150" oninput="updateYoung()">
         <span class="slider-val" id="youngDVal">150 cm</span>
       </div>
       <div class="slider-row">
@@ -361,188 +342,505 @@
         <input type="range" id="youngL" min="380" max="780" value="550" oninput="updateYoung()">
         <span class="slider-val" id="youngLVal">550 nm</span>
       </div>
-      <canvas id="youngCanvas" width="700" height="120"></canvas>
+      <!-- Schéma dispositif -->
+      <canvas id="youngSchema" width="760" height="110" style="background:var(--bg-tertiary);border-radius:var(--radius);border:.5px solid var(--border)"></canvas>
+      <!-- Figure d'interférences -->
+      <canvas id="youngCanvas" width="760" height="100" style="background:#060606;border-radius:var(--radius);margin-top:6px"></canvas>
       <div class="result-display">
-        <div class="rd-main" id="youngInterfrange">i = 1.65 mm</div>
-        <div class="rd-label">Interfrange $i = \lambda_0 D / a$</div>
+        <div class="rd-grid">
+          <div class="rd-cell"><div class="rc-val" id="youngInterfrange">1.65 mm</div><div class="rc-lbl">Interfrange $i$</div></div>
+          <div class="rd-cell"><div class="rc-val" id="youngNFranges">—</div><div class="rc-lbl">Franges visibles (±7.5 mm)</div></div>
+        </div>
       </div>
     </div>
   </div>
 
-  <!-- SECTION 5 — COMING SOON -->
-  <div class="lesson-section" id="diffraction">
-    <h2>5. Diffraction</h2>
-    <div class="coming-soon-section">
-      <div class="cs-icon">〰</div>
-      <span class="badge-soon">Bientôt disponible</span>
-      <h3>Diffraction par une fente et un réseau</h3>
-      <p>Critère de Rayleigh, figure de diffraction d'une fente simple, réseaux de diffraction, formule des réseaux.</p>
+  <!-- ═══════════════════════════════════════════════
+       5. TROUS D'YOUNG
+  ════════════════════════════════════════════════ -->
+  <div class="lesson-section" id="young-trous">
+    <h2>5. Trous d'Young</h2>
+    <p>La version originale de l'expérience de Young utilisait deux <strong>trous circulaires</strong> (et non des fentes). Chaque trou se comporte comme une source ponctuelle par diffraction. La figure d'interférences est alors bidimensionnelle : sur l'écran, on obtient des <strong>hyperboles</strong> (iso-déphasage), dont on ne voit qu'une frange centrale en pratique. En plus des franges d'interférences, la figure est modulée par la tache de diffraction liée à la taille finie de chaque trou.</p>
+
+    <div class="def-box">
+      <div class="def-label">Différence — fentes vs trous</div>
+      <p>Avec des <em>fentes</em> : extension infinie selon $y$, franges rectilignes. Avec des <em>trous</em> : chaque source est ponctuelle, la figure est 2D. La différence de marche reste $\delta = ax/D$ selon l'axe qui sépare les deux trous, mais la figure est enveloppée par la tache d'Airy de diffraction.</p>
+    </div>
+
+    <div class="demo-box">
+      <h3>Animation — Trous d'Young (figure 2D)</h3>
+      <p class="demo-sub">La figure d'interférences circulaire tient compte de la diffraction par chaque trou.</p>
+      <div class="slider-row">
+        <label>Écartement $a$ (mm)</label>
+        <input type="range" id="trous_a" min="0.2" max="2.0" step="0.1" value="0.8" oninput="drawTrous()">
+        <span class="slider-val" id="trous_aVal">0.8 mm</span>
+      </div>
+      <div class="slider-row">
+        <label>Diamètre des trous $d$ (µm)</label>
+        <input type="range" id="trous_d" min="50" max="400" step="10" value="150" oninput="drawTrous()">
+        <span class="slider-val" id="trous_dVal">150 µm</span>
+      </div>
+      <div class="slider-row">
+        <label>Longueur d'onde $\lambda_0$ (nm)</label>
+        <input type="range" id="trous_l" min="380" max="780" value="520" oninput="drawTrous()">
+        <span class="slider-val" id="trous_lVal">520 nm</span>
+      </div>
+      <canvas id="trousCanvas" width="380" height="380" style="background:#060606;border-radius:var(--radius);display:block;margin:0.75rem auto"></canvas>
+      <div class="result-display">
+        <div class="rd-label">Interfrange (axe horizontal) : <span id="trousInterfrange" style="color:var(--blue);font-weight:600">—</span> · Premier zéro de diffraction : <span id="trousAiry" style="color:var(--blue);font-weight:600">—</span></div>
+      </div>
     </div>
   </div>
 
-  <!-- SECTION 6 — COMING SOON -->
-  <div class="lesson-section" id="polarisation">
-    <h2>6. Polarisation</h2>
-    <div class="coming-soon-section">
-      <div class="cs-icon">↔</div>
-      <span class="badge-soon">Bientôt disponible</span>
-      <h3>Polarisation de la lumière</h3>
-      <p>Onde polarisée rectilignement, loi de Malus, polariseurs, biréfringence, lames retardatrices.</p>
+  <!-- ═══════════════════════════════════════════════
+       6. BIPRISME DE FRESNEL
+  ════════════════════════════════════════════════ -->
+  <div class="lesson-section" id="biprisme">
+    <h2>6. Biprisme de Fresnel</h2>
+    <p>Le biprisme de Fresnel est un prisme à angle faible formé de deux prismes accolés base contre base. Une source ponctuelle $S$ éclaire le biprisme qui, par réfraction, crée deux images virtuelles $S_1$ et $S_2$ cohérentes servant de sources secondaires.</p>
+
+    <h3>Géométrie et écartement des sources virtuelles</h3>
+    <p>Pour un prisme d'angle au sommet $A$ (petit), d'indice $n$, placé à une distance $d$ de la source, les deux images virtuelles sont séparées de :</p>
+
+    <div class="formula-box">
+      <div class="fb-label">Écartement des sources virtuelles</div>
+      $$a = 2\,d\,(n-1)\,A$$
+      <div class="fb-desc">$d$ : distance source–biprisme · $n$ : indice du verre · $A$ : demi-angle du biprisme (rad)</div>
+    </div>
+
+    <p>Une fois les sources virtuelles $S_1S_2$ connues, la figure d'interférences sur l'écran est identique à celle des fentes d'Young, avec le même interfrange $i = \lambda_0 D / a$ ($D$ = distance $S_1S_2$–écran).</p>
+
+    <div class="note-box">
+      <div class="note-label">Avantage pratique</div>
+      <p>Le biprisme réalise la division du front d'onde sans avoir à percer physiquement deux fentes dans un écran opaque. L'intensité lumineuse disponible est bien supérieure.</p>
+    </div>
+
+    <div class="demo-box">
+      <h3>Animation — Biprisme de Fresnel</h3>
+      <p class="demo-sub">Schéma interactif du biprisme et figure de franges résultante.</p>
+      <div class="slider-row">
+        <label>Angle du prisme $A$ (°)</label>
+        <input type="range" id="bip_A" min="0.5" max="5.0" step="0.1" value="2.0" oninput="updateBiprisme()">
+        <span class="slider-val" id="bip_AVal">2.0°</span>
+      </div>
+      <div class="slider-row">
+        <label>Indice $n$</label>
+        <input type="range" id="bip_n" min="1.40" max="1.80" step="0.01" value="1.50" oninput="updateBiprisme()">
+        <span class="slider-val" id="bip_nVal">1.50</span>
+      </div>
+      <div class="slider-row">
+        <label>Distance source–biprisme $d$ (cm)</label>
+        <input type="range" id="bip_d" min="5" max="50" step="1" value="20" oninput="updateBiprisme()">
+        <span class="slider-val" id="bip_dVal">20 cm</span>
+      </div>
+      <div class="slider-row">
+        <label>Distance biprisme–écran $D'$ (cm)</label>
+        <input type="range" id="bip_D" min="20" max="200" step="5" value="100" oninput="updateBiprisme()">
+        <span class="slider-val" id="bip_DVal">100 cm</span>
+      </div>
+      <div class="slider-row">
+        <label>Longueur d'onde $\lambda_0$ (nm)</label>
+        <input type="range" id="bip_l" min="380" max="780" value="589" oninput="updateBiprisme()">
+        <span class="slider-val" id="bip_lVal">589 nm</span>
+      </div>
+      <canvas id="bipSchema" width="760" height="140" style="background:var(--bg-tertiary);border-radius:var(--radius);border:.5px solid var(--border)"></canvas>
+      <canvas id="bipFranges" width="760" height="90" style="background:#060606;border-radius:var(--radius);margin-top:6px"></canvas>
+      <div class="result-display">
+        <div class="rd-grid">
+          <div class="rd-cell"><div class="rc-val" id="bipEcart">—</div><div class="rc-lbl">Écartement $a$ des sources virtuelles</div></div>
+          <div class="rd-cell"><div class="rc-val" id="bipInterfrange">—</div><div class="rc-lbl">Interfrange $i$</div></div>
+        </div>
+      </div>
     </div>
   </div>
 
-  <!-- LESSON NAV -->
+  <!-- NAV BAS DE PAGE -->
   <div class="lesson-nav">
-    <a href="algebre-lineaire.html">← Algèbre linéaire</a>
-    <a href="index.html">Tous les chapitres →</a>
+    <a href="index.html">← Chapitres</a>
+    <a class="next" href="optique-ondulatoire-2.html">Page 2 : Lames &amp; Michelson →</a>
   </div>
 
 </div>
 
-<!-- FOOTER -->
 <footer>
   <div class="footer-logo">Math<span>∑</span>tique</div>
   <p>Site éducatif — Libre et gratuit</p>
-  <p style="font-size:13px;color:var(--text-tertiary);">Fait avec ♥ et beaucoup de π</p>
+  <p style="font-size:13px;color:var(--text-tertiary)">Fait avec ♥ et beaucoup de π</p>
 </footer>
 
 <script>
-  /* ——— INTERFÉRENCES ——— */
-  function wavelengthToRGB(wl) {
-    let r, g, b;
-    if (wl >= 380 && wl < 440) { r = -(wl - 440) / 60; g = 0; b = 1; }
-    else if (wl < 490) { r = 0; g = (wl - 440) / 50; b = 1; }
-    else if (wl < 510) { r = 0; g = 1; b = -(wl - 510) / 20; }
-    else if (wl < 580) { r = (wl - 510) / 70; g = 1; b = 0; }
-    else if (wl < 645) { r = 1; g = -(wl - 645) / 65; b = 0; }
-    else if (wl <= 780) { r = 1; g = 0; b = 0; }
-    else { r = 0; g = 0; b = 0; }
-    const factor = wl < 420 ? 0.3 + 0.7 * (wl - 380) / 40
-                 : wl > 700 ? 0.3 + 0.7 * (780 - wl) / 80 : 1;
-    return [Math.round(255 * r * factor), Math.round(255 * g * factor), Math.round(255 * b * factor)];
+/* ═══════════════════════════════════════════════
+   UTILITAIRES
+════════════════════════════════════════════════ */
+function wlToRGB(wl) {
+  let r,g,b;
+  if(wl>=380&&wl<440){r=-(wl-440)/60;g=0;b=1}
+  else if(wl<490){r=0;g=(wl-440)/50;b=1}
+  else if(wl<510){r=0;g=1;b=-(wl-510)/20}
+  else if(wl<580){r=(wl-510)/70;g=1;b=0}
+  else if(wl<645){r=1;g=-(wl-645)/65;b=0}
+  else{r=1;g=0;b=0}
+  const f=wl<420?0.3+0.7*(wl-380)/40:wl>700?0.3+0.7*(780-wl)/80:1;
+  return[Math.round(255*r*f),Math.round(255*g*f),Math.round(255*b*f)];
+}
+
+/* ═══════════════════════════════════════════════
+   ANIMATION ONDE PLANE
+════════════════════════════════════════════════ */
+let waveT=0, waveAnim=null;
+function drawWave(){
+  const lnm=parseInt(document.getElementById('waveL').value);
+  const spd=parseInt(document.getElementById('waveSpeed').value);
+  document.getElementById('waveLVal').textContent=lnm+' nm';
+  document.getElementById('waveSpeedVal').textContent=spd;
+  const [r,g,b]=wlToRGB(lnm);
+  const canvas=document.getElementById('waveCanvas');
+  const ctx=canvas.getContext('2d');
+  const W=canvas.width,H=canvas.height;
+  ctx.clearRect(0,0,W,H);
+  ctx.fillStyle='#0a0a0a'; ctx.fillRect(0,0,W,H);
+  // draw wave
+  ctx.beginPath();
+  ctx.strokeStyle=`rgb(${r},${g},${b})`;
+  ctx.lineWidth=2.5;
+  const k=2*Math.PI/(W/4);
+  const omega=0.04*spd;
+  for(let x=0;x<W;x++){
+    const y=H/2-35*Math.sin(k*x-omega*waveT);
+    x===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
   }
+  ctx.stroke();
+  // axis
+  ctx.strokeStyle='rgba(255,255,255,0.15)';ctx.lineWidth=1;
+  ctx.beginPath();ctx.moveTo(0,H/2);ctx.lineTo(W,H/2);ctx.stroke();
+  // label
+  ctx.fillStyle='rgba(255,255,255,0.45)';
+  ctx.font='12px DM Sans,sans-serif';
+  ctx.fillText(`λ = ${lnm} nm`,12,18);
+  waveT++;
+  waveAnim=requestAnimationFrame(drawWave);
+}
 
-  function updateInterf() {
-    const delta = parseFloat(document.getElementById('deltaSlider').value);
-    const lambda = parseFloat(document.getElementById('lambdaSlider').value);
-    document.getElementById('deltaVal').textContent = delta.toFixed(0) + ' nm';
-    document.getElementById('lambdaVal').textContent = lambda.toFixed(0) + ' nm';
-
-    const phi = 2 * Math.PI * delta / lambda;
-    const I_rel = Math.pow(Math.cos(phi / 2), 2);
-
-    const canvas = document.getElementById('interfCanvas');
-    const ctx = canvas.getContext('2d');
-    const W = canvas.width, H = canvas.height;
-    ctx.clearRect(0, 0, W, H);
-
-    const [r, g, b] = wavelengthToRGB(lambda);
-    const grad = ctx.createLinearGradient(0, 0, W, 0);
-    for (let x = 0; x <= W; x += 4) {
-      const d_here = (x / W) * 2 * lambda; // 0 to 2λ
-      const phi_here = 2 * Math.PI * d_here / lambda;
-      const I_here = Math.pow(Math.cos(phi_here / 2), 2);
-      const alpha = I_here;
-      grad.addColorStop(x / W, `rgba(${r},${g},${b},${alpha.toFixed(3)})`);
-    }
-    ctx.fillStyle = grad;
-    ctx.fillRect(0, 0, W, H);
-
-    // Marker
-    const markerX = (delta / (2 * lambda)) * W;
-    ctx.strokeStyle = 'white';
-    ctx.lineWidth = 2;
-    ctx.setLineDash([4, 4]);
-    ctx.beginPath();
-    ctx.moveTo(markerX, 0);
-    ctx.lineTo(markerX, H);
-    ctx.stroke();
-    ctx.setLineDash([]);
-
-    const p = Math.round(delta / lambda);
-    const remainder = Math.abs(delta / lambda - p);
-    let typeText;
-    if (remainder < 0.05) typeText = `Interférences constructives — ordre p = ${p}`;
-    else if (Math.abs(remainder - 0.5) < 0.05) typeText = `Interférences destructives — ordre p = ${p}`;
-    else typeText = 'Interférences partielles';
-
-    document.getElementById('interfResult').textContent =
-      `I = ${(4 * I_rel).toFixed(2)} I₀`;
-    document.getElementById('interfType').textContent = typeText;
-
-    if (window.renderMathInElement) {
-      renderMathInElement(document.getElementById('interfResult'), {
-        delimiters: [{left:'$',right:'$',display:false}]
-      });
-    }
-  }
-
-  /* ——— FENTES D'YOUNG ——— */
-  function updateYoung() {
-    const a = parseFloat(document.getElementById('youngA').value) * 1e-3; // m
-    const D = parseFloat(document.getElementById('youngD').value) * 1e-2; // m
-    const lambda = parseFloat(document.getElementById('youngL').value) * 1e-9; // m
-
-    document.getElementById('youngAVal').textContent = (a * 1e3).toFixed(2) + ' mm';
-    document.getElementById('youngDVal').textContent = (D * 100).toFixed(0) + ' cm';
-    document.getElementById('youngLVal').textContent = (lambda * 1e9).toFixed(0) + ' nm';
-
-    const i = lambda * D / a; // interfrange en m
-    document.getElementById('youngInterfrange').textContent = 'i = ' + (i * 1e3).toFixed(2) + ' mm';
-
-    const canvas = document.getElementById('youngCanvas');
-    const ctx = canvas.getContext('2d');
-    const W = canvas.width, H = canvas.height;
-    ctx.clearRect(0, 0, W, H);
-
-    // Dark background
-    ctx.fillStyle = '#0a0a0a';
-    ctx.fillRect(0, 0, W, H);
-
-    const [r, g, b] = wavelengthToRGB(lambda * 1e9);
-    const screenWidth = 15e-3; // ±7.5 mm displayed
-    const imgData = ctx.createImageData(W, H);
-
-    for (let px = 0; px < W; px++) {
-      const x = (px / W - 0.5) * screenWidth;
-      const delta = a * x / D;
-      const phi = 2 * Math.PI * delta / lambda;
-      const intensity = Math.pow(Math.cos(phi / 2), 2);
-      for (let py = 0; py < H; py++) {
-        const idx = (py * W + px) * 4;
-        imgData.data[idx]     = Math.round(r * intensity);
-        imgData.data[idx + 1] = Math.round(g * intensity);
-        imgData.data[idx + 2] = Math.round(b * intensity);
-        imgData.data[idx + 3] = 255;
-      }
-    }
-    ctx.putImageData(imgData, 0, 0);
-
-    // Tick marks
-    ctx.fillStyle = 'rgba(255,255,255,0.6)';
-    ctx.font = '10px DM Sans, sans-serif';
-    ctx.textAlign = 'center';
-    for (let p = -3; p <= 3; p++) {
-      const xPos = (p * i / screenWidth + 0.5) * W;
-      if (xPos >= 0 && xPos <= W) {
-        ctx.fillRect(xPos - 0.5, H - 12, 1, 12);
-        ctx.fillText('p=' + p, xPos, H - 14);
-      }
+/* ═══════════════════════════════════════════════
+   INTERFÉRENCES GÉNÉRALES
+════════════════════════════════════════════════ */
+function updateInterf(){
+  const delta=parseFloat(document.getElementById('deltaSlider').value);
+  const lnm=parseFloat(document.getElementById('lambdaSlider').value);
+  document.getElementById('deltaVal').textContent=delta.toFixed(0)+' nm';
+  document.getElementById('lambdaVal').textContent=lnm.toFixed(0)+' nm';
+  const phi=2*Math.PI*delta/lnm;
+  const Irel=Math.pow(Math.cos(phi/2),2);
+  const [r,g,b]=wlToRGB(lnm);
+  const canvas=document.getElementById('interfCanvas');
+  const ctx=canvas.getContext('2d');
+  const W=canvas.width,H=canvas.height;
+  ctx.clearRect(0,0,W,H);
+  ctx.fillStyle='#0a0a0a';ctx.fillRect(0,0,W,H);
+  // draw fringe pattern over 3 lambdas
+  const imgData=ctx.createImageData(W,H);
+  for(let px=0;px<W;px++){
+    const d=(px/W)*3*lnm;
+    const ph=2*Math.PI*d/lnm;
+    const I=Math.pow(Math.cos(ph/2),2);
+    for(let py=0;py<H;py++){
+      const idx=(py*W+px)*4;
+      imgData.data[idx]=Math.round(r*I);
+      imgData.data[idx+1]=Math.round(g*I);
+      imgData.data[idx+2]=Math.round(b*I);
+      imgData.data[idx+3]=255;
     }
   }
+  ctx.putImageData(imgData,0,0);
+  // marker
+  const mx=(delta/(3*lnm))*W;
+  ctx.strokeStyle='white';ctx.lineWidth=1.5;ctx.setLineDash([4,4]);
+  ctx.beginPath();ctx.moveTo(mx,0);ctx.lineTo(mx,H);ctx.stroke();
+  ctx.setLineDash([]);
+  const p=Math.round(delta/lnm);
+  const rem=Math.abs(delta/lnm-p);
+  let txt=rem<0.07?`Constructives — ordre p=${p}`:Math.abs(rem-0.5)<0.07?`Destructives — ordre p=${p}`:'Interférences partielles';
+  document.getElementById('interfResult').textContent=`I = ${(4*Irel).toFixed(2)} I₀`;
+  document.getElementById('interfType').textContent=txt;
+}
 
-  // Init
-  document.addEventListener('DOMContentLoaded', () => {
-    setTimeout(() => {
-      updateInterf();
-      updateYoung();
-      if (window.renderMathInElement) {
-        renderMathInElement(document.body, {
-          delimiters: [{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]
-        });
-      }
-    }, 300);
-  });
+/* ═══════════════════════════════════════════════
+   FENTES D'YOUNG
+════════════════════════════════════════════════ */
+function updateYoung(){
+  const a=parseFloat(document.getElementById('youngA').value)*1e-3;
+  const D=parseFloat(document.getElementById('youngD').value)*1e-2;
+  const lnm=parseFloat(document.getElementById('youngL').value);
+  const lambda=lnm*1e-9;
+  document.getElementById('youngAVal').textContent=(a*1e3).toFixed(2)+' mm';
+  document.getElementById('youngDVal').textContent=(D*100).toFixed(0)+' cm';
+  document.getElementById('youngLVal').textContent=lnm.toFixed(0)+' nm';
+  const i=lambda*D/a;
+  const screenW=15e-3;
+  const nFr=Math.floor(screenW/i);
+  document.getElementById('youngInterfrange').textContent=(i*1e3).toFixed(2)+' mm';
+  document.getElementById('youngNFranges').textContent=String(2*nFr+1);
+  const [r,g,b]=wlToRGB(lnm);
+  // Schéma dispositif
+  const sc=document.getElementById('youngSchema');
+  const sc_ctx=sc.getContext('2d');
+  const SW=sc.width,SH=sc.height;
+  sc_ctx.clearRect(0,0,SW,SH);
+  // background
+  const isDark=window.matchMedia('(prefers-color-scheme:dark)').matches;
+  sc_ctx.fillStyle=isDark?'#222220':'#f0efe9';
+  sc_ctx.fillRect(0,0,SW,SH);
+  // Axe optique
+  sc_ctx.strokeStyle='rgba(128,128,128,0.3)';sc_ctx.lineWidth=1;sc_ctx.setLineDash([4,4]);
+  sc_ctx.beginPath();sc_ctx.moveTo(0,SH/2);sc_ctx.lineTo(SW,SH/2);sc_ctx.stroke();
+  sc_ctx.setLineDash([]);
+  // Source S
+  sc_ctx.fillStyle=`rgb(${r},${g},${b})`;
+  sc_ctx.beginPath();sc_ctx.arc(30,SH/2,7,0,2*Math.PI);sc_ctx.fill();
+  sc_ctx.fillStyle=isDark?'#f0efe9':'#1a1a1a';sc_ctx.font='12px DM Sans,sans-serif';sc_ctx.textAlign='center';
+  sc_ctx.fillText('S',30,SH/2-14);
+  // Plan des fentes
+  const fentesX=220;
+  sc_ctx.strokeStyle=isDark?'#aaa':'#555';sc_ctx.lineWidth=3;
+  // Partie haute écran
+  sc_ctx.beginPath();sc_ctx.moveTo(fentesX,0);sc_ctx.lineTo(fentesX,SH/2-18);sc_ctx.stroke();
+  // Partie basse écran
+  sc_ctx.beginPath();sc_ctx.moveTo(fentesX,SH/2+18);sc_ctx.lineTo(fentesX,SH);sc_ctx.stroke();
+  // Labels fentes
+  sc_ctx.fillStyle=isDark?'#aaa':'#666';sc_ctx.font='11px DM Sans,sans-serif';
+  sc_ctx.fillText('S₁',fentesX+10,SH/2-20);
+  sc_ctx.fillText('S₂',fentesX+10,SH/2+30);
+  sc_ctx.fillText('a',fentesX-14,SH/2);
+  // Rayons de S vers fentes
+  sc_ctx.strokeStyle=`rgba(${r},${g},${b},0.5)`;sc_ctx.lineWidth=1;
+  sc_ctx.beginPath();sc_ctx.moveTo(30,SH/2);sc_ctx.lineTo(fentesX,SH/2-18);sc_ctx.stroke();
+  sc_ctx.beginPath();sc_ctx.moveTo(30,SH/2);sc_ctx.lineTo(fentesX,SH/2+18);sc_ctx.stroke();
+  // Écran
+  const ecranX=680;
+  sc_ctx.strokeStyle=isDark?'#888':'#888';sc_ctx.lineWidth=3;
+  sc_ctx.beginPath();sc_ctx.moveTo(ecranX,0);sc_ctx.lineTo(ecranX,SH);sc_ctx.stroke();
+  sc_ctx.fillStyle=isDark?'#aaa':'#666';sc_ctx.font='11px DM Sans,sans-serif';
+  sc_ctx.fillText('Écran',ecranX+8,16);
+  // Rayons vers écran
+  sc_ctx.strokeStyle=`rgba(${r},${g},${b},0.3)`;sc_ctx.lineWidth=1;
+  sc_ctx.beginPath();sc_ctx.moveTo(fentesX,SH/2-18);sc_ctx.lineTo(ecranX,SH/2);sc_ctx.stroke();
+  sc_ctx.beginPath();sc_ctx.moveTo(fentesX,SH/2+18);sc_ctx.lineTo(ecranX,SH/2);sc_ctx.stroke();
+  // Distance D
+  sc_ctx.strokeStyle='rgba(128,128,128,0.5)';sc_ctx.lineWidth=1;sc_ctx.setLineDash([3,3]);
+  sc_ctx.beginPath();sc_ctx.moveTo(fentesX,SH-14);sc_ctx.lineTo(ecranX,SH-14);sc_ctx.stroke();
+  sc_ctx.setLineDash([]);
+  sc_ctx.fillStyle=isDark?'#aaa':'#666';sc_ctx.textAlign='center';
+  sc_ctx.fillText('D = '+(D*100).toFixed(0)+' cm',(fentesX+ecranX)/2,SH-2);
+
+  // Figure de franges
+  const canvas=document.getElementById('youngCanvas');
+  const ctx=canvas.getContext('2d');
+  const W=canvas.width,H=canvas.height;
+  ctx.clearRect(0,0,W,H);
+  ctx.fillStyle='#060606';ctx.fillRect(0,0,W,H);
+  const imgData=ctx.createImageData(W,H);
+  for(let px=0;px<W;px++){
+    const x=(px/W-0.5)*screenW;
+    const delta_here=a*x/D;
+    const ph=2*Math.PI*delta_here/lambda;
+    const I=Math.pow(Math.cos(ph/2),2);
+    for(let py=0;py<H;py++){
+      const idx=(py*W+px)*4;
+      imgData.data[idx]=Math.round(r*I);
+      imgData.data[idx+1]=Math.round(g*I);
+      imgData.data[idx+2]=Math.round(b*I);
+      imgData.data[idx+3]=255;
+    }
+  }
+  ctx.putImageData(imgData,0,0);
+  ctx.fillStyle='rgba(255,255,255,0.55)';ctx.font='10px DM Sans,sans-serif';ctx.textAlign='center';
+  for(let p=-4;p<=4;p++){
+    const xPos=(p*i/screenW+0.5)*W;
+    if(xPos>=4&&xPos<=W-4){
+      ctx.fillRect(xPos-.5,H-10,1,10);
+      if(p!==0)ctx.fillText('p='+p,xPos,H-12);
+      else{ctx.fillStyle='white';ctx.fillText('0',xPos,H-12);ctx.fillStyle='rgba(255,255,255,0.55)';}
+    }
+  }
+}
+
+/* ═══════════════════════════════════════════════
+   TROUS D'YOUNG 2D
+════════════════════════════════════════════════ */
+function drawTrous(){
+  const a=parseFloat(document.getElementById('trous_a').value)*1e-3;
+  const d=parseFloat(document.getElementById('trous_d').value)*1e-6;
+  const lnm=parseFloat(document.getElementById('trous_l').value);
+  const lambda=lnm*1e-9;
+  const D=1.5; // écran à 1.5m fixe
+  document.getElementById('trous_aVal').textContent=(a*1e3).toFixed(1)+' mm';
+  document.getElementById('trous_dVal').textContent=(d*1e6).toFixed(0)+' µm';
+  document.getElementById('trous_lVal').textContent=lnm.toFixed(0)+' nm';
+  const i_m=lambda*D/a;
+  const r_airy=1.22*lambda*D/d;
+  document.getElementById('trousInterfrange').textContent=(i_m*1e3).toFixed(2)+' mm';
+  document.getElementById('trousAiry').textContent=(r_airy*1e3).toFixed(1)+' mm';
+  const [rv,gv,bv]=wlToRGB(lnm);
+  const canvas=document.getElementById('trousCanvas');
+  const ctx=canvas.getContext('2d');
+  const W=canvas.width,H=canvas.height;
+  const screenSz=20e-3; // ±10mm
+  const imgData=ctx.createImageData(W,H);
+  for(let py=0;py<H;py++){
+    for(let px=0;px<W;px++){
+      const x=(px/W-0.5)*screenSz;
+      const y=(py/H-0.5)*screenSz;
+      // Interférences
+      const delta_int=a*x/D;
+      const phi_int=2*Math.PI*delta_int/lambda;
+      const I_int=Math.pow(Math.cos(phi_int/2),2);
+      // Diffraction (tache d'Airy)
+      const r2=Math.sqrt(x*x+y*y);
+      const u=Math.PI*d*r2/(lambda*D);
+      let I_diff;
+      if(u<1e-8){I_diff=1;}
+      else{const j1=besselJ1(u);I_diff=Math.pow(2*j1/u,2);}
+      const I=I_int*I_diff;
+      const idx=(py*W+px)*4;
+      imgData.data[idx]=Math.round(rv*I);
+      imgData.data[idx+1]=Math.round(gv*I);
+      imgData.data[idx+2]=Math.round(bv*I);
+      imgData.data[idx+3]=255;
+    }
+  }
+  ctx.putImageData(imgData,0,0);
+}
+
+function besselJ1(x){
+  // Approximation de J1(x) via polynôme
+  if(x<=3){
+    const t=x/3;const t2=t*t;
+    return x*(0.5-0.56249985*t2+0.21093573*t2*t2-0.03954289*Math.pow(t2,3)+0.00443319*Math.pow(t2,4)-0.00031761*Math.pow(t2,5)+0.00001109*Math.pow(t2,6));
+  }
+  const z=3/x;const theta1=x-2.35619449+z*(0.79788456+z*(-0.00000077+z*(-0.00552740+z*(-0.00009512+z*(0.00137237+z*(-0.00072805+z*0.00014476))))));
+  return Math.sqrt(0.63661977/x)*Math.cos(theta1);
+}
+
+/* ═══════════════════════════════════════════════
+   BIPRISME DE FRESNEL
+════════════════════════════════════════════════ */
+function updateBiprisme(){
+  const A_deg=parseFloat(document.getElementById('bip_A').value);
+  const n=parseFloat(document.getElementById('bip_n').value);
+  const d=parseFloat(document.getElementById('bip_d').value)*1e-2;
+  const Dp=parseFloat(document.getElementById('bip_D').value)*1e-2;
+  const lnm=parseFloat(document.getElementById('bip_l').value);
+  const lambda=lnm*1e-9;
+  document.getElementById('bip_AVal').textContent=A_deg.toFixed(1)+'°';
+  document.getElementById('bip_nVal').textContent=n.toFixed(2);
+  document.getElementById('bip_dVal').textContent=(d*100).toFixed(0)+' cm';
+  document.getElementById('bip_DVal').textContent=(Dp*100).toFixed(0)+' cm';
+  document.getElementById('bip_lVal').textContent=lnm.toFixed(0)+' nm';
+  const A_rad=A_deg*Math.PI/180;
+  const a=2*d*(n-1)*A_rad; // écartement sources virtuelles
+  const i=lambda*(d+Dp)/a;
+  document.getElementById('bipEcart').textContent=(a*1e3).toFixed(3)+' mm';
+  document.getElementById('bipInterfrange').textContent=(i*1e3).toFixed(2)+' mm';
+  const [rv,gv,bv]=wlToRGB(lnm);
+  const isDark=window.matchMedia('(prefers-color-scheme:dark)').matches;
+  // Schéma
+  const sc=document.getElementById('bipSchema');
+  const ctx=sc.getContext('2d');
+  const SW=sc.width,SH=sc.height;
+  ctx.clearRect(0,0,SW,SH);
+  ctx.fillStyle=isDark?'#222220':'#f0efe9';ctx.fillRect(0,0,SW,SH);
+  // axe
+  ctx.strokeStyle='rgba(128,128,128,0.25)';ctx.lineWidth=1;ctx.setLineDash([4,4]);
+  ctx.beginPath();ctx.moveTo(0,SH/2);ctx.lineTo(SW,SH/2);ctx.stroke();
+  ctx.setLineDash([]);
+  // Source
+  ctx.fillStyle=`rgb(${rv},${gv},${bv})`;ctx.beginPath();ctx.arc(25,SH/2,7,0,2*Math.PI);ctx.fill();
+  ctx.fillStyle=isDark?'#f0efe9':'#1a1a1a';ctx.font='12px DM Sans,sans-serif';ctx.textAlign='center';
+  ctx.fillText('S',25,SH/2-14);
+  // Biprisme (triangle double)
+  const bx=200;
+  ctx.fillStyle=`rgba(${rv},${gv},${bv},0.18)`;
+  ctx.beginPath();
+  ctx.moveTo(bx,SH/2);           // sommet
+  ctx.lineTo(bx-30,SH/2-40);     // haut gauche
+  ctx.lineTo(bx-30,SH/2);        // bas gauche haut
+  ctx.closePath();ctx.fill();
+  ctx.beginPath();
+  ctx.moveTo(bx,SH/2);
+  ctx.lineTo(bx-30,SH/2);
+  ctx.lineTo(bx-30,SH/2+40);
+  ctx.closePath();ctx.fill();
+  ctx.strokeStyle=isDark?'#93C2F0':'#185FA5';ctx.lineWidth=1.5;
+  ctx.beginPath();ctx.moveTo(bx,SH/2);ctx.lineTo(bx-30,SH/2-40);ctx.lineTo(bx-30,SH/2+40);ctx.lineTo(bx,SH/2);ctx.stroke();
+  ctx.fillStyle=isDark?'#93C2F0':'#185FA5';ctx.font='11px DM Sans,sans-serif';ctx.textAlign='center';
+  ctx.fillText('Biprisme',bx-15,SH-8);
+  // Sources virtuelles
+  const vx=80;
+  const va=40; // hauteur visuelle fixe
+  ctx.fillStyle=`rgba(${rv},${gv},${bv},0.5)`;
+  ctx.beginPath();ctx.arc(vx,SH/2-va,5,0,2*Math.PI);ctx.fill();
+  ctx.beginPath();ctx.arc(vx,SH/2+va,5,0,2*Math.PI);ctx.fill();
+  ctx.setLineDash([3,3]);ctx.strokeStyle=`rgba(${rv},${gv},${bv},0.35)`;ctx.lineWidth=1;
+  ctx.beginPath();ctx.moveTo(25,SH/2);ctx.lineTo(vx,SH/2-va);ctx.stroke();
+  ctx.beginPath();ctx.moveTo(25,SH/2);ctx.lineTo(vx,SH/2+va);ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.fillStyle=isDark?'#aaa':'#666';ctx.font='11px DM Sans,sans-serif';ctx.textAlign='left';
+  ctx.fillText('S₁',vx+6,SH/2-va-6);ctx.fillText('S₂',vx+6,SH/2+va+14);
+  // Rayons vers écran
+  const ex=690;
+  ctx.strokeStyle=`rgba(${rv},${gv},${bv},0.3)`;ctx.lineWidth=1;
+  ctx.beginPath();ctx.moveTo(bx,SH/2);ctx.lineTo(ex,SH/2-50);ctx.stroke();
+  ctx.beginPath();ctx.moveTo(bx,SH/2);ctx.lineTo(ex,SH/2+50);ctx.stroke();
+  // Écran
+  ctx.strokeStyle=isDark?'#888':'#888';ctx.lineWidth=3;
+  ctx.beginPath();ctx.moveTo(ex,0);ctx.lineTo(ex,SH);ctx.stroke();
+  ctx.fillStyle=isDark?'#aaa':'#666';ctx.font='11px DM Sans,sans-serif';ctx.textAlign='left';
+  ctx.fillText('Écran',ex+6,16);
+
+  // Figure de franges
+  const fc=document.getElementById('bipFranges');
+  const fctx=fc.getContext('2d');
+  const W=fc.width,H=fc.height;
+  const screenSz=12e-3;
+  const imgData=fctx.createImageData(W,H);
+  for(let px=0;px<W;px++){
+    const x=(px/W-0.5)*screenSz;
+    const delta_fr=a*x/(d+Dp);
+    // Utilise la distance totale S1S2 → écran = d + Dp
+    const ph=2*Math.PI*delta_fr/lambda;
+    const I=Math.pow(Math.cos(ph/2),2);
+    for(let py=0;py<H;py++){
+      const idx=(py*W+px)*4;
+      imgData.data[idx]=Math.round(rv*I);
+      imgData.data[idx+1]=Math.round(gv*I);
+      imgData.data[idx+2]=Math.round(bv*I);
+      imgData.data[idx+3]=255;
+    }
+  }
+  fctx.putImageData(imgData,0,0);
+  fctx.fillStyle='rgba(255,255,255,0.5)';fctx.font='10px DM Sans,sans-serif';fctx.textAlign='center';
+  for(let p=-5;p<=5;p++){
+    const xPos=(p*i/screenSz+0.5)*W;
+    if(xPos>=4&&xPos<=W-4){
+      fctx.fillRect(xPos-.5,H-8,1,8);
+    }
+  }
+}
+
+/* ═══════════════════════════════════════════════
+   INIT
+════════════════════════════════════════════════ */
+document.addEventListener('DOMContentLoaded',()=>{
+  setTimeout(()=>{
+    drawWave();
+    updateInterf();
+    updateYoung();
+    drawTrous();
+    updateBiprisme();
+    if(window.renderMathInElement)
+      renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]});
+  },350);
+});
 </script>
 </body>
 </html>
