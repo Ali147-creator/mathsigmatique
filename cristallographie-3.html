@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cristallographie (3/4) — MathΣtique</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"/>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]})"></script>
+  <style>
+    :root{--teal:#0E7490;--teal-light:#E0F7FA;--teal-dark:#065a6b;--green:#1D9E75;--green-light:#E1F5EE;--green-dark:#0F6E56;--amber:#BA7517;--amber-light:#FAEEDA;--amber-dark:#854F0B;--text:#1a1a1a;--text-secondary:#666;--text-tertiary:#999;--bg:#ffffff;--bg-secondary:#f7f6f2;--bg-tertiary:#f0efe9;--border:rgba(0,0,0,0.1);--border-hover:rgba(0,0,0,0.22);--radius:12px;--radius-lg:16px}
+    @media(prefers-color-scheme:dark){:root{--text:#f0efe9;--text-secondary:#aaa;--text-tertiary:#666;--bg:#111110;--bg-secondary:#1a1a18;--bg-tertiary:#222220;--border:rgba(255,255,255,0.1);--border-hover:rgba(255,255,255,0.22);--teal-light:#042830;--green-light:#0a2e26;--amber-light:#2a1e08}}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{font-family:'DM Sans',sans-serif;color:var(--text);background:var(--bg);line-height:1.6;font-size:16px}
+    nav{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:.9rem 2rem;background:var(--bg);border-bottom:.5px solid var(--border);backdrop-filter:blur(8px)}
+    .nav-logo{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--text);text-decoration:none}.nav-logo span{color:var(--green)}
+    .nav-right{display:flex;align-items:center;gap:10px}
+    .btn-back{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--text-secondary);text-decoration:none;padding:6px 13px;border:.5px solid var(--border-hover);border-radius:8px;transition:background .2s}
+    .btn-back:hover{background:var(--bg-secondary);color:var(--text)}
+    .page-badge{font-size:12px;color:var(--text-tertiary);background:var(--bg-secondary);padding:4px 10px;border-radius:20px;border:.5px solid var(--border)}
+    .page{max-width:860px;margin:0 auto;padding:3rem 2rem 5rem}
+    .breadcrumb{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--text-tertiary);margin-bottom:2rem;flex-wrap:wrap}
+    .breadcrumb a{color:var(--text-secondary);text-decoration:none}.breadcrumb a:hover{color:var(--text)}
+    .lesson-cat{display:inline-block;font-size:12px;font-weight:500;color:var(--teal-dark);background:var(--teal-light);padding:4px 12px;border-radius:20px;margin-bottom:1rem}
+    .lesson-title{font-family:'Playfair Display',serif;font-size:clamp(26px,4vw,38px);font-weight:700;line-height:1.15;margin-bottom:.75rem}
+    .page-strip{display:flex;gap:8px;margin-bottom:2.5rem;flex-wrap:wrap}
+    .pg-btn{display:inline-flex;align-items:center;font-size:13px;font-weight:500;padding:7px 15px;border-radius:8px;text-decoration:none;border:.5px solid var(--border);color:var(--text-secondary);transition:all .2s}
+    .pg-btn:hover{background:var(--bg-secondary);border-color:var(--border-hover);color:var(--text)}
+    .pg-btn.active{background:var(--teal);border-color:var(--teal);color:#fff}
+    .toc{background:var(--bg-secondary);border:.5px solid var(--border);border-radius:var(--radius);padding:1.25rem 1.5rem;margin-bottom:3rem}
+    .toc-title{font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:.08em;color:var(--text-tertiary);margin-bottom:.75rem}
+    .toc ol{padding-left:1.25rem}.toc li{font-size:14px;margin:5px 0}.toc a{color:var(--teal);text-decoration:none}.toc a:hover{text-decoration:underline}
+    .lesson-section{margin-bottom:3.5rem}
+    .lesson-section h2{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;margin-bottom:1.25rem;padding-bottom:.6rem;border-bottom:.5px solid var(--border)}
+    .lesson-section h3{font-size:17px;font-weight:600;margin:1.75rem 0 .75rem}
+    .lesson-section p{font-size:15px;line-height:1.85;margin-bottom:1rem}
+    .def-box{background:var(--teal-light);border-left:3px solid var(--teal);border-radius:0 var(--radius) var(--radius) 0;padding:1.25rem 1.5rem;margin:1.25rem 0}
+    .def-box .def-label{font-size:11px;font-weight:500;color:var(--teal-dark);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px}
+    .def-box p{font-size:14px;line-height:1.75;margin:0}
+    .formula-box{background:var(--bg-secondary);border:.5px solid var(--border);border-radius:var(--radius);padding:1.5rem;margin:1.25rem 0;text-align:center}
+    .formula-box .fb-label{font-size:12px;color:var(--text-secondary);margin-bottom:.75rem}
+    .formula-box .fb-desc{font-size:12px;color:var(--text-secondary);margin-top:.75rem;line-height:1.6}
+    .note-box{background:var(--amber-light);border-left:3px solid var(--amber);border-radius:0 var(--radius) var(--radius) 0;padding:1rem 1.5rem;margin:1.25rem 0}
+    .note-box .note-label{font-size:11px;font-weight:500;color:var(--amber-dark);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px}
+    .note-box p{font-size:14px;color:var(--amber-dark);margin:0;line-height:1.7}
+    .example-box{border:.5px solid var(--border);border-radius:var(--radius);overflow:hidden;margin:1.25rem 0}
+    .example-box .ex-header{background:var(--bg-secondary);padding:10px 1.25rem;font-size:12px;font-weight:500;color:var(--text-secondary);text-transform:uppercase;letter-spacing:.07em;border-bottom:.5px solid var(--border)}
+    .example-box .ex-body{padding:1.25rem;font-size:14px;line-height:1.85}
+    .example-box .ex-body p{margin-bottom:.6rem}
+    .prop-list{background:var(--bg-secondary);border:.5px solid var(--border);border-radius:var(--radius);padding:1.25rem 1.5rem;margin:1.25rem 0}
+    .prop-list .pl-title{font-size:13px;font-weight:500;color:var(--text-secondary);margin-bottom:1rem;text-transform:uppercase;letter-spacing:.06em}
+    .prop-list table{width:100%;border-collapse:collapse}
+    .prop-list td,.prop-list th{font-size:14px;padding:9px 12px;border-bottom:.5px solid var(--border);vertical-align:middle}
+    .prop-list th{background:var(--bg-tertiary);font-weight:600;font-size:13px}
+    .prop-list tr:last-child td{border-bottom:none}
+    .prop-list td:first-child{color:var(--text-secondary);width:30%}
+    .demo-box{background:var(--bg-secondary);border:.5px solid var(--border);border-radius:var(--radius-lg);padding:1.75rem;margin:1.5rem 0}
+    .demo-box h3{font-size:16px;font-weight:600;margin-bottom:.35rem}
+    .demo-box .demo-sub{font-size:13px;color:var(--text-secondary);margin-bottom:1.25rem}
+    .controls{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:1rem}
+    .ctrl-btn{padding:6px 14px;border-radius:8px;border:.5px solid var(--border);background:var(--bg);font-size:13px;font-weight:500;cursor:pointer;color:var(--text);transition:all .2s;font-family:inherit}
+    .ctrl-btn:hover{border-color:var(--border-hover);background:var(--bg-tertiary)}
+    .ctrl-btn.active{background:var(--teal);border-color:var(--teal);color:#fff}
+    .slider-row{display:flex;align-items:center;gap:10px;margin:8px 0}
+    .slider-row label{font-size:13px;color:var(--text-secondary);width:200px;flex-shrink:0}
+    .slider-row input[type=range]{flex:1;accent-color:var(--teal)}
+    .slider-val{font-size:13px;font-weight:500;min-width:65px;text-align:right;font-variant-numeric:tabular-nums}
+    .result-display{background:var(--bg);border-radius:10px;padding:1rem 1.25rem;margin-top:1.25rem;border:.5px solid var(--border)}
+    .rd-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px}
+    .rd-cell{background:var(--bg-secondary);border-radius:8px;padding:10px 12px;text-align:center}
+    .rc-val{font-family:'Playfair Display',serif;font-size:17px;color:var(--teal);font-weight:700}
+    .rc-lbl{font-size:11px;color:var(--text-secondary);margin-top:3px}
+    canvas{display:block;margin:.75rem auto 0;border-radius:var(--radius);max-width:100%}
+    .lesson-nav{display:flex;justify-content:space-between;align-items:center;margin-top:4rem;padding-top:2rem;border-top:.5px solid var(--border);flex-wrap:wrap;gap:1rem}
+    .lesson-nav a{display:inline-flex;align-items:center;gap:6px;font-size:14px;color:var(--text-secondary);text-decoration:none;padding:9px 18px;border:.5px solid var(--border);border-radius:8px;transition:background .2s;font-weight:500}
+    .lesson-nav a:hover{background:var(--bg-secondary);color:var(--text)}
+    .lesson-nav a.next{background:var(--teal);color:#fff;border-color:var(--teal)}
+    .lesson-nav a.next:hover{opacity:.88}
+    footer{border-top:.5px solid var(--border);padding:1.75rem 2rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+    .footer-logo{font-family:'Playfair Display',serif;font-size:18px;font-weight:700}.footer-logo span{color:var(--green)}
+    footer p{font-size:13px;color:var(--text-secondary)}
+    @media(max-width:768px){.page{padding:2rem 1.25rem 4rem}.slider-row label{width:130px}}
+  </style>
+</head>
+<body>
+<nav>
+  <a class="nav-logo" href="index.html">Math<span>∑</span>tique</a>
+  <div class="nav-right">
+    <span class="page-badge">Page 3 / 4</span>
+    <a class="btn-back" href="index.html">← Chapitres</a>
+  </div>
+</nav>
+<div class="page">
+  <div class="breadcrumb">
+    <a href="index.html">Accueil</a><span>›</span>
+    <a href="cristallographie.html">Cristallographie</a><span>›</span>
+    <span style="color:var(--text)">Diffraction &amp; Bragg</span>
+  </div>
+  <span class="lesson-cat">Licence · Sciences des matériaux</span>
+  <h1 class="lesson-title">Cristallographie — Page 3</h1>
+  <div class="page-strip">
+    <a class="pg-btn" href="cristallographie.html">1 · Réseaux &amp; Mailles</a>
+    <a class="pg-btn" href="cristallographie-2.html">2 · Systèmes &amp; Empilement</a>
+    <a class="pg-btn active" href="cristallographie-3.html">3 · Diffraction &amp; Bragg</a>
+    <a class="pg-btn" href="cristallographie-4.html">4 · Défauts &amp; Propriétés</a>
+  </div>
+  <div class="toc">
+    <div class="toc-title">Table des matières — Page 3</div>
+    <ol>
+      <li><a href="#rayons-x">Rayons X et cristaux — principe</a></li>
+      <li><a href="#bragg">Loi de Bragg</a></li>
+      <li><a href="#ewald">Construction d'Ewald et réseau réciproque</a></li>
+      <li><a href="#facteur">Facteur de structure et règles d'extinction</a></li>
+      <li><a href="#diffractogramme">Diffractogramme DRX et indexation</a></li>
+      <li><a href="#methodes">Méthodes de diffraction</a></li>
+    </ol>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       1. RAYONS X
+  ══════════════════════════════════════════ -->
+  <div class="lesson-section" id="rayons-x">
+    <h2>1. Rayons X et cristaux — principe</h2>
+    <p>La diffraction des rayons X (DRX) est la technique d'analyse structurale la plus puissante pour les matériaux cristallins. Elle repose sur l'interaction entre un faisceau de rayons X monochromatiques et les plans réticulaires du cristal. Depuis la découverte par von Laue en 1912, elle a permis de résoudre des milliers de structures cristallines, des simples sels aux protéines les plus complexes.</p>
+    <p>Les rayons X ont des longueurs d'onde typiquement entre $0{,}5$ et $2{,}5\ \text{Å}$ — comparable aux distances interatomiques dans les cristaux ($1 \text{–} 5\ \text{Å}$). C'est cette coïncidence d'échelle qui rend possible la diffraction : les plans atomiques jouent le rôle d'un réseau de diffraction tridimensionnel.</p>
+
+    <div class="def-box">
+      <div class="def-label">Diffusion et diffraction</div>
+      <p>Chaque atome diffuse les rayons X dans toutes les directions (diffusion élastique Thomson). La <em>diffraction</em> est le phénomène d'interférences constructives entre les ondes diffusées par l'ensemble des atomes du réseau. Elle n'a lieu que dans des directions précises définies par la géométrie du réseau.</p>
+    </div>
+
+    <h3>Sources de rayons X</h3>
+    <div class="prop-list">
+      <div class="pl-title">Types de sources X utilisées en diffraction</div>
+      <table>
+        <tr><th>Source</th><th>Longueur d'onde</th><th>Flux (photons/s/mm²)</th><th>Usage</th></tr>
+        <tr><td>Tube scellé (Cu Kα)</td><td>1.5406 Å</td><td>~10⁶</td><td>Laboratoire standard</td></tr>
+        <tr><td>Tube rotatif (Mo Kα)</td><td>0.7107 Å</td><td>~10⁸</td><td>Monocristal, haute résolution</td></tr>
+        <tr><td>Synchrotron</td><td>0.1 – 3 Å (accordable)</td><td>~10¹⁵</td><td>Structures complexes, temps réel</td></tr>
+        <tr><td>Neutrons (réacteur)</td><td>0.5 – 5 Å</td><td>~10⁷</td><td>Localisation H, magnétisme</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       2. LOI DE BRAGG
+  ══════════════════════════════════════════ -->
+  <div class="lesson-section" id="bragg">
+    <h2>2. Loi de Bragg</h2>
+    <p>En 1913, William Lawrence Bragg proposa un modèle simple et élégant pour expliquer la diffraction des rayons X par un cristal : les plans réticulaires se comportent comme des miroirs partiels pour les rayons X. L'interférence est constructive si la différence de marche entre deux rayons réfléchis par des plans consécutifs est un multiple entier de la longueur d'onde.</p>
+
+    <div class="formula-box">
+      <div class="fb-label">Loi de Bragg — condition de diffraction</div>
+      $$2\,d_{hkl}\,\sin\theta = n\,\lambda$$
+      <div class="fb-desc">$d_{hkl}$ : distance interréticulaire entre plans $(hkl)$ (en Å) · $\theta$ : angle de Bragg (demi-angle de déviation) · $n$ : ordre de diffraction (entier) · $\lambda$ : longueur d'onde des rayons X (en Å)</div>
+    </div>
+
+    <p>La différence de marche entre deux rayons réfléchis sur des plans adjacents vaut $\delta = 2d\sin\theta$. Pour une interférence constructive : $\delta = n\lambda$, d'où la loi de Bragg. Physiquement, l'ordre $n$ peut toujours être absorbé dans l'indice de Miller : le plan d'ordre $n=2$ pour $(hkl)$ est équivalent à l'ordre $n=1$ pour $(2h,2k,2l)$.</p>
+
+    <h3>Contraintes sur l'angle de Bragg</h3>
+    <p>Puisque $\sin\theta \leq 1$, la loi de Bragg impose : $$d_{hkl} \geq \frac{\lambda}{2}$$</p>
+    <p>Cette limite est cruciale : seuls les plans dont $d_{hkl} \geq \lambda/2$ peuvent diffracter. Pour explorer une grande partie de l'espace réciproque, il faut utiliser des rayons X de courte longueur d'onde (Mo Kα) ou des neutrons.</p>
+
+    <!-- Animation Bragg interactive -->
+    <div class="demo-box">
+      <h3>Animation — Loi de Bragg et diffraction</h3>
+      <p class="demo-sub">Schéma interactif : faites varier l'angle θ et la longueur d'onde pour visualiser les conditions de diffraction.</p>
+      <div class="controls">
+        <button class="ctrl-btn active" onclick="setBraggSource('Cu',this)">Cu Kα (1.54 Å)</button>
+        <button class="ctrl-btn" onclick="setBraggSource('Mo',this)">Mo Kα (0.71 Å)</button>
+        <button class="ctrl-btn" onclick="setBraggSource('custom',this)">Personnalisé</button>
+      </div>
+      <div class="slider-row">
+        <label>Angle de Bragg $\theta$ (°)</label>
+        <input type="range" id="bragg_theta" min="1" max="89" step="0.5" value="21" oninput="updateBragg()">
+        <span class="slider-val" id="bragg_thetaVal">21.0°</span>
+      </div>
+      <div class="slider-row">
+        <label>Longueur d'onde $\lambda$ (Å)</label>
+        <input type="range" id="bragg_lambda" min="0.5" max="2.5" step="0.01" value="1.54" oninput="updateBragg()">
+        <span class="slider-val" id="bragg_lambdaVal">1.54 Å</span>
+      </div>
+      <div class="slider-row">
+        <label>Distance interréticulaire $d_{hkl}$ (Å)</label>
+        <input type="range" id="bragg_d" min="0.5" max="5.0" step="0.01" value="2.09" oninput="updateBragg()">
+        <span class="slider-val" id="bragg_dVal">2.09 Å</span>
+      </div>
+      <canvas id="braggSchema" width="760" height="240" style="background:var(--bg-tertiary);border:.5px solid var(--border);border-radius:var(--radius)"></canvas>
+      <canvas id="braggPlot" width="760" height="180" style="background:#060606;border-radius:var(--radius);margin-top:6px"></canvas>
+      <div class="result-display">
+        <div class="rd-grid">
+          <div class="rd-cell"><div class="rc-val" id="bragg_2theta">—</div><div class="rc-lbl">Angle $2\theta$ de diffraction</div></div>
+          <div class="rd-cell"><div class="rc-val" id="bragg_n">—</div><div class="rc-lbl">Ordre $n$</div></div>
+          <div class="rd-cell"><div class="rc-val" id="bragg_delta">—</div><div class="rc-lbl">Diff. de marche $\delta$</div></div>
+          <div class="rd-cell"><div class="rc-val" id="bragg_cond">—</div><div class="rc-lbl">Condition</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       3. RÉSEAU RÉCIPROQUE ET EWALD
+  ══════════════════════════════════════════ -->
+  <div class="lesson-section" id="ewald">
+    <h2>3. Réseau réciproque et construction d'Ewald</h2>
+    <p>Le <strong>réseau réciproque</strong> est l'espace de Fourier du réseau direct. Il formalise de manière très élégante les conditions de diffraction. À chaque plan $(hkl)$ du réseau direct correspond un point $(h,k,l)$ du réseau réciproque, situé à une distance $1/d_{hkl}$ de l'origine dans la direction normale au plan.</p>
+
+    <div class="formula-box">
+      <div class="fb-label">Vecteurs du réseau réciproque</div>
+      $$\mathbf{b}_1 = 2\pi\frac{\mathbf{a}_2 \times \mathbf{a}_3}{\mathbf{a}_1\cdot(\mathbf{a}_2\times\mathbf{a}_3)}, \quad \mathbf{b}_2 = 2\pi\frac{\mathbf{a}_3 \times \mathbf{a}_1}{\mathbf{a}_1\cdot(\mathbf{a}_2\times\mathbf{a}_3)}, \quad \mathbf{b}_3 = 2\pi\frac{\mathbf{a}_1 \times \mathbf{a}_2}{\mathbf{a}_1\cdot(\mathbf{a}_2\times\mathbf{a}_3)}$$
+      <div class="fb-desc">Propriété fondamentale : $\mathbf{a}_i \cdot \mathbf{b}_j = 2\pi\delta_{ij}$ · Dans le cubique : $\mathbf{b}_i = (2\pi/a)\hat{e}_i$, le réseau réciproque du FCC est BCC et vice-versa</div>
+    </div>
+
+    <h3>Construction d'Ewald</h3>
+    <p>La <strong>sphère d'Ewald</strong> est un outil géométrique pour trouver graphiquement tous les plans qui satisfont simultanément la loi de Bragg. On dessine dans l'espace réciproque une sphère de rayon $1/\lambda$ centrée sur l'extrémité du vecteur d'onde incident $\mathbf{k}_i$. La condition de diffraction (loi de Bragg) est satisfaite pour un nœud du réseau réciproque $\mathbf{G}_{hkl}$ si et seulement si ce nœud se trouve sur la sphère d'Ewald.</p>
+
+    <div class="formula-box">
+      <div class="fb-label">Condition de von Laue — équivalent vectoriel de la loi de Bragg</div>
+      $$\mathbf{k}_f - \mathbf{k}_i = \mathbf{G}_{hkl}$$
+      <div class="fb-desc">$\mathbf{k}_i = 2\pi/\lambda \cdot \hat{n}_i$ : vecteur d'onde incident · $\mathbf{k}_f$ : vecteur d'onde diffracté · $\mathbf{G}_{hkl} = h\mathbf{b}_1 + k\mathbf{b}_2 + l\mathbf{b}_3$ : vecteur du réseau réciproque</div>
+    </div>
+
+    <!-- Animation sphère d'Ewald 2D -->
+    <div class="demo-box">
+      <h3>Animation — Sphère d'Ewald (vue 2D)</h3>
+      <p class="demo-sub">La sphère d'Ewald tourne autour de l'origine. Les nœuds sur la sphère donnent lieu à diffraction.</p>
+      <div class="slider-row">
+        <label>Longueur d'onde $\lambda$ (Å)</label>
+        <input type="range" id="ew_lambda" min="0.5" max="3.0" step="0.05" value="1.54" oninput="drawEwald()">
+        <span class="slider-val" id="ew_lambdaVal">1.54 Å</span>
+      </div>
+      <div class="slider-row">
+        <label>Orientation du cristal (°)</label>
+        <input type="range" id="ew_rot" min="0" max="360" value="15" oninput="drawEwald()">
+        <span class="slider-val" id="ew_rotVal">15°</span>
+      </div>
+      <div class="slider-row">
+        <label>Paramètre $a^*$ (Å⁻¹)</label>
+        <input type="range" id="ew_astar" min="0.5" max="2.5" step="0.05" value="1.22" oninput="drawEwald()">
+        <span class="slider-val" id="ew_astarVal">1.22 Å⁻¹</span>
+      </div>
+      <canvas id="ewaldCanvas" width="760" height="380" style="background:#060606;border-radius:var(--radius)"></canvas>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       4. FACTEUR DE STRUCTURE
+  ══════════════════════════════════════════ -->
+  <div class="lesson-section" id="facteur">
+    <h2>4. Facteur de structure et règles d'extinction</h2>
+    <p>La loi de Bragg donne les directions de diffraction possibles mais ne dit pas si l'intensité du pic est nulle ou non. Le <strong>facteur de structure</strong> $F_{hkl}$ détermine l'amplitude de l'onde diffractée par la maille complète, en tenant compte des interférences entre les différents atomes de la base :</p>
+
+    <div class="formula-box">
+      <div class="fb-label">Facteur de structure</div>
+      $$F_{hkl} = \sum_{j=1}^{N} f_j \, e^{2\pi i (h x_j + k y_j + l z_j)}$$
+      <div class="fb-desc">$f_j$ : facteur de diffusion atomique (fonction de $\sin\theta/\lambda$) · $(x_j, y_j, z_j)$ : coordonnées fractionnaires de l'atome $j$ dans la maille · $N$ : nb d'atomes dans la base · L'intensité est $I_{hkl} \propto |F_{hkl}|^2$</div>
+    </div>
+
+    <h3>Règles d'extinction systématique</h3>
+    <p>Quand $F_{hkl} = 0$, la réflexion $(hkl)$ est absente même si la loi de Bragg est satisfaite. Ces <strong>extinctions systématiques</strong> sont la signature du type de centrage :</p>
+
+    <div class="prop-list">
+      <div class="pl-title">Règles d'extinction pour les structures cubiques</div>
+      <table>
+        <tr><th>Structure</th><th>Réflexions permises</th><th>Condition</th></tr>
+        <tr><td>SC (P)</td><td>Toutes permises</td><td>Aucune restriction</td></tr>
+        <tr><td>BCC (I)</td><td>$h+k+l =$ pair</td><td>100, 111, 210... absentes</td></tr>
+        <tr><td>FCC (F)</td><td>$h,k,l$ tous pairs OU tous impairs</td><td>110, 210, 211... absentes</td></tr>
+        <tr><td>Diamant (F+base)</td><td>FCC + $h+k+l \neq 4n$ si tous impairs</td><td>222 absente supplémentaire</td></tr>
+      </table>
+    </div>
+
+    <div class="example-box">
+      <div class="ex-header">Calcul du facteur de structure — BCC</div>
+      <div class="ex-body">
+        <p>BCC : 2 atomes identiques en $(0,0,0)$ et $(1/2,1/2,1/2)$ :</p>
+        <p>$$F_{hkl} = f\left[e^{2\pi i(0)} + e^{2\pi i(h/2+k/2+l/2)}\right] = f\left[1 + e^{i\pi(h+k+l)}\right]$$</p>
+        <p>Si $h+k+l$ est <em>pair</em> : $F = 2f$ → pic présent avec $|F|^2 = 4f^2$</p>
+        <p>Si $h+k+l$ est <em>impair</em> : $F = 1 + e^{i\pi} = 1 - 1 = 0$ → pic absent (extinction)</p>
+      </div>
+    </div>
+
+    <!-- Animation facteur de structure -->
+    <div class="demo-box">
+      <h3>Animation — Règles d'extinction et intensités relatives</h3>
+      <p class="demo-sub">Diffractogramme simulé pour différentes structures : les pics absents révèlent le type de réseau.</p>
+      <div class="controls">
+        <button class="ctrl-btn active" onclick="setDiffStruct('FCC',this)">FCC (Cu)</button>
+        <button class="ctrl-btn" onclick="setDiffStruct('BCC',this)">BCC (Fe)</button>
+        <button class="ctrl-btn" onclick="setDiffStruct('SC',this)">SC</button>
+        <button class="ctrl-btn" onclick="setDiffStruct('DIA',this)">Diamant (Si)</button>
+      </div>
+      <div class="slider-row">
+        <label>Longueur d'onde $\lambda$ (Å)</label>
+        <input type="range" id="diff_lambda" min="0.5" max="2.5" step="0.01" value="1.54" oninput="updateDiffractogram()">
+        <span class="slider-val" id="diff_lambdaVal">1.54 Å</span>
+      </div>
+      <div class="slider-row">
+        <label>Paramètre $a$ (Å)</label>
+        <input type="range" id="diff_a" min="2.5" max="6.0" step="0.01" value="3.615" oninput="updateDiffractogram()">
+        <span class="slider-val" id="diff_aVal">3.615 Å</span>
+      </div>
+      <canvas id="diffractCanvas" width="760" height="280" style="background:#060606;border-radius:var(--radius)"></canvas>
+      <div class="result-display">
+        <div class="rd-grid" id="diff_results"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       5. DIFFRACTOGRAMME
+  ══════════════════════════════════════════ -->
+  <div class="lesson-section" id="diffractogramme">
+    <h2>5. Diffractogramme DRX et indexation</h2>
+    <p>Un diffractogramme de poudre (méthode de Debye-Scherrer) est le graphe de l'intensité diffractée en fonction de l'angle $2\theta$. Chaque pic correspond à une famille de plans $(hkl)$ satisfaisant la loi de Bragg. L'indexation consiste à attribuer les indices $(hkl)$ à chaque pic.</p>
+
+    <h3>Méthode d'indexation dans le cubique</h3>
+    <p>À partir de la loi de Bragg et de la formule de la distance interréticulaire cubique :</p>
+    <div class="formula-box">
+      <div class="fb-label">Positions des pics dans le cubique</div>
+      $$\sin^2\theta_{hkl} = \frac{\lambda^2}{4a^2}(h^2 + k^2 + l^2)$$
+      <div class="fb-desc">Les rapports $\sin^2\theta_i / \sin^2\theta_1$ permettent d'identifier la structure par la séquence des valeurs de $N = h^2+k^2+l^2$</div>
+    </div>
+
+    <div class="prop-list">
+      <div class="pl-title">Séquence de $N = h^2+k^2+l^2$ selon la structure cubique</div>
+      <table>
+        <tr><th>$N$</th><th>$(hkl)$</th><th>SC</th><th>BCC ($N$ pair)</th><th>FCC (parité unique)</th><th>Diamant</th></tr>
+        <tr><td>1</td><td>(100)</td><td>✓</td><td>✗</td><td>✗</td><td>✗</td></tr>
+        <tr><td>2</td><td>(110)</td><td>✓</td><td>✓</td><td>✗</td><td>✗</td></tr>
+        <tr><td>3</td><td>(111)</td><td>✓</td><td>✗</td><td>✓</td><td>✓</td></tr>
+        <tr><td>4</td><td>(200)</td><td>✓</td><td>✓</td><td>✓</td><td>✗ (si diam.)</td></tr>
+        <tr><td>5</td><td>(210)</td><td>✓</td><td>✗</td><td>✗</td><td>✗</td></tr>
+        <tr><td>6</td><td>(211)</td><td>✓</td><td>✓</td><td>✗</td><td>✗</td></tr>
+        <tr><td>8</td><td>(220)</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td></tr>
+        <tr><td>11</td><td>(311)</td><td>✓</td><td>✗</td><td>✓</td><td>✓</td></tr>
+      </table>
+    </div>
+
+    <div class="note-box">
+      <div class="note-label">Détermination du paramètre de maille</div>
+      <p>Une fois les pics indexés, le paramètre $a$ peut être déterminé avec précision. La méthode de Nelson-Riley utilise une extrapolation graphique en $\cos^2\theta$ pour corriger les erreurs systématiques et obtenir la valeur exacte de $a$. La précision atteignable est $\Delta a / a \sim 10^{-4}$.</p>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       6. MÉTHODES DE DIFFRACTION
+  ══════════════════════════════════════════ -->
+  <div class="lesson-section" id="methodes">
+    <h2>6. Méthodes de diffraction</h2>
+    <div class="prop-list">
+      <div class="pl-title">Principales méthodes de diffraction des rayons X</div>
+      <table>
+        <tr><th>Méthode</th><th>Échantillon</th><th>λ variable ?</th><th>Application principale</th></tr>
+        <tr><td><strong>Méthode de Laue</strong></td><td>Monocristal fixe</td><td>Oui (faisceau blanc)</td><td>Orientation du cristal, symétrie</td></tr>
+        <tr><td><strong>Méthode de Bragg (oscillation)</strong></td><td>Monocristal tournant</td><td>Non (monochromatique)</td><td>Résolution de structure, protéines</td></tr>
+        <tr><td><strong>Méthode des poudres (Debye-Scherrer)</strong></td><td>Poudre (cristaux orientés aléatoirement)</td><td>Non</td><td>Identification de phases, paramètre $a$</td></tr>
+        <tr><td><strong>Méthode de Guinier</strong></td><td>Poudre (fine)</td><td>Non</td><td>Précision sur $a$, texture</td></tr>
+        <tr><td><strong>DRX en incidence rasante (GIXRD)</strong></td><td>Film mince / surface</td><td>Non</td><td>Couches minces, contraintes résiduelles</td></tr>
+      </table>
+    </div>
+
+    <h3>Largeur de pic et taille de cristallite — formule de Scherrer</h3>
+    <p>Dans un diffractogramme de poudre, les pics ne sont pas infiniment fins. La largeur à mi-hauteur (FWHM) $\beta$ d'un pic de diffraction est reliée à la taille moyenne des cristallites $D$ par la <strong>formule de Scherrer</strong> :</p>
+    <div class="formula-box">
+      <div class="fb-label">Formule de Scherrer</div>
+      $$D = \frac{K\lambda}{\beta\cos\theta}$$
+      <div class="fb-desc">$K \approx 0{,}89$ (facteur de forme de Scherrer pour des cristallites sphériques) · $\beta$ : largeur à mi-hauteur en radians · La largeur est aussi affectée par les contraintes internes (analyse de Williamson-Hall)</div>
+    </div>
+
+    <div class="example-box">
+      <div class="ex-header">Exemple — Analyse DRX du cuivre</div>
+      <div class="ex-body">
+        <p>Le cuivre (FCC, $a = 3{,}615\ \text{Å}$) avec Cu Kα ($\lambda = 1{,}5406\ \text{Å}$). Pic (111) :</p>
+        <p>$$\sin\theta_{111} = \frac{\lambda}{2d_{111}} = \frac{1{,}5406}{2 \times 3{,}615/\sqrt{3}} = \frac{1{,}5406}{4{,}175} = 0{,}3690 \Rightarrow \theta = 21{,}6°$$</p>
+        <p>Donc le premier pic du diffractogramme Cu est à $2\theta = 43{,}2°$.</p>
+        <p>Premier pic BCC (Fe, $a=2{,}87\ \text{Å}$) : plan (110), $d_{110} = a/\sqrt{2} = 2{,}029\ \text{Å}$, $2\theta = 44{,}7°$.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="lesson-nav">
+    <a href="cristallographie-2.html">← Page 2 : Systèmes &amp; Empilement</a>
+    <a class="next" href="cristallographie-4.html">Page 4 : Défauts &amp; Propriétés →</a>
+  </div>
+</div>
+<footer>
+  <div class="footer-logo">Math<span>∑</span>tique</div>
+  <p>Site éducatif — Libre et gratuit</p>
+  <p style="font-size:13px;color:var(--text-tertiary)">Fait avec ♥ et beaucoup de π</p>
+</footer>
+<script>
+function isDark(){return window.matchMedia('(prefers-color-scheme:dark)').matches}
+
+/* ════ LOI DE BRAGG ════ */
+let braggSource='Cu';
+function setBraggSource(s,btn){
+  braggSource=s;
+  document.querySelectorAll('.ctrl-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  if(s==='Cu'){document.getElementById('bragg_lambda').value=1.54;}
+  else if(s==='Mo'){document.getElementById('bragg_lambda').value=0.71;}
+  updateBragg();
+}
+function updateBragg(){
+  const theta=parseFloat(document.getElementById('bragg_theta').value);
+  const lambda=parseFloat(document.getElementById('bragg_lambda').value);
+  const d=parseFloat(document.getElementById('bragg_d').value);
+  document.getElementById('bragg_thetaVal').textContent=theta.toFixed(1)+'°';
+  document.getElementById('bragg_lambdaVal').textContent=lambda.toFixed(2)+' Å';
+  document.getElementById('bragg_dVal').textContent=d.toFixed(2)+' Å';
+  const delta=2*d*Math.sin(theta*Math.PI/180);
+  const n_real=delta/lambda;
+  const n_nearest=Math.round(n_real);
+  const isBragg=Math.abs(n_real-Math.round(n_real))<0.05&&n_nearest>0;
+  document.getElementById('bragg_2theta').textContent=(2*theta).toFixed(1)+'°';
+  document.getElementById('bragg_n').textContent=n_nearest>0?n_nearest:'—';
+  document.getElementById('bragg_delta').textContent=delta.toFixed(3)+' Å';
+  document.getElementById('bragg_cond').textContent=isBragg?'✓ Diffraction':'✗ Pas de pic';
+  document.getElementById('bragg_cond').style.color=isBragg?'#0E7490':'#C0392B';
+  // Schéma
+  const sc=document.getElementById('braggSchema');
+  const ctx=sc.getContext('2d');
+  const W=sc.width,H=sc.height;
+  const dark=isDark();
+  ctx.clearRect(0,0,W,H);
+  ctx.fillStyle=dark?'#222220':'#f0efe9';ctx.fillRect(0,0,W,H);
+  // Plans réticulaires
+  const planeColor=dark?'rgba(14,116,144,0.7)':'rgba(14,116,144,0.8)';
+  ctx.strokeStyle=planeColor;ctx.lineWidth=2.5;
+  const planeY=[80,130,180];
+  planeY.forEach(y=>{
+    ctx.beginPath();ctx.moveTo(20,y);ctx.lineTo(W-20,y);ctx.stroke();
+    // Atomes sur les plans
+    for(let x=50;x<W-20;x+=55){
+      ctx.beginPath();ctx.arc(x,y,7,0,2*Math.PI);
+      ctx.fillStyle='#0E7490';ctx.fill();
+    }
+  });
+  ctx.fillStyle=dark?'#aaa':'#555';ctx.font='12px DM Sans,sans-serif';ctx.textAlign='left';
+  ctx.fillText(`d = ${d.toFixed(2)} Å`,W-120,planeY[0]-6);
+  // Double flèche d
+  ctx.strokeStyle=dark?'#aaa':'#888';ctx.lineWidth=1;
+  ctx.beginPath();ctx.moveTo(W-70,planeY[0]);ctx.lineTo(W-70,planeY[1]);ctx.stroke();
+  ctx.beginPath();ctx.moveTo(W-75,planeY[0]+4);ctx.lineTo(W-70,planeY[0]);ctx.lineTo(W-65,planeY[0]+4);ctx.stroke();
+  ctx.beginPath();ctx.moveTo(W-75,planeY[1]-4);ctx.lineTo(W-70,planeY[1]);ctx.lineTo(W-65,planeY[1]-4);ctx.stroke();
+  // Rayon incident et réfléchi sur plan du milieu
+  const th=theta*Math.PI/180;
+  const impX=W/2-60,impY=planeY[1];
+  const len=120;
+  const ix1=impX-len*Math.cos(th),iy1=impY-len*Math.sin(th);
+  const rx2=impX+len*Math.cos(th),ry2=impY-len*Math.sin(th);
+  // Rayon sur plan du haut
+  const impX2=W/2+40,impY2=planeY[0];
+  const ix3=impX2-len*Math.cos(th),iy3=impY2-len*Math.sin(th);
+  const rx4=impX2+len*Math.cos(th),ry4=impY2-len*Math.sin(th);
+  const rayColor=isBragg?'#E04000':'rgba(224,64,0,0.4)';
+  ctx.strokeStyle=rayColor;ctx.lineWidth=2;
+  ctx.beginPath();ctx.moveTo(ix1,iy1);ctx.lineTo(impX,impY);ctx.lineTo(rx2,ry2);ctx.stroke();
+  ctx.beginPath();ctx.moveTo(ix3,iy3);ctx.lineTo(impX2,impY2);ctx.lineTo(rx4,ry4);ctx.stroke();
+  // Angle theta
+  ctx.strokeStyle=dark?'rgba(14,116,144,0.6)':'rgba(14,116,144,0.5)';ctx.lineWidth=1;ctx.setLineDash([3,3]);
+  ctx.beginPath();ctx.moveTo(impX,impY);ctx.lineTo(impX+50,impY);ctx.stroke();ctx.setLineDash([]);
+  ctx.fillStyle=dark?'#93C2F0':'#185FA5';ctx.font='bold 13px DM Sans,sans-serif';ctx.textAlign='center';
+  ctx.fillText('θ='+theta.toFixed(0)+'°',impX+38,impY-12);
+  // Diff de marche annotation
+  if(isBragg){
+    ctx.fillStyle='#0E7490';ctx.font='bold 13px DM Sans,sans-serif';ctx.textAlign='center';
+    ctx.fillText(`δ = ${delta.toFixed(2)} Å = ${n_nearest}λ ✓`,W/2,H-14);
+  } else {
+    ctx.fillStyle='#C0392B';ctx.font='13px DM Sans,sans-serif';ctx.textAlign='center';
+    ctx.fillText(`δ = ${delta.toFixed(2)} Å ≠ nλ — pas de pic`,W/2,H-14);
+  }
+  // Graphe Bragg
+  const gc=document.getElementById('braggPlot');
+  const gctx=gc.getContext('2d');
+  const GW=gc.width,GH=gc.height;
+  gctx.clearRect(0,0,GW,GH);
+  gctx.fillStyle='#060606';gctx.fillRect(0,0,GW,GH);
+  // Plot I vs 2theta
+  gctx.strokeStyle='rgba(255,255,255,0.06)';gctx.lineWidth=1;
+  for(let i=1;i<=4;i++){const y=GH-i*(GH-20)/4;gctx.beginPath();gctx.moveTo(40,y);gctx.lineTo(GW,y);gctx.stroke();}
+  // Marqueur θ courant
+  const markerX=((2*theta)/90)*(GW-40)+40;
+  gctx.strokeStyle='rgba(255,255,255,0.3)';gctx.lineWidth=1;gctx.setLineDash([4,4]);
+  gctx.beginPath();gctx.moveTo(markerX,0);gctx.lineTo(markerX,GH-18);gctx.stroke();gctx.setLineDash([]);
+  gctx.fillStyle='rgba(255,255,255,0.5)';gctx.font='10px DM Sans,sans-serif';gctx.textAlign='center';
+  gctx.fillText('2θ='+( 2*theta).toFixed(0)+'°',markerX,GH-4);
+  // Courbe I(2theta) = sinc-like around Bragg angles
+  for(let n_ord=1;n_ord<=5;n_ord++){
+    const sinT=n_ord*lambda/(2*d);
+    if(sinT>1)break;
+    const theta_bragg=Math.asin(sinT)*180/Math.PI;
+    const bragg2th=2*theta_bragg;
+    const bx=((bragg2th)/90)*(GW-40)+40;
+    if(bx<40||bx>GW)continue;
+    // Lorentzian peak
+    const fwhm=8;
+    for(let px=Math.max(40,bx-60);px<Math.min(GW,bx+60);px++){
+      const dt=px-bx;
+      const I=1/(1+Math.pow(2*dt/fwhm,2));
+      const py=GH-10-I*(GH-20);
+      gctx.fillStyle=isBragg&&Math.abs(bx-markerX)<20?`rgba(224,64,0,${I})`:`rgba(14,116,144,${I})`;
+      gctx.fillRect(px,py,1.5,GH-10-py);
+    }
+    gctx.fillStyle='rgba(255,255,255,0.4)';gctx.font='10px DM Sans,sans-serif';gctx.textAlign='center';
+    gctx.fillText(`n=${n_ord}`,bx,16);
+  }
+  gctx.fillStyle='rgba(255,255,255,0.3)';gctx.font='10px DM Sans,sans-serif';gctx.textAlign='center';
+  gctx.fillText('2θ →',GW/2,GH-4);
+}
+
+/* ════ SPHÈRE D'EWALD ════ */
+function drawEwald(){
+  const lambda=parseFloat(document.getElementById('ew_lambda').value);
+  const rot_deg=parseFloat(document.getElementById('ew_rot').value);
+  const astar=parseFloat(document.getElementById('ew_astar').value);
+  document.getElementById('ew_lambdaVal').textContent=lambda.toFixed(2)+' Å';
+  document.getElementById('ew_rotVal').textContent=rot_deg+'°';
+  document.getElementById('ew_astarVal').textContent=astar.toFixed(2)+' Å⁻¹';
+  const canvas=document.getElementById('ewaldCanvas');
+  const ctx=canvas.getContext('2d');
+  const W=canvas.width,H=canvas.height;
+  ctx.clearRect(0,0,W,H);
+  ctx.fillStyle='#060606';ctx.fillRect(0,0,W,H);
+  const R_ew=1/lambda; // rayon sphère d'Ewald en Å⁻¹
+  const scale=80;
+  const cx=W*0.35,cy=H/2;
+  // Origine du réseau réciproque (à l'extrémité de ki)
+  const origin_x=cx+R_ew*scale,origin_y=cy;
+  // Sphère d'Ewald
+  ctx.strokeStyle='rgba(14,116,144,0.6)';ctx.lineWidth=1.5;ctx.setLineDash([4,4]);
+  ctx.beginPath();ctx.arc(cx,cy,R_ew*scale,0,2*Math.PI);ctx.stroke();ctx.setLineDash([]);
+  // ki
+  ctx.strokeStyle='#E04000';ctx.lineWidth=2.5;
+  ctx.beginPath();ctx.moveTo(cx-R_ew*scale*0.6,cy);ctx.lineTo(origin_x,cy);ctx.stroke();
+  ctx.fillStyle='#E04000';ctx.font='12px DM Sans,sans-serif';ctx.textAlign='center';
+  ctx.fillText('kᵢ',cx-R_ew*scale*0.1,cy-10);
+  // Réseau réciproque (maille carré 2D)
+  const rot=rot_deg*Math.PI/180;
+  const hits=[];
+  for(let h=-5;h<=5;h++){
+    for(let k=-5;k<=5;k++){
+      const gx=h*astar*Math.cos(rot)-k*astar*Math.sin(rot);
+      const gy=h*astar*Math.sin(rot)+k*astar*Math.cos(rot);
+      const px=origin_x+gx*scale,py=origin_y-gy*scale;
+      if(px<5||px>W-5||py<5||py>H-5)continue;
+      const dist=Math.sqrt(Math.pow(px-cx,2)+Math.pow(py-cy,2));
+      const onSphere=Math.abs(dist-R_ew*scale)<6;
+      if(onSphere)hits.push({h,k,px,py,gx,gy});
+      ctx.beginPath();ctx.arc(px,py,onSphere?7:4,0,2*Math.PI);
+      ctx.fillStyle=onSphere?'#E04000':'rgba(255,255,255,0.4)';ctx.fill();
+      if(onSphere){
+        ctx.strokeStyle='#E04000';ctx.lineWidth=2;ctx.stroke();
+        // Vecteur diffracté kf
+        ctx.strokeStyle='rgba(224,64,0,0.5)';ctx.lineWidth=1.5;
+        ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(px,py);ctx.stroke();
+        ctx.fillStyle='#E04000';ctx.font='10px DM Sans,sans-serif';ctx.textAlign='center';
+        ctx.fillText(`(${h},${k})`,px,py-12);
+      }
+    }
+  }
+  // Labels
+  ctx.fillStyle='rgba(255,255,255,0.5)';ctx.font='11px DM Sans,sans-serif';ctx.textAlign='left';
+  ctx.fillText(`Sphère d'Ewald R = 1/λ = ${(1/lambda).toFixed(2)} Å⁻¹`,14,18);
+  ctx.fillText(`${hits.length} nœud(s) en condition de diffraction`,14,34);
+  ctx.fillStyle='rgba(14,116,144,0.7)';ctx.font='11px DM Sans,sans-serif';
+  ctx.fillText('● Réseau réciproque',14,H-20);
+  ctx.fillStyle='#E04000';
+  ctx.fillText('● En condition de Bragg',14,H-6);
+}
+
+/* ════ DIFFRACTOGRAMME SIMULÉ ════ */
+let currentDiffStruct='FCC';
+const diffStructData={
+  FCC:{a:3.615,N:[3,4,8,11,12,16],color:'#0E7490',label:'FCC (Cu)'},
+  BCC:{a:2.87,N:[2,4,6,8,10,12],color:'#1D9E75',label:'BCC (Fe)'},
+  SC:{a:2.87,N:[1,2,3,4,5,6,8,9,10,11,12],color:'#9B59B6',label:'SC'},
+  DIA:{a:5.431,N:[3,8,11,16,19,24],color:'#BA7517',label:'Diamant (Si)'}
+};
+function setDiffStruct(t,btn){
+  currentDiffStruct=t;
+  document.querySelectorAll('.ctrl-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  const aMap={FCC:3.615,BCC:2.87,SC:2.87,DIA:5.431};
+  document.getElementById('diff_a').value=aMap[t];
+  updateDiffractogram();
+}
+function updateDiffractogram(){
+  const lambda=parseFloat(document.getElementById('diff_lambda').value);
+  const a=parseFloat(document.getElementById('diff_a').value);
+  document.getElementById('diff_lambdaVal').textContent=lambda.toFixed(2)+' Å';
+  document.getElementById('diff_aVal').textContent=a.toFixed(3)+' Å';
+  const s=diffStructData[currentDiffStruct];
+  const canvas=document.getElementById('diffractCanvas');
+  const ctx=canvas.getContext('2d');
+  const W=canvas.width,H=canvas.height;
+  ctx.clearRect(0,0,W,H);
+  ctx.fillStyle='#060606';ctx.fillRect(0,0,W,H);
+  // Grid
+  ctx.strokeStyle='rgba(255,255,255,0.05)';ctx.lineWidth=1;
+  [30,60,90,120,150].forEach(tth=>{
+    const x=(tth/160)*(W-50)+30;
+    ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H-20);ctx.stroke();
+    ctx.fillStyle='rgba(255,255,255,0.3)';ctx.font='10px DM Sans,sans-serif';ctx.textAlign='center';
+    ctx.fillText(tth+'°',x,H-6);
+  });
+  // Baseline
+  ctx.strokeStyle='rgba(14,116,144,0.3)';ctx.lineWidth=1;
+  ctx.beginPath();ctx.moveTo(30,H-22);ctx.lineTo(W-20,H-22);ctx.stroke();
+  // Peaks
+  const peaks=[];
+  s.N.forEach(N=>{
+    const sinT2=N*lambda*lambda/(4*a*a);
+    if(sinT2>1)return;
+    const theta=Math.asin(Math.sqrt(sinT2));
+    const twoTheta=2*theta*180/Math.PI;
+    if(twoTheta<5||twoTheta>155)return;
+    const hkl=findHKL(N,currentDiffStruct);
+    const I=intensityRelative(N,currentDiffStruct,theta);
+    peaks.push({twoTheta,I,N,hkl});
+  });
+  const Imax=Math.max(...peaks.map(p=>p.I),1);
+  peaks.forEach(({twoTheta,I,N,hkl})=>{
+    const I_rel=I/Imax;
+    const x=(twoTheta/160)*(W-50)+30;
+    const peakH=(H-30)*I_rel;
+    // Fill peak (Lorentzian)
+    const fwhm=6;
+    for(let px=Math.max(30,x-40);px<Math.min(W-10,x+40);px++){
+      const dt=px-x;
+      const Iloc=I_rel/(1+Math.pow(2*dt/fwhm,2));
+      ctx.fillStyle=`rgba(${parseInt(s.color.slice(1,3),16)},${parseInt(s.color.slice(3,5),16)},${parseInt(s.color.slice(5,7),16)},${Iloc.toFixed(3)})`;
+      ctx.fillRect(px,H-22-Iloc*(H-30),1.5,Iloc*(H-30));
+    }
+    ctx.fillStyle='rgba(255,255,255,0.7)';ctx.font='10px DM Sans,sans-serif';ctx.textAlign='center';
+    if(I_rel>0.1)ctx.fillText(`(${hkl})`,x,H-22-peakH-6);
+  });
+  ctx.fillStyle='rgba(255,255,255,0.4)';ctx.font='11px DM Sans,sans-serif';ctx.textAlign='left';
+  ctx.fillText(`${s.label} — λ = ${lambda.toFixed(2)} Å — a = ${a.toFixed(3)} Å`,14,18);
+  ctx.fillText('2θ (°)',W/2,H-4);
+  // Results
+  const resDiv=document.getElementById('diff_results');
+  resDiv.innerHTML=peaks.slice(0,4).map(p=>`<div class="rd-cell"><div class="rc-val">${p.twoTheta.toFixed(1)}°</div><div class="rc-lbl">(${p.hkl}) — ${(p.I/Imax*100).toFixed(0)}%</div></div>`).join('');
+}
+function findHKL(N,struct){
+  const hklMap={1:'100',2:'110',3:'111',4:'200',5:'210',6:'211',8:'220',9:'300',10:'310',11:'311',12:'222',16:'400',19:'331',24:'422'};
+  return hklMap[N]||N.toString();
+}
+function intensityRelative(N,struct,theta){
+  const mult={FCC:{3:8,4:6,8:12,11:24,12:8,16:6},BCC:{2:12,4:6,6:24,8:12,10:24,12:8},DIA:{3:8,8:6,11:24,16:12,19:24,24:12}};
+  const m=(mult[struct]&&mult[struct][N])||12;
+  const Lp=1/(Math.sin(theta)*Math.sin(theta)*Math.cos(theta));
+  const f=Math.exp(-0.01*N);
+  return m*Lp*f*f;
+}
+
+document.addEventListener('DOMContentLoaded',()=>{
+  setTimeout(()=>{
+    updateBragg();drawEwald();updateDiffractogram();
+    if(window.renderMathInElement)renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]});
+  },350);
+});
+</script>
+</body>
+</html>

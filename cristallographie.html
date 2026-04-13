@@ -1,0 +1,1034 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cristallographie (1/4) — MathΣtique</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"/>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]})"></script>
+  <style>
+    :root{
+      --teal:#0E7490;--teal-light:#E0F7FA;--teal-dark:#065a6b;
+      --green:#1D9E75;--green-light:#E1F5EE;--green-dark:#0F6E56;
+      --amber:#BA7517;--amber-light:#FAEEDA;--amber-dark:#854F0B;
+      --purple:#534AB7;--purple-light:#EEEDFE;--purple-dark:#3C3489;
+      --text:#1a1a1a;--text-secondary:#666;--text-tertiary:#999;
+      --bg:#ffffff;--bg-secondary:#f7f6f2;--bg-tertiary:#f0efe9;
+      --border:rgba(0,0,0,0.1);--border-hover:rgba(0,0,0,0.22);
+      --radius:12px;--radius-lg:16px
+    }
+    @media(prefers-color-scheme:dark){:root{
+      --text:#f0efe9;--text-secondary:#aaa;--text-tertiary:#666;
+      --bg:#111110;--bg-secondary:#1a1a18;--bg-tertiary:#222220;
+      --border:rgba(255,255,255,0.1);--border-hover:rgba(255,255,255,0.22);
+      --teal-light:#042830;--green-light:#0a2e26;--amber-light:#2a1e08;--purple-light:#1a1840
+    }}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{font-family:'DM Sans',sans-serif;color:var(--text);background:var(--bg);line-height:1.6;font-size:16px}
+    nav{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:.9rem 2rem;background:var(--bg);border-bottom:.5px solid var(--border);backdrop-filter:blur(8px)}
+    .nav-logo{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--text);text-decoration:none}
+    .nav-logo span{color:var(--green)}
+    .nav-right{display:flex;align-items:center;gap:10px}
+    .btn-back{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--text-secondary);text-decoration:none;padding:6px 13px;border:.5px solid var(--border-hover);border-radius:8px;transition:background .2s}
+    .btn-back:hover{background:var(--bg-secondary);color:var(--text)}
+    .page-badge{font-size:12px;color:var(--text-tertiary);background:var(--bg-secondary);padding:4px 10px;border-radius:20px;border:.5px solid var(--border)}
+    .page{max-width:860px;margin:0 auto;padding:3rem 2rem 5rem}
+    .breadcrumb{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--text-tertiary);margin-bottom:2rem;flex-wrap:wrap}
+    .breadcrumb a{color:var(--text-secondary);text-decoration:none}
+    .breadcrumb a:hover{color:var(--text)}
+    .lesson-cat{display:inline-block;font-size:12px;font-weight:500;color:var(--teal-dark);background:var(--teal-light);padding:4px 12px;border-radius:20px;margin-bottom:1rem}
+    .lesson-title{font-family:'Playfair Display',serif;font-size:clamp(28px,5vw,46px);font-weight:700;line-height:1.15;margin-bottom:1rem}
+    .lesson-intro{font-size:15px;color:var(--text-secondary);max-width:650px;line-height:1.85;margin-bottom:2rem}
+    .page-strip{display:flex;gap:8px;margin-bottom:2.5rem;flex-wrap:wrap}
+    .pg-btn{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:500;padding:7px 15px;border-radius:8px;text-decoration:none;border:.5px solid var(--border);color:var(--text-secondary);transition:all .2s}
+    .pg-btn:hover{background:var(--bg-secondary);border-color:var(--border-hover);color:var(--text)}
+    .pg-btn.active{background:var(--teal);border-color:var(--teal);color:#fff}
+    .pg-btn.active{--teal:#0E7490}
+    .toc{background:var(--bg-secondary);border:.5px solid var(--border);border-radius:var(--radius);padding:1.25rem 1.5rem;margin-bottom:3rem}
+    .toc-title{font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:.08em;color:var(--text-tertiary);margin-bottom:.75rem}
+    .toc ol{padding-left:1.25rem}
+    .toc li{font-size:14px;margin:5px 0}
+    .toc a{color:var(--teal);text-decoration:none}
+    .toc a:hover{text-decoration:underline}
+    .lesson-section{margin-bottom:3.5rem}
+    .lesson-section h2{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;margin-bottom:1.25rem;padding-bottom:.6rem;border-bottom:.5px solid var(--border)}
+    .lesson-section h3{font-size:17px;font-weight:600;margin:1.75rem 0 .75rem;color:var(--text)}
+    .lesson-section p{font-size:15px;line-height:1.85;margin-bottom:1rem}
+    .def-box{background:var(--teal-light);border-left:3px solid var(--teal);border-radius:0 var(--radius) var(--radius) 0;padding:1.25rem 1.5rem;margin:1.25rem 0}
+    .def-box .def-label{font-size:11px;font-weight:500;color:var(--teal-dark);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px}
+    .def-box p{font-size:14px;line-height:1.75;margin:0}
+    .formula-box{background:var(--bg-secondary);border:.5px solid var(--border);border-radius:var(--radius);padding:1.5rem;margin:1.25rem 0;text-align:center}
+    .formula-box .fb-label{font-size:12px;color:var(--text-secondary);margin-bottom:.75rem}
+    .formula-box .fb-desc{font-size:12px;color:var(--text-secondary);margin-top:.75rem;line-height:1.6}
+    .note-box{background:var(--amber-light);border-left:3px solid var(--amber);border-radius:0 var(--radius) var(--radius) 0;padding:1rem 1.5rem;margin:1.25rem 0}
+    .note-box .note-label{font-size:11px;font-weight:500;color:var(--amber-dark);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px}
+    .note-box p{font-size:14px;color:var(--amber-dark);margin:0;line-height:1.7}
+    .example-box{border:.5px solid var(--border);border-radius:var(--radius);overflow:hidden;margin:1.25rem 0}
+    .example-box .ex-header{background:var(--bg-secondary);padding:10px 1.25rem;font-size:12px;font-weight:500;color:var(--text-secondary);text-transform:uppercase;letter-spacing:.07em;border-bottom:.5px solid var(--border)}
+    .example-box .ex-body{padding:1.25rem;font-size:14px;line-height:1.85}
+    .example-box .ex-body p{margin-bottom:.6rem}
+    .prop-list{background:var(--bg-secondary);border:.5px solid var(--border);border-radius:var(--radius);padding:1.25rem 1.5rem;margin:1.25rem 0}
+    .prop-list .pl-title{font-size:13px;font-weight:500;color:var(--text-secondary);margin-bottom:1rem;text-transform:uppercase;letter-spacing:.06em}
+    .prop-list table{width:100%;border-collapse:collapse}
+    .prop-list td{font-size:14px;padding:9px 12px;border-bottom:.5px solid var(--border);vertical-align:middle}
+    .prop-list tr:last-child td{border-bottom:none}
+    .prop-list td:first-child{color:var(--text-secondary);width:38%}
+    .demo-box{background:var(--bg-secondary);border:.5px solid var(--border);border-radius:var(--radius-lg);padding:1.75rem;margin:1.5rem 0}
+    .demo-box h3{font-size:16px;font-weight:600;margin-bottom:.35rem}
+    .demo-box .demo-sub{font-size:13px;color:var(--text-secondary);margin-bottom:1.25rem}
+    .controls{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:1rem}
+    .ctrl-btn{padding:6px 14px;border-radius:8px;border:.5px solid var(--border);background:var(--bg);font-size:13px;font-weight:500;cursor:pointer;color:var(--text);transition:all .2s;font-family:inherit}
+    .ctrl-btn:hover{border-color:var(--border-hover);background:var(--bg-tertiary)}
+    .ctrl-btn.active{background:var(--teal);border-color:var(--teal);color:#fff}
+    .slider-row{display:flex;align-items:center;gap:10px;margin:8px 0}
+    .slider-row label{font-size:13px;color:var(--text-secondary);width:180px;flex-shrink:0}
+    .slider-row input[type=range]{flex:1;accent-color:var(--teal)}
+    .slider-val{font-size:13px;font-weight:500;min-width:60px;text-align:right;font-variant-numeric:tabular-nums}
+    .result-display{background:var(--bg);border-radius:10px;padding:1rem 1.25rem;margin-top:1.25rem;border:.5px solid var(--border)}
+    .rd-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px}
+    .rd-cell{background:var(--bg-secondary);border-radius:8px;padding:10px 12px;text-align:center}
+    .rc-val{font-family:'Playfair Display',serif;font-size:18px;color:var(--teal);font-weight:700}
+    .rc-lbl{font-size:11px;color:var(--text-secondary);margin-top:3px}
+    canvas{display:block;margin:.75rem auto 0;border-radius:var(--radius);max-width:100%}
+    .lesson-nav{display:flex;justify-content:space-between;align-items:center;margin-top:4rem;padding-top:2rem;border-top:.5px solid var(--border);flex-wrap:wrap;gap:1rem}
+    .lesson-nav a{display:inline-flex;align-items:center;gap:6px;font-size:14px;color:var(--text-secondary);text-decoration:none;padding:9px 18px;border:.5px solid var(--border);border-radius:8px;transition:background .2s;font-weight:500}
+    .lesson-nav a:hover{background:var(--bg-secondary);color:var(--text)}
+    .lesson-nav a.next{background:var(--teal);color:#fff;border-color:var(--teal)}
+    .lesson-nav a.next:hover{opacity:.88}
+    footer{border-top:.5px solid var(--border);padding:1.75rem 2rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+    .footer-logo{font-family:'Playfair Display',serif;font-size:18px;font-weight:700}
+    .footer-logo span{color:var(--green)}
+    footer p{font-size:13px;color:var(--text-secondary)}
+    @media(max-width:768px){.page{padding:2rem 1.25rem 4rem}.slider-row label{width:130px}}
+  </style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="index.html">Math<span>∑</span>tique</a>
+  <div class="nav-right">
+    <span class="page-badge">Page 1 / 4</span>
+    <a class="btn-back" href="index.html">← Chapitres</a>
+  </div>
+</nav>
+
+<div class="page">
+  <div class="breadcrumb">
+    <a href="index.html">Accueil</a><span>›</span>
+    <span>Licence · Sciences des matériaux</span><span>›</span>
+    <span style="color:var(--text)">Cristallographie</span>
+  </div>
+
+  <span class="lesson-cat">Licence · Sciences des matériaux</span>
+  <h1 class="lesson-title">Cristallographie</h1>
+  <p class="lesson-intro">La cristallographie est la science de l'ordre atomique dans les solides. Elle décrit comment les atomes s'organisent périodiquement dans l'espace, définit les symétries de cet arrangement, et permet de relier la structure microscopique aux propriétés macroscopiques des matériaux : résistance mécanique, conductivité électrique, propriétés optiques...</p>
+
+  <div class="page-strip">
+    <a class="pg-btn active" href="cristallographie.html">1 · Réseaux &amp; Mailles</a>
+    <a class="pg-btn" href="cristallographie-2.html">2 · Systèmes &amp; Empilement</a>
+    <a class="pg-btn" href="cristallographie-3.html">3 · Diffraction &amp; Bragg</a>
+    <a class="pg-btn" href="cristallographie-4.html">4 · Défauts &amp; Propriétés</a>
+  </div>
+
+  <div class="toc">
+    <div class="toc-title">Table des matières — Page 1</div>
+    <ol>
+      <li><a href="#cristal">Notion de cristal et d'ordre à long portée</a></li>
+      <li><a href="#reseau">Réseau cristallin et vecteurs de base</a></li>
+      <li><a href="#bravais">Les 14 réseaux de Bravais</a></li>
+      <li><a href="#maille">Maille conventionnelle et primitive</a></li>
+      <li><a href="#miller">Indices de Miller</a></li>
+      <li><a href="#directions">Directions cristallographiques</a></li>
+    </ol>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       1. NOTION DE CRISTAL
+  ══════════════════════════════════════════ -->
+  <div class="lesson-section" id="cristal">
+    <h2>1. Notion de cristal et d'ordre à long portée</h2>
+    <p>Un cristal est un solide dans lequel les atomes (ou ions, ou molécules) sont arrangés de façon <strong>périodique et régulière</strong> dans les trois dimensions de l'espace. Cette périodicité s'étend sur de très longues distances devant la taille atomique : on parle d'<em>ordre à long portée</em>.</p>
+    <p>Cette définition s'oppose à celle des solides <em>amorphes</em> (verre, polymères non cristallisés) où l'arrangement atomique ne présente qu'un ordre local à courte portée, et aux <em>quasi-cristaux</em>, découverts en 1984 par Shechtman, qui présentent de l'ordre à long portée mais sans périodicité stricte (symétrie icosaédrique).</p>
+
+    <div class="def-box">
+      <div class="def-label">Définition formelle</div>
+      <p>Un cristal parfait est un solide dont la densité atomique $n(\mathbf{r})$ est une fonction périodique de la position : il existe un ensemble de vecteurs de translation $\{\mathbf{T}\}$ tels que $n(\mathbf{r} + \mathbf{T}) = n(\mathbf{r})$ pour tout $\mathbf{r}$.</p>
+    </div>
+
+    <h3>États de la matière et degré d'ordre</h3>
+    <div class="prop-list">
+      <div class="pl-title">Classification des solides selon leur ordre</div>
+      <table>
+        <tr><td>Cristal parfait</td><td>Ordre à long portée dans les 3 directions. Ex. : NaCl, Fe, Si, diamant.</td></tr>
+        <tr><td>Polycristal</td><td>Ensemble de grains cristallins orientés aléatoirement, séparés par des joints de grains. Ex. : métaux usuels, céramiques frittées.</td></tr>
+        <tr><td>Solide amorphe</td><td>Ordre à courte portée uniquement (1–2 distances interatomiques). Ex. : verre de silice SiO₂.</td></tr>
+        <tr><td>Quasi-cristal</td><td>Ordre à long portée sans périodicité. Symétries icaédriques ou décagonales impossibles pour un cristal classique.</td></tr>
+        <tr><td>Cristal liquide</td><td>Ordre orientationnel sans ordre positionnel (phase nématique) ou ordre partiel (phase smectique).</td></tr>
+      </table>
+    </div>
+
+    <p>La cristallographie exploite la <strong>symétrie de translation</strong> pour décrire un cristal par la simple donnée d'une cellule de base (la maille) et d'un ensemble de vecteurs de translation qui permettent de reconstituer le cristal entier par répétition. Cela réduit considérablement la complexité : au lieu de décrire $10^{23}$ atomes, on décrit seulement les quelques atomes contenus dans la maille.</p>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       2. RÉSEAU CRISTALLIN
+  ══════════════════════════════════════════ -->
+  <div class="lesson-section" id="reseau">
+    <h2>2. Réseau cristallin et vecteurs de base</h2>
+    <p>Le <strong>réseau cristallin</strong> (ou réseau de Bravais) est l'ensemble des points géométriques périodiquement distribués dans l'espace qui constituent la « charpente » mathématique du cristal. Chaque point du réseau a exactement le même environnement que tous les autres.</p>
+
+    <div class="def-box">
+      <div class="def-label">Réseau de Bravais — définition</div>
+      <p>Un réseau de Bravais est l'ensemble de tous les vecteurs de la forme : $$\mathbf{R} = n_1\mathbf{a}_1 + n_2\mathbf{a}_2 + n_3\mathbf{a}_3$$ où $\mathbf{a}_1, \mathbf{a}_2, \mathbf{a}_3$ sont les <em>vecteurs primitifs</em> (vecteurs de base) et $n_1, n_2, n_3$ sont des entiers relatifs quelconques.</p>
+    </div>
+
+    <h3>Paramètres de maille</h3>
+    <p>Une maille est entièrement définie par six paramètres : les longueurs $a, b, c$ des vecteurs primitifs et les angles $\alpha, \beta, \gamma$ entre eux :</p>
+    <div class="formula-box">
+      <div class="fb-label">Paramètres de maille (paramètres de réseau)</div>
+      $$a = |\mathbf{a}_1|, \quad b = |\mathbf{a}_2|, \quad c = |\mathbf{a}_3|$$
+      $$\alpha = \angle(\mathbf{a}_2, \mathbf{a}_3), \quad \beta = \angle(\mathbf{a}_1, \mathbf{a}_3), \quad \gamma = \angle(\mathbf{a}_1, \mathbf{a}_2)$$
+      <div class="fb-desc">$a, b, c$ typiquement en angströms (Å) ou nanomètres · $\alpha, \beta, \gamma$ en degrés · Ces 6 paramètres définissent complètement la géométrie de la maille</div>
+    </div>
+
+    <h3>Volume de la maille</h3>
+    <div class="formula-box">
+      <div class="fb-label">Volume de la maille primitive</div>
+      $$V = \mathbf{a}_1 \cdot (\mathbf{a}_2 \times \mathbf{a}_3) = abc\sqrt{1 - \cos^2\alpha - \cos^2\beta - \cos^2\gamma + 2\cos\alpha\cos\beta\cos\gamma}$$
+      <div class="fb-desc">Pour le cas cubique ($a=b=c$, $\alpha=\beta=\gamma=90°$) : $V = a^3$</div>
+    </div>
+
+    <!-- ANIMATION réseau 2D interactif -->
+    <div class="demo-box">
+      <h3>Animation — Réseau 2D et vecteurs primitifs</h3>
+      <p class="demo-sub">Modifiez les paramètres de maille et visualisez le réseau bidimensionnel résultant.</p>
+      <div class="slider-row">
+        <label>Longueur $a$ (Å)</label>
+        <input type="range" id="net_a" min="1.5" max="5.0" step="0.1" value="3.0" oninput="drawNetwork()">
+        <span class="slider-val" id="net_aVal">3.0 Å</span>
+      </div>
+      <div class="slider-row">
+        <label>Longueur $b$ (Å)</label>
+        <input type="range" id="net_b" min="1.5" max="5.0" step="0.1" value="3.0" oninput="drawNetwork()">
+        <span class="slider-val" id="net_bVal">3.0 Å</span>
+      </div>
+      <div class="slider-row">
+        <label>Angle $\gamma$ (°)</label>
+        <input type="range" id="net_gamma" min="60" max="120" step="1" value="90" oninput="drawNetwork()">
+        <span class="slider-val" id="net_gammaVal">90°</span>
+      </div>
+      <canvas id="networkCanvas" width="760" height="320" style="background:var(--bg-tertiary);border:.5px solid var(--border);border-radius:var(--radius)"></canvas>
+      <div class="result-display">
+        <div class="rd-grid">
+          <div class="rd-cell"><div class="rc-val" id="net_vol">9.00</div><div class="rc-lbl">Volume maille (Å²)</div></div>
+          <div class="rd-cell"><div class="rc-val" id="net_type">Carré</div><div class="rc-lbl">Type de réseau 2D</div></div>
+          <div class="rd-cell"><div class="rc-val" id="net_density">—</div><div class="rc-lbl">Points / Å²</div></div>
+        </div>
+      </div>
+    </div>
+
+    <h3>Base atomique</h3>
+    <p>Le cristal réel est obtenu en associant à chaque nœud du réseau un <strong>motif</strong> (ou base) : un ensemble d'atomes de nature et de position bien définies. Si la base ne contient qu'un seul atome au nœud, la structure est dite <em>monatomique</em>. Sinon, la structure cristalline est le produit de convolution du réseau et de la base :</p>
+    <div class="formula-box">
+      <div class="fb-label">Structure cristalline = Réseau ⊗ Base</div>
+      $$\rho(\mathbf{r}) = \sum_{\mathbf{R}} \sum_j f_j(\mathbf{r} - \mathbf{R} - \mathbf{d}_j)$$
+      <div class="fb-desc">$\mathbf{R}$ : vecteurs du réseau · $\mathbf{d}_j$ : position du $j$-ème atome dans la base · $f_j$ : densité électronique de l'atome $j$</div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       3. RÉSEAUX DE BRAVAIS
+  ══════════════════════════════════════════ -->
+  <div class="lesson-section" id="bravais">
+    <h2>3. Les 14 réseaux de Bravais</h2>
+    <p>En 1848, Auguste Bravais démontra qu'il n'existe que <strong>14 types de réseaux tridimensionnels</strong> compatibles avec la symétrie de translation, répartis en 7 systèmes cristallins. Cette classification est fondamentale : elle garantit que tout cristal appartient à l'un de ces 14 réseaux.</p>
+
+    <div class="prop-list">
+      <div class="pl-title">Les 7 systèmes cristallins et leurs réseaux de Bravais</div>
+      <table>
+        <tr>
+          <td><strong>Cubique</strong></td>
+          <td>$a=b=c$, $\alpha=\beta=\gamma=90°$ · 3 réseaux : P, I (centré), F (faces)</td>
+        </tr>
+        <tr>
+          <td><strong>Quadratique</strong></td>
+          <td>$a=b\neq c$, $\alpha=\beta=\gamma=90°$ · 2 réseaux : P, I</td>
+        </tr>
+        <tr>
+          <td><strong>Orthorhombique</strong></td>
+          <td>$a\neq b\neq c$, $\alpha=\beta=\gamma=90°$ · 4 réseaux : P, C, I, F</td>
+        </tr>
+        <tr>
+          <td><strong>Hexagonal</strong></td>
+          <td>$a=b\neq c$, $\alpha=\beta=90°$, $\gamma=120°$ · 1 réseau : P</td>
+        </tr>
+        <tr>
+          <td><strong>Trigonal (rhomboédrique)</strong></td>
+          <td>$a=b=c$, $\alpha=\beta=\gamma\neq 90°$ · 1 réseau : R</td>
+        </tr>
+        <tr>
+          <td><strong>Monoclinique</strong></td>
+          <td>$a\neq b\neq c$, $\alpha=\gamma=90°\neq\beta$ · 2 réseaux : P, C</td>
+        </tr>
+        <tr>
+          <td><strong>Triclinique</strong></td>
+          <td>$a\neq b\neq c$, $\alpha\neq\beta\neq\gamma$ · 1 réseau : P</td>
+        </tr>
+      </table>
+    </div>
+
+    <p>Les symboles P, I, C, F, R désignent le type de centrage : P = primitif (nœuds aux sommets seulement), I = centré corps (<em>Innenzentriert</em>, nœud au centre), F = centré faces (nœuds au centre de chaque face), C = centré base (nœuds au centre des faces supérieure et inférieure), R = rhomboédrique.</p>
+
+    <!-- ANIMATION des 3 réseaux cubiques -->
+    <div class="demo-box">
+      <h3>Animation — Réseaux cubiques : SC, BCC, FCC</h3>
+      <p class="demo-sub">Sélectionnez un réseau et faites tourner la maille pour visualiser les positions atomiques.</p>
+      <div class="controls">
+        <button class="ctrl-btn active" onclick="setBravais('SC',this)">SC — Cubique simple</button>
+        <button class="ctrl-btn" onclick="setBravais('BCC',this)">BCC — Centré corps</button>
+        <button class="ctrl-btn" onclick="setBravais('FCC',this)">FCC — Centré faces</button>
+        <button class="ctrl-btn" onclick="setBravais('HCP',this)">HCP — Hexagonal</button>
+      </div>
+      <div class="slider-row">
+        <label>Rotation horizontale</label>
+        <input type="range" id="brav_rotX" min="0" max="360" value="30" oninput="drawBravais()">
+        <span class="slider-val" id="brav_rotXVal">30°</span>
+      </div>
+      <div class="slider-row">
+        <label>Rotation verticale</label>
+        <input type="range" id="brav_rotY" min="-60" max="60" value="20" oninput="drawBravais()">
+        <span class="slider-val" id="brav_rotYVal">20°</span>
+      </div>
+      <div class="slider-row">
+        <label>Paramètre $a$ (Å)</label>
+        <input type="range" id="brav_a" min="2.0" max="5.0" step="0.05" value="3.52" oninput="drawBravais()">
+        <span class="slider-val" id="brav_aVal">3.52 Å</span>
+      </div>
+      <canvas id="bravaisCanvas" width="760" height="380" style="background:var(--bg-tertiary);border:.5px solid var(--border);border-radius:var(--radius)"></canvas>
+      <div class="result-display">
+        <div class="rd-grid">
+          <div class="rd-cell"><div class="rc-val" id="brav_natoms">—</div><div class="rc-lbl">Atomes / maille</div></div>
+          <div class="rd-cell"><div class="rc-val" id="brav_coord">—</div><div class="rc-lbl">Coordinence</div></div>
+          <div class="rd-cell"><div class="rc-val" id="brav_compact">—</div><div class="rc-lbl">Compacité</div></div>
+          <div class="rd-cell"><div class="rc-val" id="brav_rayon">—</div><div class="rc-lbl">Rayon atomique</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       4. MAILLE
+  ══════════════════════════════════════════ -->
+  <div class="lesson-section" id="maille">
+    <h2>4. Maille conventionnelle et maille primitive</h2>
+    <p>La <strong>maille primitive</strong> est le plus petit parallélépipède dont la répétition par translation engendre tout le réseau. Elle contient exactement <strong>1 nœud</strong> par maille (les nœuds aux sommets sont partagés entre plusieurs mailles). La maille primitive n'est pas unique : on peut en choisir plusieurs différentes pour le même réseau.</p>
+    <p>La <strong>maille de Wigner-Seitz</strong> est une maille primitive particulièrement symétrique : c'est la région de l'espace plus proche d'un nœud donné que de n'importe quel autre nœud. Elle est construite par les plans médiateurs des segments reliant le nœud central à ses voisins.</p>
+    <p>La <strong>maille conventionnelle</strong> est choisie pour mettre en évidence la symétrie du cristal, même si elle contient plusieurs nœuds (2 pour BCC, 4 pour FCC). Elle est définie par les paramètres de réseau $a, b, c, \alpha, \beta, \gamma$.</p>
+
+    <div class="prop-list">
+      <div class="pl-title">Nombre d'atomes par maille conventionnelle</div>
+      <table>
+        <tr><td>Cubique simple (SC / P)</td><td>$8 \times \frac{1}{8} = 1$ atome</td></tr>
+        <tr><td>Cubique centré corps (BCC / I)</td><td>$8 \times \frac{1}{8} + 1 = 2$ atomes</td></tr>
+        <tr><td>Cubique centré faces (FCC / F)</td><td>$8 \times \frac{1}{8} + 6 \times \frac{1}{2} = 4$ atomes</td></tr>
+        <tr><td>Hexagonal compact (HCP)</td><td>$2$ atomes par maille primitive</td></tr>
+      </table>
+    </div>
+
+    <div class="note-box">
+      <div class="note-label">Densité atomique volumique</div>
+      <p>La densité volumique d'atomes est $n = N/V$ où $N$ est le nombre d'atomes par maille et $V$ le volume de la maille. La masse volumique théorique vaut $\rho = nM/N_A$ où $M$ est la masse molaire atomique et $N_A$ le nombre d'Avogadro.</p>
+    </div>
+
+    <div class="demo-box">
+      <h3>Animation — Maille primitive vs conventionnelle</h3>
+      <p class="demo-sub">Visualisez la maille de Wigner-Seitz en 2D et le calcul du nombre d'atomes par maille.</p>
+      <div class="controls">
+        <button class="ctrl-btn active" onclick="setMailleType('SC2D',this)">Carré (SC)</button>
+        <button class="ctrl-btn" onclick="setMailleType('HEX2D',this)">Hexagonal</button>
+        <button class="ctrl-btn" onclick="setMailleType('RECT2D',this)">Rectangulaire</button>
+      </div>
+      <canvas id="mailleCanvas" width="760" height="320" style="background:var(--bg-tertiary);border:.5px solid var(--border);border-radius:var(--radius)"></canvas>
+      <div class="result-display">
+        <div class="rd-grid">
+          <div class="rd-cell"><div class="rc-val" id="maille_n">1</div><div class="rc-lbl">Atomes / maille primitive</div></div>
+          <div class="rd-cell"><div class="rc-val" id="maille_ws">Carré</div><div class="rc-lbl">Forme Wigner-Seitz</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       5. INDICES DE MILLER
+  ══════════════════════════════════════════ -->
+  <div class="lesson-section" id="miller">
+    <h2>5. Indices de Miller</h2>
+    <p>Les <strong>indices de Miller</strong> $(hkl)$ sont une notation standardisée permettant d'identifier sans ambiguïté n'importe quel plan réticulaire d'un cristal. Introduits par William Hallowes Miller en 1839, ils sont aujourd'hui universellement utilisés en cristallographie, diffraction des rayons X et métallurgie.</p>
+
+    <h3>Procédure de détermination</h3>
+    <p>Pour trouver les indices de Miller d'un plan :</p>
+    <ol style="padding-left:1.5rem;font-size:15px;line-height:2">
+      <li>Identifier les intersections du plan avec les axes cristallographiques $a$, $b$, $c$ en unités de paramètres de maille : $(p, q, r)$.</li>
+      <li>Prendre les inverses : $(1/p, 1/q, 1/r)$.</li>
+      <li>Multiplier par le plus petit entier qui rend tous les inverses entiers.</li>
+      <li>Écrire le résultat $(hkl)$ sans virgules. Un indice négatif est noté avec une barre : $\bar{h}$ (lu "h barre").</li>
+    </ol>
+
+    <div class="formula-box">
+      <div class="fb-label">Indices de Miller — cas particuliers importants</div>
+      $$\text{Plan } (100) : \text{perpendiculaire à } \mathbf{a}_1$$
+      $$\text{Plan } (110) : \text{coupe } \mathbf{a}_1 \text{ et } \mathbf{a}_2, \text{ parallèle à } \mathbf{a}_3$$
+      $$\text{Plan } (111) : \text{coupe les trois axes en } a, b, c$$
+      <div class="fb-desc">La famille de plans $\{hkl\}$ regroupe tous les plans équivalents par symétrie · L'espacement interréticulaire $d_{hkl}$ est la distance entre plans parallèles $(hkl)$ consécutifs</div>
+    </div>
+
+    <h3>Distance interréticulaire</h3>
+    <p>La distance entre deux plans $(hkl)$ consécutifs est cruciale pour la diffraction. Dans le cas cubique :</p>
+    <div class="formula-box">
+      <div class="fb-label">Distance interréticulaire — système cubique</div>
+      $$d_{hkl} = \frac{a}{\sqrt{h^2 + k^2 + l^2}}$$
+      <div class="fb-desc">Pour les autres systèmes la formule est plus complexe. Pour le système hexagonal : $\dfrac{1}{d_{hkl}^2} = \dfrac{4}{3}\dfrac{h^2+hk+k^2}{a^2} + \dfrac{l^2}{c^2}$</div>
+    </div>
+
+    <!-- ANIMATION indices de Miller interactive -->
+    <div class="demo-box">
+      <h3>Animation — Plans de Miller interactifs</h3>
+      <p class="demo-sub">Choisissez les indices $h$, $k$, $l$ et visualisez le plan correspondant dans la maille cubique.</p>
+      <div class="slider-row">
+        <label>Indice $h$</label>
+        <input type="range" id="mill_h" min="0" max="3" step="1" value="1" oninput="drawMiller()">
+        <span class="slider-val" id="mill_hVal">1</span>
+      </div>
+      <div class="slider-row">
+        <label>Indice $k$</label>
+        <input type="range" id="mill_k" min="0" max="3" step="1" value="0" oninput="drawMiller()">
+        <span class="slider-val" id="mill_kVal">0</span>
+      </div>
+      <div class="slider-row">
+        <label>Indice $l$</label>
+        <input type="range" id="mill_l" min="0" max="3" step="1" value="0" oninput="drawMiller()">
+        <span class="slider-val" id="mill_lVal">0</span>
+      </div>
+      <div class="slider-row">
+        <label>Paramètre $a$ (Å)</label>
+        <input type="range" id="mill_a" min="2.0" max="6.0" step="0.1" value="3.52" oninput="drawMiller()">
+        <span class="slider-val" id="mill_aVal">3.52 Å</span>
+      </div>
+      <canvas id="millerCanvas" width="760" height="400" style="background:var(--bg-tertiary);border:.5px solid var(--border);border-radius:var(--radius)"></canvas>
+      <div class="result-display">
+        <div class="rd-grid">
+          <div class="rd-cell"><div class="rc-val" id="mill_plan">(100)</div><div class="rc-lbl">Plan de Miller</div></div>
+          <div class="rd-cell"><div class="rc-val" id="mill_d">—</div><div class="rc-lbl">Distance $d_{hkl}$</div></div>
+          <div class="rd-cell"><div class="rc-val" id="mill_mult">—</div><div class="rc-lbl">Multiplicité</div></div>
+          <div class="rd-cell"><div class="rc-val" id="mill_desc">—</div><div class="rc-lbl">Description</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       6. DIRECTIONS CRISTALLOGRAPHIQUES
+  ══════════════════════════════════════════ -->
+  <div class="lesson-section" id="directions">
+    <h2>6. Directions cristallographiques</h2>
+    <p>Les directions dans un cristal sont notées $[uvw]$ où $u$, $v$, $w$ sont des entiers (positifs ou négatifs) proportionnels aux composantes du vecteur directeur sur les axes cristallographiques. La famille de directions équivalentes par symétrie est notée $\langle uvw \rangle$.</p>
+
+    <div class="prop-list">
+      <div class="pl-title">Directions importantes dans le cubique</div>
+      <table>
+        <tr><td>$[100], [010], [001]$</td><td>Arêtes du cube · Famille $\langle 100 \rangle$ (6 directions)</td></tr>
+        <tr><td>$[110], [1\bar{1}0]$, ...</td><td>Diagonales des faces · Famille $\langle 110 \rangle$ (12 directions)</td></tr>
+        <tr><td>$[111], [1\bar{1}\bar{1}]$, ...</td><td>Grandes diagonales · Famille $\langle 111 \rangle$ (8 directions)</td></tr>
+      </table>
+    </div>
+
+    <div class="note-box">
+      <div class="note-label">Relation plan–direction dans le cubique</div>
+      <p>Dans un système cubique uniquement, la direction $[hkl]$ est perpendiculaire au plan $(hkl)$. Cette propriété n'est pas vraie dans les autres systèmes cristallins où la métrique n'est pas orthonormée.</p>
+    </div>
+
+    <div class="example-box">
+      <div class="ex-header">Exemple — Calcul de distance interréticulaire</div>
+      <div class="ex-body">
+        <p>Le nickel (Ni) a une structure FCC avec $a = 3{,}524\ \text{Å}$. Calculons $d_{111}$ :</p>
+        <p>$$d_{111} = \frac{3{,}524}{\sqrt{1^2+1^2+1^2}} = \frac{3{,}524}{\sqrt{3}} = \frac{3{,}524}{1{,}732} \approx 2{,}034\ \text{Å}$$</p>
+        <p>Cette distance apparaîtra comme un pic de diffraction X à l'angle de Bragg correspondant (voir page 3).</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="lesson-nav">
+    <a href="index.html">← Chapitres</a>
+    <a class="next" href="cristallographie-2.html">Page 2 : Systèmes &amp; Empilement →</a>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-logo">Math<span>∑</span>tique</div>
+  <p>Site éducatif — Libre et gratuit</p>
+  <p style="font-size:13px;color:var(--text-tertiary)">Fait avec ♥ et beaucoup de π</p>
+</footer>
+
+<script>
+/* ═══════════════════════════════════════════════
+   UTILITAIRES 3D → 2D (projection isométrique)
+════════════════════════════════════════════════ */
+function project3D(x, y, z, rotX, rotY, scale, cx, cy) {
+  const rx = rotX * Math.PI / 180;
+  const ry = rotY * Math.PI / 180;
+  // Rotation Y
+  let x1 = x * Math.cos(rx) - z * Math.sin(rx);
+  let z1 = x * Math.sin(rx) + z * Math.cos(rx);
+  let y1 = y;
+  // Rotation X
+  let y2 = y1 * Math.cos(ry) - z1 * Math.sin(ry);
+  let z2 = y1 * Math.sin(ry) + z1 * Math.cos(ry);
+  return [cx + x1 * scale, cy - y2 * scale];
+}
+
+function isDarkMode() {
+  return window.matchMedia('(prefers-color-scheme: dark)').matches;
+}
+
+/* ═══════════════════════════════════════════════
+   RÉSEAU 2D
+════════════════════════════════════════════════ */
+function drawNetwork() {
+  const a = parseFloat(document.getElementById('net_a').value);
+  const b = parseFloat(document.getElementById('net_b').value);
+  const gamma_deg = parseFloat(document.getElementById('net_gamma').value);
+  document.getElementById('net_aVal').textContent = a.toFixed(1) + ' Å';
+  document.getElementById('net_bVal').textContent = b.toFixed(1) + ' Å';
+  document.getElementById('net_gammaVal').textContent = gamma_deg + '°';
+  const gamma = gamma_deg * Math.PI / 180;
+  const vol = a * b * Math.abs(Math.sin(gamma));
+  document.getElementById('net_vol').textContent = vol.toFixed(2);
+  const density = (1 / vol).toFixed(3);
+  document.getElementById('net_density').textContent = density;
+  let type = 'Oblique';
+  if (Math.abs(a - b) < 0.05 && Math.abs(gamma_deg - 90) < 2) type = 'Carré';
+  else if (Math.abs(a - b) < 0.05 && Math.abs(gamma_deg - 120) < 2) type = 'Hexagonal';
+  else if (Math.abs(gamma_deg - 90) < 2) type = 'Rectangulaire';
+  document.getElementById('net_type').textContent = type;
+  const canvas = document.getElementById('networkCanvas');
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  const dark = isDarkMode();
+  ctx.clearRect(0, 0, W, H);
+  ctx.fillStyle = dark ? '#222220' : '#f0efe9';
+  ctx.fillRect(0, 0, W, H);
+  const scale = 55;
+  const cx = W / 2, cy = H / 2;
+  const ax1 = a * scale, ay1 = 0;
+  const bx1 = b * scale * Math.cos(gamma), by1 = -b * scale * Math.sin(gamma);
+  // Draw grid of cells
+  for (let i = -4; i <= 4; i++) {
+    for (let j = -4; j <= 4; j++) {
+      const px = cx + i * ax1 + j * bx1;
+      const py = cy + i * ay1 + j * by1;
+      if (px < -50 || px > W + 50 || py < -50 || py > H + 50) continue;
+      // Maille
+      ctx.strokeStyle = dark ? 'rgba(14,116,144,0.25)' : 'rgba(14,116,144,0.18)';
+      ctx.lineWidth = 0.8;
+      ctx.beginPath();
+      ctx.moveTo(px, py);
+      ctx.lineTo(px + ax1, py + ay1);
+      ctx.lineTo(px + ax1 + bx1, py + ay1 + by1);
+      ctx.lineTo(px + bx1, py + by1);
+      ctx.closePath();
+      ctx.stroke();
+    }
+  }
+  // Draw atoms
+  for (let i = -4; i <= 4; i++) {
+    for (let j = -4; j <= 4; j++) {
+      const px = cx + i * ax1 + j * bx1;
+      const py = cy + i * ay1 + j * by1;
+      if (px < -30 || px > W + 30 || py < -30 || py > H + 30) continue;
+      ctx.beginPath();
+      ctx.arc(px, py, 7, 0, 2 * Math.PI);
+      ctx.fillStyle = '#0E7490';
+      ctx.fill();
+      ctx.strokeStyle = dark ? '#7dd3e0' : '#065a6b';
+      ctx.lineWidth = 1;
+      ctx.stroke();
+    }
+  }
+  // Highlight unit cell at origin
+  ctx.strokeStyle = '#0E7490';
+  ctx.lineWidth = 2.5;
+  ctx.beginPath();
+  ctx.moveTo(cx, cy);
+  ctx.lineTo(cx + ax1, cy + ay1);
+  ctx.lineTo(cx + ax1 + bx1, cy + ay1 + by1);
+  ctx.lineTo(cx + bx1, cy + by1);
+  ctx.closePath();
+  ctx.stroke();
+  // Vector a
+  ctx.strokeStyle = '#C0392B'; ctx.lineWidth = 2;
+  ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(cx + ax1, cy + ay1); ctx.stroke();
+  ctx.fillStyle = '#C0392B'; ctx.font = 'bold 14px DM Sans, sans-serif'; ctx.textAlign = 'center';
+  ctx.fillText('a', cx + ax1 / 2, cy + 18);
+  // Vector b
+  ctx.strokeStyle = '#1D9E75'; ctx.lineWidth = 2;
+  ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(cx + bx1, cy + by1); ctx.stroke();
+  ctx.fillStyle = '#1D9E75';
+  ctx.fillText('b', cx + bx1 / 2 - 14, cy + by1 / 2);
+  // Angle gamma
+  ctx.strokeStyle = dark ? '#aaa' : '#888'; ctx.lineWidth = 1; ctx.setLineDash([3, 3]);
+  ctx.beginPath();
+  const r = 28;
+  ctx.arc(cx, cy, r, -Math.PI / 2 + gamma - Math.PI / 2, 0, false);
+  ctx.stroke(); ctx.setLineDash([]);
+  ctx.fillStyle = dark ? '#ccc' : '#555'; ctx.font = '12px DM Sans, sans-serif';
+  ctx.fillText('γ=' + gamma_deg + '°', cx + r + 8, cy - 10);
+}
+
+/* ═══════════════════════════════════════════════
+   RÉSEAUX CUBIQUES 3D
+════════════════════════════════════════════════ */
+let currentBravais = 'SC';
+function setBravais(type, btn) {
+  currentBravais = type;
+  document.querySelectorAll('#bravaisCanvas').forEach(() => {});
+  document.querySelectorAll('.ctrl-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  // Set default a for each structure
+  const defaults = { SC: 2.87, BCC: 2.87, FCC: 3.52, HCP: 3.21 };
+  document.getElementById('brav_a').value = defaults[type];
+  document.getElementById('brav_aVal').textContent = defaults[type] + ' Å';
+  drawBravais();
+}
+
+function drawBravais() {
+  const rotX = parseFloat(document.getElementById('brav_rotX').value);
+  const rotY = parseFloat(document.getElementById('brav_rotY').value);
+  const a = parseFloat(document.getElementById('brav_a').value);
+  document.getElementById('brav_rotXVal').textContent = rotX + '°';
+  document.getElementById('brav_rotYVal').textContent = rotY + '°';
+  document.getElementById('brav_aVal').textContent = a.toFixed(2) + ' Å';
+
+  const infoMap = {
+    SC:  { n: 1, coord: 6,  compact: 0.524, rFn: a => a/2,        rLabel: 'a/2' },
+    BCC: { n: 2, coord: 8,  compact: 0.680, rFn: a => a*Math.sqrt(3)/4, rLabel: 'a√3/4' },
+    FCC: { n: 4, coord: 12, compact: 0.740, rFn: a => a*Math.sqrt(2)/4, rLabel: 'a√2/4' },
+    HCP: { n: 2, coord: 12, compact: 0.740, rFn: a => a/2,        rLabel: 'a/2' }
+  };
+  const info = infoMap[currentBravais];
+  document.getElementById('brav_natoms').textContent = info.n;
+  document.getElementById('brav_coord').textContent = info.coord;
+  document.getElementById('brav_compact').textContent = (info.compact * 100).toFixed(1) + '%';
+  const r = info.rFn(a);
+  document.getElementById('brav_rayon').textContent = r.toFixed(3) + ' Å';
+
+  const canvas = document.getElementById('bravaisCanvas');
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  const dark = isDarkMode();
+  ctx.clearRect(0, 0, W, H);
+  ctx.fillStyle = dark ? '#222220' : '#f0efe9';
+  ctx.fillRect(0, 0, W, H);
+
+  const scale = 68;
+  const cx = W / 2, cy = H / 2 + 10;
+  const p = (x, y, z) => project3D(x, y, z, rotX, rotY, scale, cx, cy);
+
+  // Positions atomiques
+  let atoms = [];
+  let atomColors = [];
+  const cornerColor = '#0E7490';
+  const centerColor = '#E04000';
+  const faceColor = '#1D9E75';
+
+  if (currentBravais === 'SC') {
+    for (let i=0;i<=1;i++) for (let j=0;j<=1;j++) for (let k=0;k<=1;k++) {
+      atoms.push([i-0.5, j-0.5, k-0.5]); atomColors.push(cornerColor);
+    }
+  } else if (currentBravais === 'BCC') {
+    for (let i=0;i<=1;i++) for (let j=0;j<=1;j++) for (let k=0;k<=1;k++) {
+      atoms.push([i-0.5, j-0.5, k-0.5]); atomColors.push(cornerColor);
+    }
+    atoms.push([0, 0, 0]); atomColors.push(centerColor);
+  } else if (currentBravais === 'FCC') {
+    for (let i=0;i<=1;i++) for (let j=0;j<=1;j++) for (let k=0;k<=1;k++) {
+      atoms.push([i-0.5, j-0.5, k-0.5]); atomColors.push(cornerColor);
+    }
+    const faces = [[0,0,-.5],[0,0,.5],[0,-.5,0],[0,.5,0],[-.5,0,0],[.5,0,0]];
+    faces.forEach(f => { atoms.push(f); atomColors.push(faceColor); });
+  } else if (currentBravais === 'HCP') {
+    // Simplified HCP representation
+    const c_over_a = 1.633;
+    const c = c_over_a;
+    // Layer A (z=0)
+    const hexA = [[1,0,0],[-1,0,0],[0.5,Math.sqrt(3)/2,0],[-0.5,Math.sqrt(3)/2,0],[0.5,-Math.sqrt(3)/2,0],[-0.5,-Math.sqrt(3)/2,0]];
+    hexA.forEach(([x,y,z]) => { atoms.push([x*0.5,y*0.5,-c/2]); atomColors.push(cornerColor); });
+    // Layer B (z=c/2)
+    const hexB = [[0,1/Math.sqrt(3),0],[-0.5,-1/(2*Math.sqrt(3)),0],[0.5,-1/(2*Math.sqrt(3)),0]];
+    hexB.forEach(([x,y]) => { atoms.push([x,y,0]); atomColors.push(centerColor); });
+    // Layer C (z=c)
+    hexA.forEach(([x,y,z]) => { atoms.push([x*0.5,y*0.5,c/2]); atomColors.push(cornerColor); });
+  }
+
+  // Draw edges of cube
+  const edges = [
+    [[-0.5,-0.5,-0.5],[0.5,-0.5,-0.5]], [[-0.5,0.5,-0.5],[0.5,0.5,-0.5]],
+    [[-0.5,-0.5,0.5],[0.5,-0.5,0.5]],   [[-0.5,0.5,0.5],[0.5,0.5,0.5]],
+    [[-0.5,-0.5,-0.5],[-0.5,0.5,-0.5]], [[0.5,-0.5,-0.5],[0.5,0.5,-0.5]],
+    [[-0.5,-0.5,0.5],[-0.5,0.5,0.5]],   [[0.5,-0.5,0.5],[0.5,0.5,0.5]],
+    [[-0.5,-0.5,-0.5],[-0.5,-0.5,0.5]], [[-0.5,0.5,-0.5],[-0.5,0.5,0.5]],
+    [[0.5,-0.5,-0.5],[0.5,-0.5,0.5]],   [[0.5,0.5,-0.5],[0.5,0.5,0.5]]
+  ];
+
+  if (currentBravais !== 'HCP') {
+    ctx.strokeStyle = dark ? 'rgba(14,116,144,0.6)' : 'rgba(14,116,144,0.5)';
+    ctx.lineWidth = 1.5;
+    edges.forEach(([A, B]) => {
+      const [ax, ay] = p(...A);
+      const [bx, by] = p(...B);
+      ctx.beginPath(); ctx.moveTo(ax, ay); ctx.lineTo(bx, by); ctx.stroke();
+    });
+  } else {
+    // HCP hexagonal prism edges
+    ctx.strokeStyle = dark ? 'rgba(14,116,144,0.5)' : 'rgba(14,116,144,0.4)';
+    ctx.lineWidth = 1.2;
+    const c = 1.633 * 0.5;
+    const hexPts = [[0.5,0],[0.25,Math.sqrt(3)/4],[-0.25,Math.sqrt(3)/4],[-0.5,0],[-0.25,-Math.sqrt(3)/4],[0.25,-Math.sqrt(3)/4]];
+    // Draw top and bottom hexagons
+    [-c, c].forEach(z => {
+      for (let i = 0; i < 6; i++) {
+        const [x1,y1] = hexPts[i];
+        const [x2,y2] = hexPts[(i+1)%6];
+        const [ax2,ay2] = p(x1,y1,z);
+        const [bx2,by2] = p(x2,y2,z);
+        ctx.beginPath(); ctx.moveTo(ax2,ay2); ctx.lineTo(bx2,by2); ctx.stroke();
+      }
+    });
+    // Vertical edges
+    hexPts.forEach(([x,y]) => {
+      const [ax2,ay2] = p(x,y,-c);
+      const [bx2,by2] = p(x,y, c);
+      ctx.beginPath(); ctx.moveTo(ax2,ay2); ctx.lineTo(bx2,by2); ctx.stroke();
+    });
+  }
+
+  // Draw atoms sorted by depth
+  const atomsWithDepth = atoms.map((pos, i) => {
+    const [px2, py2] = p(...pos);
+    // Compute depth
+    const rx = rotX * Math.PI / 180;
+    const ry = rotY * Math.PI / 180;
+    const [x, y, z] = pos;
+    const x1 = x * Math.cos(rx) - z * Math.sin(rx);
+    const z1 = x * Math.sin(rx) + z * Math.cos(rx);
+    const z2 = y * Math.sin(ry) + z1 * Math.cos(ry);
+    return { px: px2, py: py2, color: atomColors[i], depth: z2 };
+  }).sort((a, b) => a.depth - b.depth);
+
+  const rAtom = Math.max(10, scale * 0.18);
+  atomsWithDepth.forEach(({ px: px2, py: py2, color, depth }) => {
+    ctx.beginPath();
+    ctx.arc(px2, py2, rAtom, 0, 2 * Math.PI);
+    ctx.fillStyle = color;
+    ctx.fill();
+    ctx.strokeStyle = dark ? 'rgba(255,255,255,0.25)' : 'rgba(0,0,0,0.2)';
+    ctx.lineWidth = 1;
+    ctx.stroke();
+    // Highlight
+    ctx.beginPath();
+    ctx.arc(px2 - rAtom * 0.25, py2 - rAtom * 0.25, rAtom * 0.28, 0, 2 * Math.PI);
+    ctx.fillStyle = 'rgba(255,255,255,0.35)';
+    ctx.fill();
+  });
+
+  // Labels
+  const labels = { SC: 'Cubique simple (SC)', BCC: 'Cubique centré corps (BCC)', FCC: 'Cubique centré faces (FCC)', HCP: 'Hexagonal compact (HCP)' };
+  ctx.fillStyle = dark ? '#aaa' : '#666';
+  ctx.font = '13px DM Sans, sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText(labels[currentBravais], W / 2, H - 14);
+  ctx.fillText(`a = ${a.toFixed(2)} Å`, W / 2, H - 32);
+
+  // Axes
+  const axLen = 0.7;
+  const axes = [[[0,0,0],[axLen,0,0],'a','#C0392B'],[[0,0,0],[0,axLen,0],'b','#1D9E75'],[[0,0,0],[0,0,axLen],'c','#9B59B6']];
+  const axOrigin = p(-0.75, -0.75, -0.75);
+  axes.forEach(([from, to, label, color]) => {
+    const [fx, fy] = project3D(from[0]-0.75, from[1]-0.75, from[2]-0.75, rotX, rotY, scale*0.85, cx-220, cy+100);
+    const [tx, ty] = project3D(to[0]-0.75, to[1]-0.75, to[2]-0.75, rotX, rotY, scale*0.85, cx-220, cy+100);
+    ctx.strokeStyle = color; ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.moveTo(fx, fy); ctx.lineTo(tx, ty); ctx.stroke();
+    ctx.fillStyle = color; ctx.font = 'bold 12px DM Sans, sans-serif';
+    ctx.fillText(label, tx + 8, ty);
+  });
+}
+
+/* ═══════════════════════════════════════════════
+   MAILLE WIGNER-SEITZ 2D
+════════════════════════════════════════════════ */
+let currentMailleType = 'SC2D';
+function setMailleType(type, btn) {
+  currentMailleType = type;
+  document.querySelectorAll('.ctrl-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  drawMaille();
+}
+
+function drawMaille() {
+  const canvas = document.getElementById('mailleCanvas');
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  const dark = isDarkMode();
+  ctx.clearRect(0, 0, W, H);
+  ctx.fillStyle = dark ? '#222220' : '#f0efe9';
+  ctx.fillRect(0, 0, W, H);
+  const cx = W / 2, cy = H / 2;
+  const scale = 70;
+  let basis, wsShape, wsDesc, wsN;
+
+  if (currentMailleType === 'SC2D') {
+    basis = [[1,0],[0,1]]; wsShape = 'square'; wsDesc = 'Carré'; wsN = 1;
+  } else if (currentMailleType === 'HEX2D') {
+    basis = [[1,0],[0.5,Math.sqrt(3)/2]]; wsShape = 'hexagon'; wsDesc = 'Hexagone'; wsN = 1;
+  } else {
+    basis = [[1.5,0],[0,1]]; wsShape = 'rect'; wsDesc = 'Rectangle'; wsN = 1;
+  }
+
+  const [a1, a2] = basis;
+  // Draw lattice points and maille
+  for (let i = -4; i <= 4; i++) {
+    for (let j = -4; j <= 4; j++) {
+      const px = cx + (i*a1[0] + j*a2[0]) * scale;
+      const py = cy - (i*a1[1] + j*a2[1]) * scale;
+      if (px < -20 || px > W+20 || py < -20 || py > H+20) continue;
+      // Unit cell outline
+      const ax = cx + (i*a1[0]+j*a2[0])*scale, ay = cy-(i*a1[1]+j*a2[1])*scale;
+      ctx.strokeStyle = dark ? 'rgba(14,116,144,0.2)' : 'rgba(14,116,144,0.15)';
+      ctx.lineWidth = 0.8;
+      const corners = [[ax,ay],[ax+a1[0]*scale,ay-a1[1]*scale],[ax+(a1[0]+a2[0])*scale,ay-(a1[1]+a2[1])*scale],[ax+a2[0]*scale,ay-a2[1]*scale]];
+      ctx.beginPath(); ctx.moveTo(...corners[0]);
+      corners.forEach(c => ctx.lineTo(...c));
+      ctx.closePath(); ctx.stroke();
+      ctx.beginPath();
+      ctx.arc(px, py, 8, 0, 2*Math.PI);
+      ctx.fillStyle = i===0&&j===0 ? '#E04000' : '#0E7490';
+      ctx.fill();
+    }
+  }
+
+  // Draw highlighted unit cell
+  const corners2 = [
+    [cx, cy],
+    [cx + a1[0]*scale, cy - a1[1]*scale],
+    [cx + (a1[0]+a2[0])*scale, cy - (a1[1]+a2[1])*scale],
+    [cx + a2[0]*scale, cy - a2[1]*scale]
+  ];
+  ctx.fillStyle = 'rgba(14,116,144,0.12)';
+  ctx.beginPath(); ctx.moveTo(...corners2[0]);
+  corners2.forEach(c => ctx.lineTo(...c));
+  ctx.closePath(); ctx.fill();
+  ctx.strokeStyle = '#0E7490'; ctx.lineWidth = 2.5;
+  ctx.beginPath(); ctx.moveTo(...corners2[0]);
+  corners2.forEach(c => ctx.lineTo(...c));
+  ctx.closePath(); ctx.stroke();
+
+  // Draw Wigner-Seitz cell (centered on highlighted atom)
+  ctx.strokeStyle = '#E04000'; ctx.lineWidth = 2; ctx.setLineDash([6,3]);
+  const wsScale = scale * 0.98;
+  if (wsShape === 'square') {
+    ctx.strokeRect(cx - a1[0]*wsScale/2, cy - a1[1]*wsScale/2 - a1[0]*wsScale/2, a1[0]*wsScale, a1[0]*wsScale);
+  } else if (wsShape === 'hexagon') {
+    ctx.beginPath();
+    for (let k=0; k<6; k++) {
+      const ang = k * Math.PI/3 + Math.PI/6;
+      const rx = cx + Math.cos(ang) * wsScale * 0.577;
+      const ry = cy - Math.sin(ang) * wsScale * 0.577;
+      k===0?ctx.moveTo(rx,ry):ctx.lineTo(rx,ry);
+    }
+    ctx.closePath(); ctx.stroke();
+  } else {
+    ctx.strokeRect(cx - 0.75*wsScale, cy - 0.5*wsScale, 1.5*wsScale, wsScale);
+  }
+  ctx.setLineDash([]);
+
+  // Vectors
+  ctx.strokeStyle = '#C0392B'; ctx.lineWidth = 2;
+  ctx.beginPath(); ctx.moveTo(cx,cy); ctx.lineTo(cx+a1[0]*scale, cy-a1[1]*scale); ctx.stroke();
+  ctx.fillStyle = '#C0392B'; ctx.font = 'bold 13px DM Sans,sans-serif'; ctx.textAlign='center';
+  ctx.fillText('a₁', cx+a1[0]*scale/2, cy-a1[1]*scale/2+18);
+  ctx.strokeStyle = '#1D9E75'; ctx.lineWidth = 2;
+  ctx.beginPath(); ctx.moveTo(cx,cy); ctx.lineTo(cx+a2[0]*scale, cy-a2[1]*scale); ctx.stroke();
+  ctx.fillStyle = '#1D9E75';
+  ctx.fillText('a₂', cx+a2[0]*scale/2-14, cy-a2[1]*scale/2);
+
+  // Legend
+  ctx.fillStyle = dark ? '#aaa' : '#666'; ctx.font = '12px DM Sans,sans-serif'; ctx.textAlign='left';
+  ctx.fillText('— Maille conventionnelle', 20, H-40);
+  ctx.strokeStyle = '#E04000'; ctx.lineWidth = 1.5; ctx.setLineDash([5,3]);
+  ctx.beginPath(); ctx.moveTo(14,H-26); ctx.lineTo(38,H-26); ctx.stroke(); ctx.setLineDash([]);
+  ctx.fillStyle = dark ? '#aaa' : '#666';
+  ctx.fillText('— Wigner-Seitz', 44, H-22);
+
+  document.getElementById('maille_n').textContent = wsN;
+  document.getElementById('maille_ws').textContent = wsDesc;
+}
+
+/* ═══════════════════════════════════════════════
+   INDICES DE MILLER 3D
+════════════════════════════════════════════════ */
+function drawMiller() {
+  const h = parseInt(document.getElementById('mill_h').value);
+  const k = parseInt(document.getElementById('mill_k').value);
+  const l = parseInt(document.getElementById('mill_l').value);
+  const a = parseFloat(document.getElementById('mill_a').value);
+  document.getElementById('mill_hVal').textContent = h;
+  document.getElementById('mill_kVal').textContent = k;
+  document.getElementById('mill_lVal').textContent = l;
+  document.getElementById('mill_aVal').textContent = a.toFixed(1) + ' Å';
+  const hkl0 = h === 0 && k === 0 && l === 0;
+  const planName = hkl0 ? '(000)' : `(${h}${k}${l})`;
+  document.getElementById('mill_plan').textContent = planName;
+  const d = hkl0 ? '∞' : (a / Math.sqrt(h*h + k*k + l*l)).toFixed(3) + ' Å';
+  document.getElementById('mill_d').textContent = d;
+  // Multiplicité dans le cubique
+  const mult = computeMultiplicity(h, k, l);
+  document.getElementById('mill_mult').textContent = mult;
+  const descs = {
+    '100':'Face du cube','010':'Face du cube','001':'Face du cube',
+    '110':'Diagonal face','101':'Diagonal face','011':'Diagonal face',
+    '111':'Plan octaédrique','200':'Plan dense FCC','211':'Plan BCC dense',
+  };
+  document.getElementById('mill_desc').textContent = descs[`${h}${k}${l}`] || '—';
+
+  const canvas = document.getElementById('millerCanvas');
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  const dark = isDarkMode();
+  ctx.clearRect(0, 0, W, H);
+  ctx.fillStyle = dark ? '#222220' : '#f0efe9';
+  ctx.fillRect(0, 0, W, H);
+  const rotX = 35, rotY = 25, scale = 100;
+  const cx = W/2, cy = H/2 + 20;
+  const p = (x,y,z) => project3D(x, y, z, rotX, rotY, scale, cx, cy);
+
+  // Draw cube
+  const edges = [
+    [[0,0,0],[1,0,0]],[[0,1,0],[1,1,0]],[[0,0,1],[1,0,1]],[[0,1,1],[1,1,1]],
+    [[0,0,0],[0,1,0]],[[1,0,0],[1,1,0]],[[0,0,1],[0,1,1]],[[1,0,1],[1,1,1]],
+    [[0,0,0],[0,0,1]],[[1,0,0],[1,0,1]],[[0,1,0],[0,1,1]],[[1,1,0],[1,1,1]]
+  ];
+  ctx.strokeStyle = dark ? 'rgba(14,116,144,0.5)' : 'rgba(14,116,144,0.6)';
+  ctx.lineWidth = 1.5;
+  edges.forEach(([A,B]) => {
+    const [ax,ay] = p(...A);
+    const [bx,by] = p(...B);
+    ctx.beginPath(); ctx.moveTo(ax,ay); ctx.lineTo(bx,by); ctx.stroke();
+  });
+
+  // Draw Miller plane
+  if (!hkl0) {
+    const intercepts = [];
+    if (h !== 0) intercepts.push([1/h, 0, 0]);
+    if (k !== 0) intercepts.push([0, 1/k, 0]);
+    if (l !== 0) intercepts.push([0, 0, 1/l]);
+    // For planes parallel to an axis, use a large intercept
+    if (h === 0 && k !== 0 && l !== 0) {
+      intercepts.push([0, 0, 0]); // lies along x axis
+    }
+    let planePts = [];
+    if (h !== 0 && k !== 0 && l !== 0) {
+      planePts = [[1/h,0,0],[0,1/k,0],[0,0,1/l]];
+    } else if (h === 0 && k !== 0 && l !== 0) {
+      planePts = [[0,1/k,0],[0,0,1/l],[1,0,1/l],[1,1/k,0]];
+    } else if (k === 0 && h !== 0 && l !== 0) {
+      planePts = [[1/h,0,0],[0,0,1/l],[0,1,1/l],[1/h,1,0]];
+    } else if (l === 0 && h !== 0 && k !== 0) {
+      planePts = [[1/h,0,0],[0,1/k,0],[0,1/k,1],[1/h,0,1]];
+    } else if (h !== 0 && k === 0 && l === 0) {
+      planePts = [[1/h,0,0],[1/h,1,0],[1/h,1,1],[1/h,0,1]];
+    } else if (k !== 0 && h === 0 && l === 0) {
+      planePts = [[0,1/k,0],[1,1/k,0],[1,1/k,1],[0,1/k,1]];
+    } else if (l !== 0 && h === 0 && k === 0) {
+      planePts = [[0,0,1/l],[1,0,1/l],[1,1,1/l],[0,1,1/l]];
+    }
+    if (planePts.length >= 3) {
+      ctx.fillStyle = 'rgba(14,116,144,0.25)';
+      ctx.strokeStyle = '#0E7490'; ctx.lineWidth = 2.5;
+      ctx.beginPath();
+      const [px0,py0] = p(...planePts[0]);
+      ctx.moveTo(px0,py0);
+      planePts.slice(1).forEach(pt => { const [px2,py2]=p(...pt); ctx.lineTo(px2,py2); });
+      ctx.closePath(); ctx.fill(); ctx.stroke();
+      // Intercepts markers
+      [[1/h||null,0,0],[0,1/k||null,0],[0,0,1/l||null]].filter(pt => pt[0]!==null||pt[1]!==null||pt[2]!==null).forEach(pt => {
+        const cleanPt = pt.map(v => v===null?0:v);
+        const [mx,my] = p(...cleanPt);
+        ctx.beginPath(); ctx.arc(mx,my,6,0,2*Math.PI);
+        ctx.fillStyle = '#E04000'; ctx.fill();
+      });
+    }
+  }
+
+  // Axes labels
+  const axisEnds = [[[0,0,0],[1.3,0,0],'a','#C0392B'],[[0,0,0],[0,1.3,0],'b','#1D9E75'],[[0,0,0],[0,0,1.3],'c','#9B59B6']];
+  axisEnds.forEach(([from,to,label,color]) => {
+    const [fx,fy] = p(...from);
+    const [tx,ty] = p(...to);
+    ctx.strokeStyle=color; ctx.lineWidth=2;
+    ctx.beginPath(); ctx.moveTo(fx,fy); ctx.lineTo(tx,ty); ctx.stroke();
+    ctx.fillStyle=color; ctx.font='bold 14px DM Sans,sans-serif'; ctx.textAlign='center';
+    ctx.fillText(label, tx+10, ty+4);
+  });
+
+  // Title
+  ctx.fillStyle = dark ? '#f0efe9' : '#1a1a1a';
+  ctx.font = 'bold 22px Playfair Display, serif';
+  ctx.textAlign = 'center';
+  ctx.fillText(`Plan (${h}${k}${l})`, W/2, 32);
+  if (!hkl0) {
+    ctx.font = '13px DM Sans, sans-serif';
+    ctx.fillStyle = dark ? '#aaa' : '#666';
+    ctx.fillText(`d = ${d}`, W/2, 52);
+  }
+}
+
+function computeMultiplicity(h,k,l) {
+  if (h===0&&k===0&&l===0) return 0;
+  const set = new Set();
+  const signs = [-1,1];
+  const perms = [[h,k,l],[h,l,k],[k,h,l],[k,l,h],[l,h,k],[l,k,h]];
+  perms.forEach(([a,b,c]) => {
+    signs.forEach(sa => signs.forEach(sb => signs.forEach(sc => {
+      if((sa*a===0)||(sb*b===0)||(sc*c===0)) {
+        const key = [sa*a,sb*b,sc*c].join(',');
+        set.add(key);
+      } else {
+        const key = [sa*a,sb*b,sc*c].join(',');
+        set.add(key);
+      }
+    })));
+  });
+  return set.size;
+}
+
+/* ═══════════════════════════════════════════════
+   INIT
+════════════════════════════════════════════════ */
+document.addEventListener('DOMContentLoaded', () => {
+  setTimeout(() => {
+    drawNetwork();
+    drawBravais();
+    drawMaille();
+    drawMiller();
+    if (window.renderMathInElement)
+      renderMathInElement(document.body, {delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]});
+  }, 350);
+});
+</script>
+</body>
+</html>

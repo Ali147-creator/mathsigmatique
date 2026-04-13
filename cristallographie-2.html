@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cristallographie (2/4) — MathΣtique</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"/>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]})"></script>
+  <style>
+    :root{--teal:#0E7490;--teal-light:#E0F7FA;--teal-dark:#065a6b;--green:#1D9E75;--green-light:#E1F5EE;--green-dark:#0F6E56;--amber:#BA7517;--amber-light:#FAEEDA;--amber-dark:#854F0B;--purple:#534AB7;--purple-light:#EEEDFE;--purple-dark:#3C3489;--text:#1a1a1a;--text-secondary:#666;--text-tertiary:#999;--bg:#ffffff;--bg-secondary:#f7f6f2;--bg-tertiary:#f0efe9;--border:rgba(0,0,0,0.1);--border-hover:rgba(0,0,0,0.22);--radius:12px;--radius-lg:16px}
+    @media(prefers-color-scheme:dark){:root{--text:#f0efe9;--text-secondary:#aaa;--text-tertiary:#666;--bg:#111110;--bg-secondary:#1a1a18;--bg-tertiary:#222220;--border:rgba(255,255,255,0.1);--border-hover:rgba(255,255,255,0.22);--teal-light:#042830;--green-light:#0a2e26;--amber-light:#2a1e08;--purple-light:#1a1840}}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{font-family:'DM Sans',sans-serif;color:var(--text);background:var(--bg);line-height:1.6;font-size:16px}
+    nav{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:.9rem 2rem;background:var(--bg);border-bottom:.5px solid var(--border);backdrop-filter:blur(8px)}
+    .nav-logo{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--text);text-decoration:none}
+    .nav-logo span{color:var(--green)}
+    .nav-right{display:flex;align-items:center;gap:10px}
+    .btn-back{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--text-secondary);text-decoration:none;padding:6px 13px;border:.5px solid var(--border-hover);border-radius:8px;transition:background .2s}
+    .btn-back:hover{background:var(--bg-secondary);color:var(--text)}
+    .page-badge{font-size:12px;color:var(--text-tertiary);background:var(--bg-secondary);padding:4px 10px;border-radius:20px;border:.5px solid var(--border)}
+    .page{max-width:860px;margin:0 auto;padding:3rem 2rem 5rem}
+    .breadcrumb{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--text-tertiary);margin-bottom:2rem;flex-wrap:wrap}
+    .breadcrumb a{color:var(--text-secondary);text-decoration:none}
+    .breadcrumb a:hover{color:var(--text)}
+    .lesson-cat{display:inline-block;font-size:12px;font-weight:500;color:var(--teal-dark);background:var(--teal-light);padding:4px 12px;border-radius:20px;margin-bottom:1rem}
+    .lesson-title{font-family:'Playfair Display',serif;font-size:clamp(26px,4vw,38px);font-weight:700;line-height:1.15;margin-bottom:.75rem}
+    .page-strip{display:flex;gap:8px;margin-bottom:2.5rem;flex-wrap:wrap}
+    .pg-btn{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:500;padding:7px 15px;border-radius:8px;text-decoration:none;border:.5px solid var(--border);color:var(--text-secondary);transition:all .2s}
+    .pg-btn:hover{background:var(--bg-secondary);border-color:var(--border-hover);color:var(--text)}
+    .pg-btn.active{background:var(--teal);border-color:var(--teal);color:#fff}
+    .toc{background:var(--bg-secondary);border:.5px solid var(--border);border-radius:var(--radius);padding:1.25rem 1.5rem;margin-bottom:3rem}
+    .toc-title{font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:.08em;color:var(--text-tertiary);margin-bottom:.75rem}
+    .toc ol{padding-left:1.25rem}
+    .toc li{font-size:14px;margin:5px 0}
+    .toc a{color:var(--teal);text-decoration:none}
+    .toc a:hover{text-decoration:underline}
+    .lesson-section{margin-bottom:3.5rem}
+    .lesson-section h2{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;margin-bottom:1.25rem;padding-bottom:.6rem;border-bottom:.5px solid var(--border)}
+    .lesson-section h3{font-size:17px;font-weight:600;margin:1.75rem 0 .75rem}
+    .lesson-section p{font-size:15px;line-height:1.85;margin-bottom:1rem}
+    .def-box{background:var(--teal-light);border-left:3px solid var(--teal);border-radius:0 var(--radius) var(--radius) 0;padding:1.25rem 1.5rem;margin:1.25rem 0}
+    .def-box .def-label{font-size:11px;font-weight:500;color:var(--teal-dark);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px}
+    .def-box p{font-size:14px;line-height:1.75;margin:0}
+    .formula-box{background:var(--bg-secondary);border:.5px solid var(--border);border-radius:var(--radius);padding:1.5rem;margin:1.25rem 0;text-align:center}
+    .formula-box .fb-label{font-size:12px;color:var(--text-secondary);margin-bottom:.75rem}
+    .formula-box .fb-desc{font-size:12px;color:var(--text-secondary);margin-top:.75rem;line-height:1.6}
+    .note-box{background:var(--amber-light);border-left:3px solid var(--amber);border-radius:0 var(--radius) var(--radius) 0;padding:1rem 1.5rem;margin:1.25rem 0}
+    .note-box .note-label{font-size:11px;font-weight:500;color:var(--amber-dark);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px}
+    .note-box p{font-size:14px;color:var(--amber-dark);margin:0;line-height:1.7}
+    .example-box{border:.5px solid var(--border);border-radius:var(--radius);overflow:hidden;margin:1.25rem 0}
+    .example-box .ex-header{background:var(--bg-secondary);padding:10px 1.25rem;font-size:12px;font-weight:500;color:var(--text-secondary);text-transform:uppercase;letter-spacing:.07em;border-bottom:.5px solid var(--border)}
+    .example-box .ex-body{padding:1.25rem;font-size:14px;line-height:1.85}
+    .example-box .ex-body p{margin-bottom:.6rem}
+    .prop-list{background:var(--bg-secondary);border:.5px solid var(--border);border-radius:var(--radius);padding:1.25rem 1.5rem;margin:1.25rem 0}
+    .prop-list .pl-title{font-size:13px;font-weight:500;color:var(--text-secondary);margin-bottom:1rem;text-transform:uppercase;letter-spacing:.06em}
+    .prop-list table{width:100%;border-collapse:collapse}
+    .prop-list td,.prop-list th{font-size:14px;padding:9px 12px;border-bottom:.5px solid var(--border);vertical-align:middle}
+    .prop-list th{background:var(--bg-tertiary);font-weight:600;font-size:13px}
+    .prop-list tr:last-child td{border-bottom:none}
+    .prop-list td:first-child{color:var(--text-secondary);width:28%}
+    .demo-box{background:var(--bg-secondary);border:.5px solid var(--border);border-radius:var(--radius-lg);padding:1.75rem;margin:1.5rem 0}
+    .demo-box h3{font-size:16px;font-weight:600;margin-bottom:.35rem}
+    .demo-box .demo-sub{font-size:13px;color:var(--text-secondary);margin-bottom:1.25rem}
+    .controls{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:1rem}
+    .ctrl-btn{padding:6px 14px;border-radius:8px;border:.5px solid var(--border);background:var(--bg);font-size:13px;font-weight:500;cursor:pointer;color:var(--text);transition:all .2s;font-family:inherit}
+    .ctrl-btn:hover{border-color:var(--border-hover);background:var(--bg-tertiary)}
+    .ctrl-btn.active{background:var(--teal);border-color:var(--teal);color:#fff}
+    .slider-row{display:flex;align-items:center;gap:10px;margin:8px 0}
+    .slider-row label{font-size:13px;color:var(--text-secondary);width:200px;flex-shrink:0}
+    .slider-row input[type=range]{flex:1;accent-color:var(--teal)}
+    .slider-val{font-size:13px;font-weight:500;min-width:60px;text-align:right;font-variant-numeric:tabular-nums}
+    .result-display{background:var(--bg);border-radius:10px;padding:1rem 1.25rem;margin-top:1.25rem;border:.5px solid var(--border)}
+    .rd-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px}
+    .rd-cell{background:var(--bg-secondary);border-radius:8px;padding:10px 12px;text-align:center}
+    .rc-val{font-family:'Playfair Display',serif;font-size:17px;color:var(--teal);font-weight:700}
+    .rc-lbl{font-size:11px;color:var(--text-secondary);margin-top:3px}
+    canvas{display:block;margin:.75rem auto 0;border-radius:var(--radius);max-width:100%}
+    .two-col{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1.25rem 0}
+    .lesson-nav{display:flex;justify-content:space-between;align-items:center;margin-top:4rem;padding-top:2rem;border-top:.5px solid var(--border);flex-wrap:wrap;gap:1rem}
+    .lesson-nav a{display:inline-flex;align-items:center;gap:6px;font-size:14px;color:var(--text-secondary);text-decoration:none;padding:9px 18px;border:.5px solid var(--border);border-radius:8px;transition:background .2s;font-weight:500}
+    .lesson-nav a:hover{background:var(--bg-secondary);color:var(--text)}
+    .lesson-nav a.next{background:var(--teal);color:#fff;border-color:var(--teal)}
+    .lesson-nav a.next:hover{opacity:.88}
+    footer{border-top:.5px solid var(--border);padding:1.75rem 2rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+    .footer-logo{font-family:'Playfair Display',serif;font-size:18px;font-weight:700}
+    .footer-logo span{color:var(--green)}
+    footer p{font-size:13px;color:var(--text-secondary)}
+    @media(max-width:768px){.page{padding:2rem 1.25rem 4rem}.two-col{grid-template-columns:1fr}.slider-row label{width:130px}}
+  </style>
+</head>
+<body>
+<nav>
+  <a class="nav-logo" href="index.html">Math<span>∑</span>tique</a>
+  <div class="nav-right">
+    <span class="page-badge">Page 2 / 4</span>
+    <a class="btn-back" href="index.html">← Chapitres</a>
+  </div>
+</nav>
+<div class="page">
+  <div class="breadcrumb">
+    <a href="index.html">Accueil</a><span>›</span>
+    <a href="cristallographie.html">Cristallographie</a><span>›</span>
+    <span style="color:var(--text)">Systèmes &amp; Empilement</span>
+  </div>
+  <span class="lesson-cat">Licence · Sciences des matériaux</span>
+  <h1 class="lesson-title">Cristallographie — Page 2</h1>
+  <div class="page-strip">
+    <a class="pg-btn" href="cristallographie.html">1 · Réseaux &amp; Mailles</a>
+    <a class="pg-btn active" href="cristallographie-2.html">2 · Systèmes &amp; Empilement</a>
+    <a class="pg-btn" href="cristallographie-3.html">3 · Diffraction &amp; Bragg</a>
+    <a class="pg-btn" href="cristallographie-4.html">4 · Défauts &amp; Propriétés</a>
+  </div>
+  <div class="toc">
+    <div class="toc-title">Table des matières — Page 2</div>
+    <ol>
+      <li><a href="#systemes">Les 7 systèmes cristallins — paramètres et symétries</a></li>
+      <li><a href="#coordinence">Coordinence et sphères de coordination</a></li>
+      <li><a href="#compacite">Compacité et calcul de densité</a></li>
+      <li><a href="#empilement">Empilement compact — ABAB et ABCABC</a></li>
+      <li><a href="#sites">Sites interstitiels — tétraédriques et octaédriques</a></li>
+      <li><a href="#structures">Structures ioniques et covalentes</a></li>
+    </ol>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       1. SYSTÈMES CRISTALLINS
+  ══════════════════════════════════════════ -->
+  <div class="lesson-section" id="systemes">
+    <h2>1. Les 7 systèmes cristallins</h2>
+    <p>Les contraintes de symétrie imposées par les 32 classes cristallographiques regroupent les 14 réseaux de Bravais en <strong>7 systèmes cristallins</strong>. Chaque système est défini par des relations particulières entre les paramètres de maille $a, b, c$ et les angles $\alpha, \beta, \gamma$.</p>
+
+    <div class="prop-list">
+      <div class="pl-title">Les 7 systèmes cristallins — paramètres, symétrie et exemples</div>
+      <table>
+        <tr><th>Système</th><th>Contraintes</th><th>Symétrie minimale</th><th>Exemples</th></tr>
+        <tr><td><strong>Cubique</strong></td><td>$a=b=c$, $\alpha=\beta=\gamma=90°$</td><td>4 axes $\bar{3}$ (tétraédriques)</td><td>Fe (BCC), Cu, Ni, Al (FCC), NaCl, W</td></tr>
+        <tr><td><strong>Quadratique</strong></td><td>$a=b\neq c$, $\alpha=\beta=\gamma=90°$</td><td>1 axe $\bar{4}$</td><td>TiO₂ (rutile), SnO₂, In</td></tr>
+        <tr><td><strong>Orthorhombique</strong></td><td>$a\neq b\neq c$, $\alpha=\beta=\gamma=90°$</td><td>3 plans miroirs $\perp$</td><td>Soufrre α, BaSO₄, Ga, U</td></tr>
+        <tr><td><strong>Hexagonal</strong></td><td>$a=b\neq c$, $\alpha=\beta=90°$, $\gamma=120°$</td><td>1 axe 6</td><td>Zn, Cd, Mg, Ti (HCP), glace Ih</td></tr>
+        <tr><td><strong>Trigonal</strong></td><td>$a=b=c$, $\alpha=\beta=\gamma\neq 90°$</td><td>1 axe $\bar{3}$</td><td>Calcite CaCO₃, quartz, Bi, As</td></tr>
+        <tr><td><strong>Monoclinique</strong></td><td>$a\neq b\neq c$, $\alpha=\gamma=90°\neq\beta$</td><td>1 axe 2 ou plan $m$</td><td>Gypse, orthoclase K-feldspath, β-S</td></tr>
+        <tr><td><strong>Triclinique</strong></td><td>$a\neq b\neq c$, $\alpha\neq\beta\neq\gamma$</td><td>Centre d'inversion $\bar{1}$</td><td>Albite NaAlSi₃O₈, K₂Cr₂O₇, CuSO₄</td></tr>
+      </table>
+    </div>
+
+    <!-- Animation paramètres de maille interactifs -->
+    <div class="demo-box">
+      <h3>Animation — Visualisation de la maille selon le système cristallin</h3>
+      <p class="demo-sub">Choisissez un système et ajustez les paramètres pour voir la maille en perspective.</p>
+      <div class="controls">
+        <button class="ctrl-btn active" onclick="setSystem('cubic',this)">Cubique</button>
+        <button class="ctrl-btn" onclick="setSystem('tetra',this)">Quadratique</button>
+        <button class="ctrl-btn" onclick="setSystem('ortho',this)">Orthorhombique</button>
+        <button class="ctrl-btn" onclick="setSystem('hex',this)">Hexagonal</button>
+        <button class="ctrl-btn" onclick="setSystem('mono',this)">Monoclinique</button>
+        <button class="ctrl-btn" onclick="setSystem('tri',this)">Triclinique</button>
+      </div>
+      <div class="slider-row">
+        <label>Rotation</label>
+        <input type="range" id="sys_rot" min="0" max="360" value="35" oninput="drawSystem()">
+        <span class="slider-val" id="sys_rotVal">35°</span>
+      </div>
+      <div id="sys_sliders"></div>
+      <canvas id="sysCanvas" width="760" height="360" style="background:var(--bg-tertiary);border:.5px solid var(--border);border-radius:var(--radius)"></canvas>
+      <div class="result-display">
+        <div class="rd-grid" id="sys_results"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       2. COORDINENCE
+  ══════════════════════════════════════════ -->
+  <div class="lesson-section" id="coordinence">
+    <h2>2. Coordinence et sphères de coordination</h2>
+    <p>La <strong>coordinence</strong> (ou nombre de coordination) d'un atome dans un cristal est le nombre de ses plus proches voisins. C'est un paramètre fondamental qui détermine les liaisons chimiques, les propriétés mécaniques et la stabilité thermodynamique.</p>
+
+    <div class="def-box">
+      <div class="def-label">Définition</div>
+      <p>La coordinence $z$ est le nombre d'atomes équidistants et les plus proches d'un atome donné (première sphère de coordination). La distance correspondante est la <em>distance interatomique la plus courte</em> $d_{min}$, reliée au rayon atomique $r$ par $d_{min} = 2r$ pour des sphères dures tangentes.</p>
+    </div>
+
+    <div class="prop-list">
+      <div class="pl-title">Coordinence selon la structure</div>
+      <table>
+        <tr><th>Structure</th><th>Coordinence</th><th>Distance premiers voisins</th><th>Exemple</th></tr>
+        <tr><td>SC (cubique simple)</td><td>6</td><td>$d = a$</td><td>Po (seul métal SC à T ambiante)</td></tr>
+        <tr><td>BCC</td><td>8</td><td>$d = a\sqrt{3}/2$</td><td>Fe-α, W, Mo, Cr, Na</td></tr>
+        <tr><td>FCC</td><td>12</td><td>$d = a\sqrt{2}/2 = a/\sqrt{2}$</td><td>Cu, Ni, Al, Au, Ag</td></tr>
+        <tr><td>HCP</td><td>12</td><td>$d = a$</td><td>Mg, Zn, Ti, Co, Zr</td></tr>
+        <tr><td>Diamant</td><td>4</td><td>$d = a\sqrt{3}/4$</td><td>C (diamant), Si, Ge</td></tr>
+        <tr><td>NaCl (rocksalt)</td><td>6 (par ion)</td><td>$d = a/2$</td><td>NaCl, MgO, FeO, TiN</td></tr>
+        <tr><td>CsCl (B2)</td><td>8 (par ion)</td><td>$d = a\sqrt{3}/2$</td><td>CsCl, β-brass CuZn</td></tr>
+        <tr><td>Sphalérite (ZnS)</td><td>4 (par ion)</td><td>$d = a\sqrt{3}/4$</td><td>ZnS, GaAs, InP</td></tr>
+      </table>
+    </div>
+
+    <p>La connaissance de la coordinence permet de déduire le type de liaison dominant : une coordinence de 4 évoque des liaisons covalentes dirigées (sp³), une coordinence de 12 évoque des liaisons métalliques non directionnelles, et une coordinence intermédiaire (6-8) est typique des liaisons ioniques.</p>
+
+    <!-- Animation sphères de coordination -->
+    <div class="demo-box">
+      <h3>Animation — Sphères de coordination</h3>
+      <p class="demo-sub">Visualisez les premiers et seconds voisins selon la structure. Les cercles concentriques représentent les différentes sphères.</p>
+      <div class="controls">
+        <button class="ctrl-btn active" onclick="setCoord('BCC',this)">BCC</button>
+        <button class="ctrl-btn" onclick="setCoord('FCC',this)">FCC</button>
+        <button class="ctrl-btn" onclick="setCoord('SC',this)">SC</button>
+        <button class="ctrl-btn" onclick="setCoord('DIA',this)">Diamant</button>
+      </div>
+      <canvas id="coordCanvas" width="760" height="320" style="background:var(--bg-tertiary);border:.5px solid var(--border);border-radius:var(--radius)"></canvas>
+      <div class="result-display">
+        <div class="rd-grid">
+          <div class="rd-cell"><div class="rc-val" id="coord_z1">—</div><div class="rc-lbl">1ère coordinence</div></div>
+          <div class="rd-cell"><div class="rc-val" id="coord_d1">—</div><div class="rc-lbl">Distance 1ers voisins</div></div>
+          <div class="rd-cell"><div class="rc-val" id="coord_z2">—</div><div class="rc-lbl">2ème sphère</div></div>
+          <div class="rd-cell"><div class="rc-val" id="coord_d2">—</div><div class="rc-lbl">Distance 2e voisins</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       3. COMPACITÉ
+  ══════════════════════════════════════════ -->
+  <div class="lesson-section" id="compacite">
+    <h2>3. Compacité et densité théorique</h2>
+    <p>La <strong>compacité</strong> (ou taux de remplissage, ou packing factor) d'une structure cristalline est la fraction du volume de la maille occupée par les atomes, en les assimilant à des sphères dures de rayon $r$ :</p>
+
+    <div class="formula-box">
+      <div class="fb-label">Compacité</div>
+      $$\tau = \frac{N \cdot \frac{4}{3}\pi r^3}{V_\text{maille}}$$
+      <div class="fb-desc">$N$ : nombre d'atomes par maille · $r$ : rayon des sphères (en contact avec les voisins les plus proches) · $V_\text{maille}$ : volume de la maille</div>
+    </div>
+
+    <h3>Calcul pour les structures cubiques</h3>
+    <div class="prop-list">
+      <div class="pl-title">Compacité des principales structures</div>
+      <table>
+        <tr><th>Structure</th><th>$N$</th><th>Relation $r(a)$</th><th>Compacité $\tau$</th><th>Valeur</th></tr>
+        <tr><td>SC</td><td>1</td><td>$r = a/2$</td><td>$\pi/6$</td><td>52.4%</td></tr>
+        <tr><td>BCC</td><td>2</td><td>$r = a\sqrt{3}/4$</td><td>$\pi\sqrt{3}/8$</td><td>68.0%</td></tr>
+        <tr><td>FCC</td><td>4</td><td>$r = a\sqrt{2}/4$</td><td>$\pi\sqrt{2}/6$</td><td>74.0%</td></tr>
+        <tr><td>HCP</td><td>2</td><td>$r = a/2$</td><td>$\pi\sqrt{2}/6$</td><td>74.0%</td></tr>
+        <tr><td>Diamant</td><td>8</td><td>$r = a\sqrt{3}/8$</td><td>$\pi\sqrt{3}/16$</td><td>34.0%</td></tr>
+      </table>
+    </div>
+
+    <h3>Densité théorique</h3>
+    <div class="formula-box">
+      <div class="fb-label">Densité théorique du cristal</div>
+      $$\rho = \frac{N \cdot A}{N_A \cdot V_\text{maille}}$$
+      <div class="fb-desc">$N$ : nb d'atomes / maille · $A$ : masse atomique (g/mol) · $N_A = 6{,}022\times10^{23}\ \text{mol}^{-1}$ · $V_\text{maille}$ en cm³</div>
+    </div>
+
+    <!-- Animation compacité interactive -->
+    <div class="demo-box">
+      <h3>Animation — Compacité et densité</h3>
+      <p class="demo-sub">Ajustez le paramètre de maille et la masse atomique pour calculer la densité théorique.</p>
+      <div class="controls">
+        <button class="ctrl-btn active" onclick="setCompStruct('FCC',this)">FCC (Cu)</button>
+        <button class="ctrl-btn" onclick="setCompStruct('BCC',this)">BCC (Fe)</button>
+        <button class="ctrl-btn" onclick="setCompStruct('SC',this)">SC (Po)</button>
+        <button class="ctrl-btn" onclick="setCompStruct('DIA',this)">Diamant (C)</button>
+      </div>
+      <div class="slider-row">
+        <label>Paramètre $a$ (Å)</label>
+        <input type="range" id="comp_a" min="2.0" max="7.0" step="0.01" value="3.615" oninput="updateCompacite()">
+        <span class="slider-val" id="comp_aVal">3.615 Å</span>
+      </div>
+      <div class="slider-row">
+        <label>Masse atomique $A$ (g/mol)</label>
+        <input type="range" id="comp_A" min="1" max="200" step="0.5" value="63.5" oninput="updateCompacite()">
+        <span class="slider-val" id="comp_AVal">63.5 g/mol</span>
+      </div>
+      <canvas id="compCanvas" width="760" height="260" style="background:var(--bg-tertiary);border:.5px solid var(--border);border-radius:var(--radius)"></canvas>
+      <div class="result-display">
+        <div class="rd-grid">
+          <div class="rd-cell"><div class="rc-val" id="comp_tau">74.0%</div><div class="rc-lbl">Compacité $\tau$</div></div>
+          <div class="rd-cell"><div class="rc-val" id="comp_r">—</div><div class="rc-lbl">Rayon atomique $r$</div></div>
+          <div class="rd-cell"><div class="rc-val" id="comp_rho">—</div><div class="rc-lbl">Densité $\rho$ (g/cm³)</div></div>
+          <div class="rd-cell"><div class="rc-val" id="comp_vol">—</div><div class="rc-lbl">Vol. maille (Å³)</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       4. EMPILEMENT COMPACT
+  ══════════════════════════════════════════ -->
+  <div class="lesson-section" id="empilement">
+    <h2>4. Empilement compact — ABAB et ABCABC</h2>
+    <p>Les structures FCC et HCP atteignent la compacité maximale de 74 % et sont les deux façons d'empiler des couches de sphères de la manière la plus compacte possible. La différence réside dans l'ordre de superposition des couches :</p>
+    <ul style="padding-left:1.5rem;font-size:15px;line-height:2.2;margin-bottom:1rem">
+      <li><strong>HCP — empilement hexagonal compact</strong> : séquence …ABABAB… Les couches de type A et B alternent. La couche C n'est jamais utilisée. Structure hexagonale, groupe d'espace $P6_3/mmc$.</li>
+      <li><strong>FCC — empilement cubique à faces centrées</strong> : séquence …ABCABCABC… Trois types de couches se succèdent en rotation. Structure cubique, groupe d'espace $Fm\bar{3}m$.</li>
+    </ul>
+
+    <div class="def-box">
+      <div class="def-label">Différence structurale entre HCP et FCC</div>
+      <p>Dans les deux cas, chaque atome a 12 plus proches voisins. Mais dans HCP : 6 voisins dans le même plan + 3 au-dessus + 3 en-dessous (symétrie hexagonale). Dans FCC : les 12 voisins forment un icosaèdre cuboctaédrique (symétrie cubique). La différence d'énergie entre HCP et FCC est faible, ce qui explique les transformations allotropiques (Co : HCP↔FCC à 417°C, Ti : HCP↔BCC à 882°C).</p>
+    </div>
+
+    <!-- Animation empilement ABCABC vs ABAB -->
+    <div class="demo-box">
+      <h3>Animation — Empilement des couches compactes</h3>
+      <p class="demo-sub">Visualisez la séquence d'empilement ABAB (HCP) ou ABCABC (FCC) couche par couche.</p>
+      <div class="controls">
+        <button class="ctrl-btn active" onclick="setEmpilement('FCC',this)">FCC — ABCABC</button>
+        <button class="ctrl-btn" onclick="setEmpilement('HCP',this)">HCP — ABABAB</button>
+      </div>
+      <div class="slider-row">
+        <label>Nombre de couches visibles</label>
+        <input type="range" id="emp_layers" min="1" max="6" step="1" value="3" oninput="drawEmpilement()">
+        <span class="slider-val" id="emp_layersVal">3</span>
+      </div>
+      <canvas id="empCanvas" width="760" height="360" style="background:var(--bg-tertiary);border:.5px solid var(--border);border-radius:var(--radius)"></canvas>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       5. SITES INTERSTITIELS
+  ══════════════════════════════════════════ -->
+  <div class="lesson-section" id="sites">
+    <h2>5. Sites interstitiels — tétraédriques et octaédriques</h2>
+    <p>Dans un empilement compact, les sphères ne remplissent que 74 % du volume. Les 26 % restants sont des <strong>sites interstitiels</strong> (ou interstices) qui peuvent accueillir des atomes plus petits. Il existe deux types de sites :</p>
+
+    <div class="prop-list">
+      <div class="pl-title">Sites interstitiels dans FCC</div>
+      <table>
+        <tr><th>Type</th><th>Nb par maille</th><th>Taille max ($r_i/r$)</th><th>Position</th></tr>
+        <tr><td><strong>Octaédrique</strong></td><td>4 (pour 4 atomes)</td><td>$r_i/r = 0{,}414$</td><td>Arêtes et centre : $(1/2,0,0)$, $(1/2,1/2,1/2)$...</td></tr>
+        <tr><td><strong>Tétraédrique</strong></td><td>8 (pour 4 atomes)</td><td>$r_i/r = 0{,}225$</td><td>Quarts de diagonale : $(1/4,1/4,1/4)$...</td></tr>
+      </table>
+    </div>
+
+    <div class="formula-box">
+      <div class="fb-label">Rayon maximal d'un atome dans un site interstitiel</div>
+      $$\text{Site octaédrique (FCC)} : \frac{r_i}{r} = \sqrt{2} - 1 \approx 0{,}414$$
+      $$\text{Site tétraédrique (FCC)} : \frac{r_i}{r} = \sqrt{3/2} - 1 \approx 0{,}225$$
+      <div class="fb-desc">$r_i$ : rayon de l'atome interstitiel · $r$ : rayon de l'atome hôte</div>
+    </div>
+
+    <p>La connaissance des sites interstitiels est essentielle pour comprendre :</p>
+    <ul style="padding-left:1.5rem;font-size:15px;line-height:2;margin-bottom:1rem">
+      <li><strong>Les aciers</strong> : le carbone (rayon 0,77 Å) occupe les sites octaédriques de la ferrite BCC (rayon Fe = 1,24 Å) ; rapport $r_C/r_{Fe} = 0{,}62$, ce qui distord la maille et crée des contraintes internes.</li>
+      <li><strong>Les hydrures métalliques</strong> : l'hydrogène s'insère dans les sites interstitiels du palladium ou du titane pour le stockage d'hydrogène.</li>
+      <li><strong>Les nitrures et carbures</strong> : TiC, TiN, WC — l'atome non-métallique occupe les sites octaédriques de la structure FCC ou HCP du métal.</li>
+    </ul>
+
+    <div class="demo-box">
+      <h3>Animation — Sites interstitiels dans FCC</h3>
+      <p class="demo-sub">Visualisez les sites octaédriques et tétraédriques et leur taille relative.</p>
+      <div class="controls">
+        <button class="ctrl-btn active" onclick="setSite('OCT',this)">Sites octaédriques</button>
+        <button class="ctrl-btn" onclick="setSite('TET',this)">Sites tétraédriques</button>
+        <button class="ctrl-btn" onclick="setSite('BOTH',this)">Les deux</button>
+      </div>
+      <div class="slider-row">
+        <label>Rayon atome hôte $r$ (Å)</label>
+        <input type="range" id="site_r" min="0.5" max="2.0" step="0.05" value="1.28" oninput="drawSites()">
+        <span class="slider-val" id="site_rVal">1.28 Å</span>
+      </div>
+      <canvas id="siteCanvas" width="760" height="360" style="background:var(--bg-tertiary);border:.5px solid var(--border);border-radius:var(--radius)"></canvas>
+      <div class="result-display">
+        <div class="rd-grid">
+          <div class="rd-cell"><div class="rc-val" id="site_oct_r">—</div><div class="rc-lbl">Rayon max site Oct.</div></div>
+          <div class="rd-cell"><div class="rc-val" id="site_tet_r">—</div><div class="rc-lbl">Rayon max site Tét.</div></div>
+          <div class="rd-cell"><div class="rc-val" id="site_a">—</div><div class="rc-lbl">Paramètre $a$ FCC</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       6. STRUCTURES IONIQUES ET COVALENTES
+  ══════════════════════════════════════════ -->
+  <div class="lesson-section" id="structures">
+    <h2>6. Structures ioniques et covalentes notables</h2>
+    <p>Les structures des composés binaires (deux types d'atomes ou d'ions) dérivent des empilements compacts où les ions d'une espèce occupent les sites interstitiels laissés par l'autre.</p>
+
+    <h3>Structure NaCl (Rocksalt)</h3>
+    <p>La structure NaCl peut être vue comme deux réseaux FCC imbriqués, décalés de $a/2$ selon une direction $\langle100\rangle$. Les ions Na⁺ occupent tous les sites octaédriques d'un réseau FCC de Cl⁻ (ou inversement). Coordinence : 6 pour les deux types d'ions. Formule unité : 4 unités NaCl par maille conventionnelle.</p>
+
+    <h3>Structure sphalérite ZnS (Zinc-blende)</h3>
+    <p>Réseau FCC de S²⁻ dans lequel les Zn²⁺ occupent la moitié des sites tétraédriques (alternés). Coordinence tétraédrique : 4 pour les deux ions. Même structure que GaAs, InP, ZnSe, SiC — importants semiconducteurs III-V.</p>
+
+    <h3>Structure diamant</h3>
+    <p>Deux réseaux FCC d'atomes identiques décalés de $a(1/4, 1/4, 1/4)$. Chaque atome est au centre d'un tétraèdre régulier : liaisons covalentes sp³ à 109,47°. Compacité faible (34 %) mais liaisons très solides (C-diamant, Si, Ge).</p>
+
+    <div class="note-box">
+      <div class="note-label">Règle de Pauling</div>
+      <p>La stabilité d'une structure ionique est gouvernée par les règles de Pauling. La première stipule que chaque ion est entouré d'une coordination de contre-ions dont le nombre est déterminé par le rapport de rayons $r^+/r^-$. Pour $r^+/r^- \in [0{,}414 ; 0{,}732]$, la coordinence est 6 (structure NaCl) ; pour $r^+/r^- \in [0{,}732 ; 1]$, la coordinence est 8 (structure CsCl).</p>
+    </div>
+
+    <div class="example-box">
+      <div class="ex-header">Exemple — Calcul de la densité du fer α (BCC)</div>
+      <div class="ex-body">
+        <p>Fer α : structure BCC, $a = 2{,}87\ \text{Å} = 2{,}87 \times 10^{-8}\ \text{cm}$, $A_{Fe} = 55{,}85\ \text{g/mol}$, $N = 2$ atomes/maille.</p>
+        <p>$$V = a^3 = (2{,}87\times10^{-8})^3 = 2{,}366\times10^{-23}\ \text{cm}^3$$</p>
+        <p>$$\rho = \frac{N \cdot A}{N_A \cdot V} = \frac{2 \times 55{,}85}{6{,}022\times10^{23} \times 2{,}366\times10^{-23}} = \frac{111{,}7}{14{,}25} \approx 7{,}84\ \text{g/cm}^3$$</p>
+        <p>Valeur expérimentale : $7{,}87\ \text{g/cm}^3$ — écart de 0,4 %, dû aux imperfections cristallines.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="lesson-nav">
+    <a href="cristallographie.html">← Page 1 : Réseaux &amp; Mailles</a>
+    <a class="next" href="cristallographie-3.html">Page 3 : Diffraction &amp; Bragg →</a>
+  </div>
+</div>
+<footer>
+  <div class="footer-logo">Math<span>∑</span>tique</div>
+  <p>Site éducatif — Libre et gratuit</p>
+  <p style="font-size:13px;color:var(--text-tertiary)">Fait avec ♥ et beaucoup de π</p>
+</footer>
+
+<script>
+function isDark(){return window.matchMedia('(prefers-color-scheme:dark)').matches}
+function project3D(x,y,z,rotX,rotY,scale,cx,cy){
+  const rx=rotX*Math.PI/180,ry=rotY*Math.PI/180;
+  let x1=x*Math.cos(rx)-z*Math.sin(rx),z1=x*Math.sin(rx)+z*Math.cos(rx),y1=y;
+  let y2=y1*Math.cos(ry)-z1*Math.sin(ry);
+  return[cx+x1*scale,cy-y2*scale];
+}
+
+/* ════ SYSTÈMES CRISTALLINS ════ */
+let currentSystem='cubic';
+const systemDefs={
+  cubic:{a:3.52,b:3.52,c:3.52,alpha:90,beta:90,gamma:90,label:'Cubique (Fe BCC)'},
+  tetra:{a:4.59,b:4.59,c:2.95,alpha:90,beta:90,gamma:90,label:'Quadratique (TiO₂)'},
+  ortho:{a:5.43,b:9.28,c:11.86,alpha:90,beta:90,gamma:90,label:'Orthorhombique (Soufre α)'},
+  hex:{a:3.21,b:3.21,c:5.21,alpha:90,beta:90,gamma:120,label:'Hexagonal (Mg HCP)'},
+  mono:{a:5.18,b:8.98,c:6.36,alpha:90,beta:116,gamma:90,label:'Monoclinique (Gypse)'},
+  tri:{a:4.04,b:4.69,c:7.19,alpha:61.9,beta:116.6,gamma:88.2,label:'Triclinique (CuSO₄)'}
+};
+function setSystem(sys,btn){
+  currentSystem=sys;
+  document.querySelectorAll('.ctrl-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  drawSystem();
+}
+function drawSystem(){
+  const rot=parseFloat(document.getElementById('sys_rot').value);
+  document.getElementById('sys_rotVal').textContent=rot+'°';
+  const sys=systemDefs[currentSystem];
+  const canvas=document.getElementById('sysCanvas');
+  const ctx=canvas.getContext('2d');
+  const W=canvas.width,H=canvas.height;
+  const dark=isDark();
+  ctx.clearRect(0,0,W,H);
+  ctx.fillStyle=dark?'#222220':'#f0efe9';ctx.fillRect(0,0,W,H);
+  const scale=50;const cx=W/2,cy=H/2+20;
+  const a=sys.a,b=sys.b,c=sys.c;
+  const al=sys.alpha*Math.PI/180,be=sys.beta*Math.PI/180,ga=sys.gamma*Math.PI/180;
+  const rotX=rot,rotY=20;
+  // Build 8 corners of parallelepiped
+  const nx=[1,0,0];
+  const ny=[Math.cos(ga),Math.sin(ga),0];
+  const nz_x=Math.cos(be);
+  const nz_y=(Math.cos(al)-Math.cos(be)*Math.cos(ga))/Math.sin(ga);
+  const nz_z=Math.sqrt(Math.max(0,1-nz_x*nz_x-nz_y*nz_y));
+  const ax=a*nx[0],ay=a*nx[1],az=a*nx[2];
+  const bx=b*ny[0],by=b*ny[1],bz=b*ny[2];
+  const cx2=c*nz_x,cy2=c*nz_y,cz2=c*nz_z;
+  const scale2=scale/Math.max(a,b,c)*2.8;
+  const verts=[];
+  for(let i=0;i<=1;i++)for(let j=0;j<=1;j++)for(let k=0;k<=1;k++){
+    verts.push([i*ax+j*bx+k*cx2,i*ay+j*by+k*cy2,i*az+j*bz+k*cz2]);
+  }
+  const edges=[[0,1],[2,3],[4,5],[6,7],[0,2],[1,3],[4,6],[5,7],[0,4],[1,5],[2,6],[3,7]];
+  ctx.strokeStyle=dark?'rgba(14,116,144,0.7)':'rgba(14,116,144,0.8)';
+  ctx.lineWidth=2;
+  edges.forEach(([i,j])=>{
+    const[px1,py1]=project3D(...verts[i],rotX,rotY,scale2,cx,cy);
+    const[px2,py2]=project3D(...verts[j],rotX,rotY,scale2,cx,cy);
+    ctx.beginPath();ctx.moveTo(px1,py1);ctx.lineTo(px2,py2);ctx.stroke();
+  });
+  // Atoms at corners
+  verts.forEach(v=>{
+    const[px,py]=project3D(...v,rotX,rotY,scale2,cx,cy);
+    ctx.beginPath();ctx.arc(px,py,8,0,2*Math.PI);
+    ctx.fillStyle='#0E7490';ctx.fill();
+  });
+  // Axes a, b, c avec couleurs
+  const axDefs=[[[0,0,0],[ax,ay,az],'a','#C0392B'],[[0,0,0],[bx,by,bz],'b','#1D9E75'],[[0,0,0],[cx2,cy2,cz2],'c','#9B59B6']];
+  const ox=cx-180,oy=cy+80;
+  axDefs.forEach(([from,to,lbl,col])=>{
+    const sc3=scale2*0.8;
+    const[fx,fy]=project3D(from[0]/2,from[1]/2,from[2]/2,rotX,rotY,sc3,ox,oy);
+    const[tx,ty]=project3D(to[0]/2,to[1]/2,to[2]/2,rotX,rotY,sc3,ox,oy);
+    ctx.strokeStyle=col;ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(fx,fy);ctx.lineTo(tx,ty);ctx.stroke();
+    ctx.fillStyle=col;ctx.font='bold 12px DM Sans,sans-serif';ctx.textAlign='center';ctx.fillText(lbl,tx+10,ty);
+  });
+  // Label
+  ctx.fillStyle=dark?'#aaa':'#666';ctx.font='13px DM Sans,sans-serif';ctx.textAlign='center';
+  ctx.fillText(sys.label,W/2,H-14);
+  const volFormula=a*b*c*Math.sqrt(1-Math.pow(Math.cos(al),2)-Math.pow(Math.cos(be),2)-Math.pow(Math.cos(ga),2)+2*Math.cos(al)*Math.cos(be)*Math.cos(ga));
+  const resDiv=document.getElementById('sys_results');
+  resDiv.innerHTML=`
+    <div class="rd-cell"><div class="rc-val">${a.toFixed(2)} Å</div><div class="rc-lbl">a</div></div>
+    <div class="rd-cell"><div class="rc-val">${b.toFixed(2)} Å</div><div class="rc-lbl">b</div></div>
+    <div class="rd-cell"><div class="rc-val">${c.toFixed(2)} Å</div><div class="rc-lbl">c</div></div>
+    <div class="rd-cell"><div class="rc-val">${sys.alpha}°, ${sys.beta}°, ${sys.gamma}°</div><div class="rc-lbl">α, β, γ</div></div>
+    <div class="rd-cell"><div class="rc-val">${volFormula.toFixed(1)} Å³</div><div class="rc-lbl">Volume</div></div>
+  `;
+}
+
+/* ════ COORDINENCE ════ */
+let currentCoord='BCC';
+const coordData={
+  BCC:{z1:8,d1:'a√3/2',z2:6,d2:'a',color:'#0E7490',label:'BCC'},
+  FCC:{z1:12,d1:'a√2/2',z2:6,d2:'a',color:'#1D9E75',label:'FCC'},
+  SC:{z1:6,d1:'a',z2:12,d2:'a√2',color:'#E04000',label:'SC'},
+  DIA:{z1:4,d1:'a√3/4',z2:12,d2:'a√2/2',color:'#9B59B6',label:'Diamant'}
+};
+function setCoord(t,btn){
+  currentCoord=t;
+  document.querySelectorAll('.ctrl-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  drawCoord();
+}
+function drawCoord(){
+  const d=coordData[currentCoord];
+  document.getElementById('coord_z1').textContent=d.z1;
+  document.getElementById('coord_d1').textContent=d.d1;
+  document.getElementById('coord_z2').textContent=d.z2;
+  document.getElementById('coord_d2').textContent=d.d2;
+  const canvas=document.getElementById('coordCanvas');
+  const ctx=canvas.getContext('2d');
+  const W=canvas.width,H=canvas.height;
+  const dark=isDark();
+  ctx.clearRect(0,0,W,H);
+  ctx.fillStyle=dark?'#222220':'#f0efe9';ctx.fillRect(0,0,W,H);
+  const cx=W/2,cy=H/2;
+  const R1=90,R2=155;
+  // Zones de coordination
+  ctx.beginPath();ctx.arc(cx,cy,R2,0,2*Math.PI);
+  ctx.fillStyle=dark?'rgba(14,116,144,0.08)':'rgba(14,116,144,0.06)';ctx.fill();
+  ctx.strokeStyle=dark?'rgba(14,116,144,0.3)':'rgba(14,116,144,0.25)';ctx.lineWidth=1;ctx.setLineDash([4,4]);ctx.stroke();
+  ctx.beginPath();ctx.arc(cx,cy,R1,0,2*Math.PI);
+  ctx.fillStyle=dark?'rgba(14,116,144,0.15)':'rgba(14,116,144,0.1)';ctx.fill();
+  ctx.strokeStyle=dark?'rgba(14,116,144,0.5)':'rgba(14,116,144,0.4)';ctx.setLineDash([]);ctx.stroke();
+  ctx.setLineDash([]);
+  // Voisins 1 (sur R1)
+  const z1=d.z1;
+  for(let i=0;i<z1;i++){
+    const ang=2*Math.PI*i/z1+(Math.PI/z1);
+    const px=cx+R1*Math.cos(ang),py=cy+R1*Math.sin(ang);
+    ctx.beginPath();ctx.arc(px,py,12,0,2*Math.PI);
+    ctx.fillStyle=d.color;ctx.fill();
+    ctx.strokeStyle=dark?'rgba(255,255,255,0.2)':'rgba(0,0,0,0.15)';ctx.lineWidth=1;ctx.stroke();
+    // Liaison
+    ctx.strokeStyle=dark?`rgba(14,116,144,0.5)`:`rgba(14,116,144,0.4)`;ctx.lineWidth=1.5;
+    ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(px,py);ctx.stroke();
+  }
+  // Voisins 2 (sur R2, représentés en plus petit)
+  const z2=Math.min(d.z2,12);
+  for(let i=0;i<z2;i++){
+    const ang=2*Math.PI*i/z2;
+    const px=cx+R2*Math.cos(ang),py=cy+R2*Math.sin(ang);
+    ctx.beginPath();ctx.arc(px,py,8,0,2*Math.PI);
+    ctx.fillStyle=dark?'rgba(14,116,144,0.5)':'rgba(14,116,144,0.4)';ctx.fill();
+  }
+  // Atome central
+  ctx.beginPath();ctx.arc(cx,cy,18,0,2*Math.PI);
+  ctx.fillStyle=d.color;ctx.fill();
+  ctx.strokeStyle='white';ctx.lineWidth=2;ctx.stroke();
+  // Highlight
+  ctx.beginPath();ctx.arc(cx-5,cy-5,5,0,2*Math.PI);ctx.fillStyle='rgba(255,255,255,0.5)';ctx.fill();
+  // Labels
+  ctx.fillStyle=dark?'#aaa':'#666';ctx.font='12px DM Sans,sans-serif';ctx.textAlign='left';
+  ctx.fillText(`1ère sphère : z₁ = ${d.z1} voisins à ${d.d1}`,W/2+10,50);
+  ctx.fillText(`2ème sphère : z₂ = ${d.z2} voisins à ${d.d2}`,W/2+10,68);
+  ctx.fillStyle=d.color;ctx.font='bold 14px DM Sans,sans-serif';ctx.textAlign='center';
+  ctx.fillText(d.label+' — Vue projetée 2D',cx,H-12);
+}
+
+/* ════ COMPACITÉ ════ */
+let currentCompStruct='FCC';
+const compStructs={
+  FCC:{N:4,tau:Math.PI*Math.sqrt(2)/6,rFn:a=>a*Math.sqrt(2)/4,name:'FCC'},
+  BCC:{N:2,tau:Math.PI*Math.sqrt(3)/8,rFn:a=>a*Math.sqrt(3)/4,name:'BCC'},
+  SC:{N:1,tau:Math.PI/6,rFn:a=>a/2,name:'SC'},
+  DIA:{N:8,tau:Math.PI*Math.sqrt(3)/16,rFn:a=>a*Math.sqrt(3)/8,name:'Diamant'}
+};
+function setCompStruct(t,btn){
+  currentCompStruct=t;
+  document.querySelectorAll('.ctrl-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  const defs={FCC:{a:3.615,A:63.5},BCC:{a:2.87,A:55.85},SC:{a:3.35,A:209},DIA:{a:3.567,A:12}};
+  const d=defs[t];
+  document.getElementById('comp_a').value=d.a;
+  document.getElementById('comp_A').value=d.A;
+  updateCompacite();
+}
+function updateCompacite(){
+  const a=parseFloat(document.getElementById('comp_a').value);
+  const A=parseFloat(document.getElementById('comp_A').value);
+  document.getElementById('comp_aVal').textContent=a.toFixed(3)+' Å';
+  document.getElementById('comp_AVal').textContent=A.toFixed(1)+' g/mol';
+  const s=compStructs[currentCompStruct];
+  const r=s.rFn(a);
+  const vol=Math.pow(a,3);
+  const Na=6.022e23;
+  const rho=s.N*A/(Na*vol*1e-24);
+  document.getElementById('comp_tau').textContent=(s.tau*100).toFixed(1)+'%';
+  document.getElementById('comp_r').textContent=r.toFixed(3)+' Å';
+  document.getElementById('comp_rho').textContent=rho.toFixed(3)+' g/cm³';
+  document.getElementById('comp_vol').textContent=vol.toFixed(2)+' Å³';
+  // Dessin
+  const canvas=document.getElementById('compCanvas');
+  const ctx=canvas.getContext('2d');
+  const W=canvas.width,H=canvas.height;
+  const dark=isDark();
+  ctx.clearRect(0,0,W,H);
+  ctx.fillStyle=dark?'#222220':'#f0efe9';ctx.fillRect(0,0,W,H);
+  // Barre de compacité
+  const barX=40,barY=60,barW=W-80,barH=50;
+  ctx.fillStyle=dark?'rgba(255,255,255,0.08)':'rgba(0,0,0,0.05)';
+  ctx.beginPath();ctx.roundRect(barX,barY,barW,barH,8);ctx.fill();
+  ctx.fillStyle='#0E7490';
+  ctx.beginPath();ctx.roundRect(barX,barY,barW*s.tau,barH,8);ctx.fill();
+  ctx.fillStyle=dark?'#f0efe9':'#1a1a1a';ctx.font='bold 16px DM Sans,sans-serif';ctx.textAlign='center';
+  ctx.fillText(`Compacité : ${(s.tau*100).toFixed(1)}%`,W/2,barY+barH/2+6);
+  // Comparatif des structures
+  const structs=['SC','BCC','FCC','DIA'];
+  const taus={SC:Math.PI/6,BCC:Math.PI*Math.sqrt(3)/8,FCC:Math.PI*Math.sqrt(2)/6,DIA:Math.PI*Math.sqrt(3)/16};
+  const barY2=140,barH2=28;
+  ctx.font='12px DM Sans,sans-serif';
+  structs.forEach((name,i)=>{
+    const bx=40,bw=(W-80)*taus[name];
+    const by=barY2+i*(barH2+10);
+    ctx.fillStyle=dark?'rgba(255,255,255,0.06)':'rgba(0,0,0,0.04)';
+    ctx.beginPath();ctx.roundRect(bx,by,W-80,barH2,6);ctx.fill();
+    ctx.fillStyle=name===currentCompStruct?'#0E7490':'rgba(14,116,144,0.4)';
+    ctx.beginPath();ctx.roundRect(bx,by,bw,barH2,6);ctx.fill();
+    ctx.fillStyle=dark?'#f0efe9':'#1a1a1a';ctx.textAlign='left';
+    ctx.fillText(`${name} — ${(taus[name]*100).toFixed(1)}%`,bx+8,by+barH2/2+5);
+  });
+}
+
+/* ════ EMPILEMENT COMPACT ════ */
+let currentEmp='FCC';
+function setEmpilement(t,btn){
+  currentEmp=t;
+  document.querySelectorAll('.ctrl-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  drawEmpilement();
+}
+function drawEmpilement(){
+  const nLayers=parseInt(document.getElementById('emp_layers').value);
+  document.getElementById('emp_layersVal').textContent=nLayers;
+  const canvas=document.getElementById('empCanvas');
+  const ctx=canvas.getContext('2d');
+  const W=canvas.width,H=canvas.height;
+  const dark=isDark();
+  ctx.clearRect(0,0,W,H);
+  ctx.fillStyle=dark?'#222220':'#f0efe9';ctx.fillRect(0,0,W,H);
+  const R=22;
+  const layerColors={'A':'#0E7490','B':'#1D9E75','C':'#9B59B6'};
+  // Séquences
+  const seq=currentEmp==='FCC'?['A','B','C','A','B','C']:['A','B','A','B','A','B'];
+  // Offsets de chaque couche
+  const offsets={'A':[0,0],'B':[R,R*0.577],'C':[R*2,R*1.155]};
+  const layerH=R*1.8;
+  const startY=H-R-20;
+  const atomsPerRow=Math.floor((W-40)/(R*2))+1;
+  for(let lay=0;lay<nLayers&&lay<seq.length;lay++){
+    const ltype=seq[lay];
+    const color=layerColors[ltype];
+    const off=offsets[ltype];
+    const y=startY-lay*layerH;
+    if(y<R) break;
+    const opacity=1-lay*0.12;
+    for(let i=-2;i<atomsPerRow+2;i++){
+      const x=20+i*R*2+off[0];
+      if(x<-R||x>W+R) continue;
+      ctx.globalAlpha=opacity;
+      ctx.beginPath();ctx.arc(x,y,R,0,2*Math.PI);
+      ctx.fillStyle=color;ctx.fill();
+      ctx.strokeStyle=dark?'rgba(255,255,255,0.2)':'rgba(0,0,0,0.15)';ctx.lineWidth=1;ctx.stroke();
+      ctx.beginPath();ctx.arc(x-R*0.25,y-R*0.25,R*0.25,0,2*Math.PI);
+      ctx.fillStyle='rgba(255,255,255,0.35)';ctx.fill();
+    }
+    ctx.globalAlpha=1;
+    // Label de couche
+    ctx.fillStyle=color;ctx.font='bold 14px DM Sans,sans-serif';ctx.textAlign='left';
+    ctx.fillText(`Couche ${ltype}`,W-100,y+5);
+  }
+  ctx.globalAlpha=1;
+  // Titre
+  const title=currentEmp==='FCC'?'FCC — Séquence ABCABC':'HCP — Séquence ABABAB';
+  ctx.fillStyle=dark?'#f0efe9':'#1a1a1a';ctx.font='bold 15px DM Sans,sans-serif';ctx.textAlign='center';
+  ctx.fillText(title,W/2,28);
+}
+
+/* ════ SITES INTERSTITIELS ════ */
+let currentSiteType='OCT';
+function setSite(t,btn){
+  currentSiteType=t;
+  document.querySelectorAll('.ctrl-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  drawSites();
+}
+function drawSites(){
+  const r=parseFloat(document.getElementById('site_r').value);
+  document.getElementById('site_rVal').textContent=r.toFixed(2)+' Å';
+  const a=r*4/Math.sqrt(2);
+  const r_oct=a*(Math.sqrt(2)-1)/2;
+  const r_tet=a*(Math.sqrt(3/2)-1)/2;
+  document.getElementById('site_oct_r').textContent=r_oct.toFixed(3)+' Å';
+  document.getElementById('site_tet_r').textContent=r_tet.toFixed(3)+' Å';
+  document.getElementById('site_a').textContent=a.toFixed(3)+' Å';
+  const canvas=document.getElementById('siteCanvas');
+  const ctx=canvas.getContext('2d');
+  const W=canvas.width,H=canvas.height;
+  const dark=isDark();
+  ctx.clearRect(0,0,W,H);
+  ctx.fillStyle=dark?'#222220':'#f0efe9';ctx.fillRect(0,0,W,H);
+  // Vue 2D du plan (001) de FCC
+  const scale=55;
+  const cx=W/2,cy=H/2;
+  // Atomes FCC dans le plan z=0
+  const fccPos2D=[[-0.5,-0.5],[0.5,-0.5],[0.5,0.5],[-0.5,0.5],[0,0]];
+  // Site oct au centre (1/2,0,0) projeté sur z=0 → (1/2,0)
+  const octSites2D=[[0.5,0],[0,0.5]];
+  // Sites tet à (1/4,1/4,1/4) et (3/4,1/4,1/4)
+  const tetSites2D=[[0.25,0.25],[0.75,0.25],[0.25,0.75],[0.75,0.75]];
+  const atomR=Math.max(r*scale/3,8);
+  const cellSz=scale*1.5;
+  fccPos2D.forEach(([x,y])=>{
+    const px=cx+x*cellSz,py=cy-y*cellSz;
+    ctx.beginPath();ctx.arc(px,py,atomR,0,2*Math.PI);
+    ctx.fillStyle='#0E7490';ctx.fill();
+    ctx.strokeStyle=dark?'rgba(255,255,255,0.2)':'rgba(0,0,0,0.15)';ctx.lineWidth=1;ctx.stroke();
+  });
+  // Maille
+  ctx.strokeStyle=dark?'rgba(14,116,144,0.5)':'rgba(14,116,144,0.6)';ctx.lineWidth=1.5;ctx.setLineDash([4,4]);
+  ctx.strokeRect(cx-cellSz/2,cy-cellSz/2,cellSz,cellSz);ctx.setLineDash([]);
+  // Sites
+  if(currentSiteType==='OCT'||currentSiteType==='BOTH'){
+    const r_oct_px=Math.max(r_oct*scale/3,4);
+    octSites2D.forEach(([x,y])=>{
+      const px=cx+x*cellSz,py=cy-y*cellSz;
+      ctx.beginPath();ctx.arc(px,py,r_oct_px,0,2*Math.PI);
+      ctx.fillStyle='rgba(224,64,0,0.8)';ctx.fill();
+      ctx.strokeStyle='#C0392B';ctx.lineWidth=2;ctx.stroke();
+    });
+    ctx.fillStyle='#C0392B';ctx.font='12px DM Sans,sans-serif';ctx.textAlign='left';
+    ctx.fillText(`Site Oct. r=${r_oct.toFixed(2)} Å`,W-220,H-40);
+    ctx.beginPath();ctx.arc(W-230,H-44,6,0,2*Math.PI);ctx.fillStyle='rgba(224,64,0,0.8)';ctx.fill();
+  }
+  if(currentSiteType==='TET'||currentSiteType==='BOTH'){
+    const r_tet_px=Math.max(r_tet*scale/3,3);
+    tetSites2D.forEach(([x,y])=>{
+      const px=cx+(x-0.5)*cellSz,py=cy-(y-0.5)*cellSz;
+      ctx.beginPath();ctx.arc(px,py,r_tet_px,0,2*Math.PI);
+      ctx.fillStyle='rgba(155,89,182,0.8)';ctx.fill();
+      ctx.strokeStyle='#9B59B6';ctx.lineWidth=2;ctx.stroke();
+    });
+    ctx.fillStyle='#9B59B6';ctx.font='12px DM Sans,sans-serif';ctx.textAlign='left';
+    ctx.fillText(`Site Tét. r=${r_tet.toFixed(2)} Å`,W-220,H-20);
+    ctx.beginPath();ctx.arc(W-230,H-24,5,0,2*Math.PI);ctx.fillStyle='rgba(155,89,182,0.8)';ctx.fill();
+  }
+  ctx.fillStyle=dark?'#f0efe9':'#1a1a1a';ctx.font='13px DM Sans,sans-serif';ctx.textAlign='center';
+  ctx.fillText('Plan (001) de FCC — Vue de dessus',W/2,H-12);
+}
+
+document.addEventListener('DOMContentLoaded',()=>{
+  setTimeout(()=>{
+    drawSystem();drawCoord();updateCompacite();drawEmpilement();drawSites();
+    if(window.renderMathInElement)renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]});
+  },350);
+});
+</script>
+</body>
+</html>

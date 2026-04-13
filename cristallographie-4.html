@@ -1,0 +1,966 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cristallographie (4/4) — MathΣtique</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"/>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]})"></script>
+  <style>
+    :root{--teal:#0E7490;--teal-light:#E0F7FA;--teal-dark:#065a6b;--green:#1D9E75;--green-light:#E1F5EE;--green-dark:#0F6E56;--amber:#BA7517;--amber-light:#FAEEDA;--amber-dark:#854F0B;--purple:#534AB7;--purple-light:#EEEDFE;--purple-dark:#3C3489;--red:#C0392B;--red-light:#FDEDEC;--text:#1a1a1a;--text-secondary:#666;--text-tertiary:#999;--bg:#ffffff;--bg-secondary:#f7f6f2;--bg-tertiary:#f0efe9;--border:rgba(0,0,0,0.1);--border-hover:rgba(0,0,0,0.22);--radius:12px;--radius-lg:16px}
+    @media(prefers-color-scheme:dark){:root{--text:#f0efe9;--text-secondary:#aaa;--text-tertiary:#666;--bg:#111110;--bg-secondary:#1a1a18;--bg-tertiary:#222220;--border:rgba(255,255,255,0.1);--border-hover:rgba(255,255,255,0.22);--teal-light:#042830;--green-light:#0a2e26;--amber-light:#2a1e08;--purple-light:#1a1840;--red-light:#2a0a08}}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{font-family:'DM Sans',sans-serif;color:var(--text);background:var(--bg);line-height:1.6;font-size:16px}
+    nav{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:.9rem 2rem;background:var(--bg);border-bottom:.5px solid var(--border);backdrop-filter:blur(8px)}
+    .nav-logo{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--text);text-decoration:none}.nav-logo span{color:var(--green)}
+    .nav-right{display:flex;align-items:center;gap:10px}
+    .btn-back{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--text-secondary);text-decoration:none;padding:6px 13px;border:.5px solid var(--border-hover);border-radius:8px;transition:background .2s}
+    .btn-back:hover{background:var(--bg-secondary);color:var(--text)}
+    .page-badge{font-size:12px;color:var(--text-tertiary);background:var(--bg-secondary);padding:4px 10px;border-radius:20px;border:.5px solid var(--border)}
+    .page{max-width:860px;margin:0 auto;padding:3rem 2rem 5rem}
+    .breadcrumb{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--text-tertiary);margin-bottom:2rem;flex-wrap:wrap}
+    .breadcrumb a{color:var(--text-secondary);text-decoration:none}.breadcrumb a:hover{color:var(--text)}
+    .lesson-cat{display:inline-block;font-size:12px;font-weight:500;color:var(--teal-dark);background:var(--teal-light);padding:4px 12px;border-radius:20px;margin-bottom:1rem}
+    .lesson-title{font-family:'Playfair Display',serif;font-size:clamp(26px,4vw,38px);font-weight:700;line-height:1.15;margin-bottom:.75rem}
+    .page-strip{display:flex;gap:8px;margin-bottom:2.5rem;flex-wrap:wrap}
+    .pg-btn{display:inline-flex;align-items:center;font-size:13px;font-weight:500;padding:7px 15px;border-radius:8px;text-decoration:none;border:.5px solid var(--border);color:var(--text-secondary);transition:all .2s}
+    .pg-btn:hover{background:var(--bg-secondary);border-color:var(--border-hover);color:var(--text)}
+    .pg-btn.active{background:var(--teal);border-color:var(--teal);color:#fff}
+    .toc{background:var(--bg-secondary);border:.5px solid var(--border);border-radius:var(--radius);padding:1.25rem 1.5rem;margin-bottom:3rem}
+    .toc-title{font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:.08em;color:var(--text-tertiary);margin-bottom:.75rem}
+    .toc ol{padding-left:1.25rem}.toc li{font-size:14px;margin:5px 0}.toc a{color:var(--teal);text-decoration:none}.toc a:hover{text-decoration:underline}
+    .lesson-section{margin-bottom:3.5rem}
+    .lesson-section h2{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;margin-bottom:1.25rem;padding-bottom:.6rem;border-bottom:.5px solid var(--border)}
+    .lesson-section h3{font-size:17px;font-weight:600;margin:1.75rem 0 .75rem}
+    .lesson-section p{font-size:15px;line-height:1.85;margin-bottom:1rem}
+    .def-box{background:var(--teal-light);border-left:3px solid var(--teal);border-radius:0 var(--radius) var(--radius) 0;padding:1.25rem 1.5rem;margin:1.25rem 0}
+    .def-box .def-label{font-size:11px;font-weight:500;color:var(--teal-dark);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px}
+    .def-box p{font-size:14px;line-height:1.75;margin:0}
+    .red-box{background:var(--red-light);border-left:3px solid var(--red);border-radius:0 var(--radius) var(--radius) 0;padding:1.25rem 1.5rem;margin:1.25rem 0}
+    .red-box .def-label{font-size:11px;font-weight:500;color:var(--red);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px}
+    .red-box p{font-size:14px;line-height:1.75;margin:0}
+    .formula-box{background:var(--bg-secondary);border:.5px solid var(--border);border-radius:var(--radius);padding:1.5rem;margin:1.25rem 0;text-align:center}
+    .formula-box .fb-label{font-size:12px;color:var(--text-secondary);margin-bottom:.75rem}
+    .formula-box .fb-desc{font-size:12px;color:var(--text-secondary);margin-top:.75rem;line-height:1.6}
+    .note-box{background:var(--amber-light);border-left:3px solid var(--amber);border-radius:0 var(--radius) var(--radius) 0;padding:1rem 1.5rem;margin:1.25rem 0}
+    .note-box .note-label{font-size:11px;font-weight:500;color:var(--amber-dark);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px}
+    .note-box p{font-size:14px;color:var(--amber-dark);margin:0;line-height:1.7}
+    .example-box{border:.5px solid var(--border);border-radius:var(--radius);overflow:hidden;margin:1.25rem 0}
+    .example-box .ex-header{background:var(--bg-secondary);padding:10px 1.25rem;font-size:12px;font-weight:500;color:var(--text-secondary);text-transform:uppercase;letter-spacing:.07em;border-bottom:.5px solid var(--border)}
+    .example-box .ex-body{padding:1.25rem;font-size:14px;line-height:1.85}
+    .example-box .ex-body p{margin-bottom:.6rem}
+    .prop-list{background:var(--bg-secondary);border:.5px solid var(--border);border-radius:var(--radius);padding:1.25rem 1.5rem;margin:1.25rem 0}
+    .prop-list .pl-title{font-size:13px;font-weight:500;color:var(--text-secondary);margin-bottom:1rem;text-transform:uppercase;letter-spacing:.06em}
+    .prop-list table{width:100%;border-collapse:collapse}
+    .prop-list td,.prop-list th{font-size:14px;padding:9px 12px;border-bottom:.5px solid var(--border);vertical-align:middle}
+    .prop-list th{background:var(--bg-tertiary);font-weight:600;font-size:13px}
+    .prop-list tr:last-child td{border-bottom:none}
+    .prop-list td:first-child{color:var(--text-secondary);width:30%}
+    .demo-box{background:var(--bg-secondary);border:.5px solid var(--border);border-radius:var(--radius-lg);padding:1.75rem;margin:1.5rem 0}
+    .demo-box h3{font-size:16px;font-weight:600;margin-bottom:.35rem}
+    .demo-box .demo-sub{font-size:13px;color:var(--text-secondary);margin-bottom:1.25rem}
+    .controls{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:1rem}
+    .ctrl-btn{padding:6px 14px;border-radius:8px;border:.5px solid var(--border);background:var(--bg);font-size:13px;font-weight:500;cursor:pointer;color:var(--text);transition:all .2s;font-family:inherit}
+    .ctrl-btn:hover{border-color:var(--border-hover);background:var(--bg-tertiary)}
+    .ctrl-btn.active{background:var(--teal);border-color:var(--teal);color:#fff}
+    .slider-row{display:flex;align-items:center;gap:10px;margin:8px 0}
+    .slider-row label{font-size:13px;color:var(--text-secondary);width:200px;flex-shrink:0}
+    .slider-row input[type=range]{flex:1;accent-color:var(--teal)}
+    .slider-val{font-size:13px;font-weight:500;min-width:65px;text-align:right;font-variant-numeric:tabular-nums}
+    .result-display{background:var(--bg);border-radius:10px;padding:1rem 1.25rem;margin-top:1.25rem;border:.5px solid var(--border)}
+    .rd-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px}
+    .rd-cell{background:var(--bg-secondary);border-radius:8px;padding:10px 12px;text-align:center}
+    .rc-val{font-family:'Playfair Display',serif;font-size:17px;color:var(--teal);font-weight:700}
+    .rc-lbl{font-size:11px;color:var(--text-secondary);margin-top:3px}
+    canvas{display:block;margin:.75rem auto 0;border-radius:var(--radius);max-width:100%}
+    .two-col{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1.25rem 0}
+    .lesson-nav{display:flex;justify-content:space-between;align-items:center;margin-top:4rem;padding-top:2rem;border-top:.5px solid var(--border);flex-wrap:wrap;gap:1rem}
+    .lesson-nav a{display:inline-flex;align-items:center;gap:6px;font-size:14px;color:var(--text-secondary);text-decoration:none;padding:9px 18px;border:.5px solid var(--border);border-radius:8px;transition:background .2s;font-weight:500}
+    .lesson-nav a:hover{background:var(--bg-secondary);color:var(--text)}
+    .lesson-nav a.fin{background:var(--green);color:#fff;border-color:var(--green)}
+    .lesson-nav a.fin:hover{opacity:.88}
+    footer{border-top:.5px solid var(--border);padding:1.75rem 2rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+    .footer-logo{font-family:'Playfair Display',serif;font-size:18px;font-weight:700}.footer-logo span{color:var(--green)}
+    footer p{font-size:13px;color:var(--text-secondary)}
+    @media(max-width:768px){.page{padding:2rem 1.25rem 4rem}.two-col{grid-template-columns:1fr}.slider-row label{width:130px}}
+  </style>
+</head>
+<body>
+<nav>
+  <a class="nav-logo" href="index.html">Math<span>∑</span>tique</a>
+  <div class="nav-right">
+    <span class="page-badge">Page 4 / 4</span>
+    <a class="btn-back" href="index.html">← Chapitres</a>
+  </div>
+</nav>
+<div class="page">
+  <div class="breadcrumb">
+    <a href="index.html">Accueil</a><span>›</span>
+    <a href="cristallographie.html">Cristallographie</a><span>›</span>
+    <span style="color:var(--text)">Défauts &amp; Propriétés</span>
+  </div>
+  <span class="lesson-cat">Licence · Sciences des matériaux</span>
+  <h1 class="lesson-title">Cristallographie — Page 4</h1>
+  <div class="page-strip">
+    <a class="pg-btn" href="cristallographie.html">1 · Réseaux &amp; Mailles</a>
+    <a class="pg-btn" href="cristallographie-2.html">2 · Systèmes &amp; Empilement</a>
+    <a class="pg-btn" href="cristallographie-3.html">3 · Diffraction &amp; Bragg</a>
+    <a class="pg-btn active" href="cristallographie-4.html">4 · Défauts &amp; Propriétés</a>
+  </div>
+  <div class="toc">
+    <div class="toc-title">Table des matières — Page 4</div>
+    <ol>
+      <li><a href="#defauts-ponctuels">Défauts ponctuels — lacunes, interstitiels, substitutions</a></li>
+      <li><a href="#defauts-lineaires">Défauts linéaires — dislocations</a></li>
+      <li><a href="#defauts-plans">Défauts plans — joints de grains, macles</a></li>
+      <li><a href="#proprietes-meca">Propriétés mécaniques et structure cristalline</a></li>
+      <li><a href="#proprietes-elec">Propriétés électriques et thermiques</a></li>
+      <li><a href="#materiaux-reels">Matériaux réels — métaux, céramiques, semiconducteurs</a></li>
+    </ol>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       1. DÉFAUTS PONCTUELS
+  ══════════════════════════════════════════ -->
+  <div class="lesson-section" id="defauts-ponctuels">
+    <h2>1. Défauts ponctuels</h2>
+    <p>Un cristal réel n'est jamais parfait. Les <strong>défauts ponctuels</strong> affectent un ou quelques sites du réseau et sont inévitables à toute température non nulle, car leur présence augmente l'entropie du système. Ils ont une influence considérable sur les propriétés mécaniques, électriques et de diffusion des matériaux.</p>
+
+    <h3>Lacunes (défauts de Schottky)</h3>
+    <p>Une <strong>lacune</strong> est un site atomique inoccupé du réseau cristallin. C'est le défaut ponctuel le plus courant dans les métaux. La concentration d'équilibre $C_v$ des lacunes obéit à une loi d'Arrhenius :</p>
+    <div class="formula-box">
+      <div class="fb-label">Concentration d'équilibre des lacunes</div>
+      $$C_v = \exp\!\left(-\frac{E_f}{k_B T}\right) = \exp\!\left(-\frac{Q_f}{RT}\right)$$
+      <div class="fb-desc">$E_f$ : énergie de formation d'une lacune · $k_B = 8{,}617\times10^{-5}\ \text{eV/K}$ · $T$ : température absolue · Pour l'aluminium : $E_f \approx 0{,}68\ \text{eV}$, ce qui donne $C_v \approx 10^{-4}$ au point de fusion</div>
+    </div>
+
+    <h3>Interstitiels</h3>
+    <p>Un atome <strong>interstitiel</strong> est un atome supplémentaire logé dans un site non occupé en temps normal (site interstitiel). On distingue les auto-interstitiels (même espèce que le réseau) et les interstitiels étrangers (impuretés légères : C, N, H, O dans les métaux de transition).</p>
+
+    <h3>Impuretés substitutionnelles</h3>
+    <p>Un atome d'impureté <strong>substitutionnel</strong> occupe un site normal du réseau en remplaçant un atome hôte. Sa solubilité est régie par les règles de Hume-Rothery : différence de rayon atomique $< 15\%$, même structure cristalline, électronégativité et valence proches.</p>
+
+    <h3>Paires de Frenkel (ioniques)</h3>
+    <p>Dans les cristaux ioniques, un ion quitte son site (créant une lacune) pour s'insérer en position interstitielle. Cette paire {lacune + interstitiel} forme le <strong>défaut de Frenkel</strong>, caractéristique de AgBr, AgCl et des fluorures de calcium.</p>
+
+    <!-- ANIMATION défauts ponctuels -->
+    <div class="demo-box">
+      <h3>Animation — Défauts ponctuels et concentration thermique</h3>
+      <p class="demo-sub">Visualisez les défauts sur le réseau et l'évolution de leur concentration avec la température.</p>
+      <div class="controls">
+        <button class="ctrl-btn active" onclick="setDefType('vacancy',this)">Lacune</button>
+        <button class="ctrl-btn" onclick="setDefType('interstitial',this)">Interstitiel</button>
+        <button class="ctrl-btn" onclick="setDefType('substitution',this)">Substitution</button>
+        <button class="ctrl-btn" onclick="setDefType('frenkel',this)">Frenkel</button>
+      </div>
+      <div class="slider-row">
+        <label>Température $T$ (K)</label>
+        <input type="range" id="def_T" min="100" max="1800" step="10" value="900" oninput="updateDefauts()">
+        <span class="slider-val" id="def_TVal">900 K</span>
+      </div>
+      <div class="slider-row">
+        <label>Énergie de formation $E_f$ (eV)</label>
+        <input type="range" id="def_Ef" min="0.1" max="3.0" step="0.05" value="0.68" oninput="updateDefauts()">
+        <span class="slider-val" id="def_EfVal">0.68 eV</span>
+      </div>
+      <div class="two-col" style="margin-top:8px">
+        <canvas id="defReseau" width="360" height="300" style="background:var(--bg-tertiary);border:.5px solid var(--border);border-radius:var(--radius)"></canvas>
+        <canvas id="defConcentration" width="360" height="300" style="background:#060606;border-radius:var(--radius)"></canvas>
+      </div>
+      <div class="result-display">
+        <div class="rd-grid">
+          <div class="rd-cell"><div class="rc-val" id="def_Cv">—</div><div class="rc-lbl">Concentration $C_v$</div></div>
+          <div class="rd-cell"><div class="rc-val" id="def_Nd">—</div><div class="rc-lbl">Défauts / cm³</div></div>
+          <div class="rd-cell"><div class="rc-val" id="def_kT">—</div><div class="rc-lbl">$k_BT$ (eV)</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       2. DISLOCATIONS
+  ══════════════════════════════════════════ -->
+  <div class="lesson-section" id="defauts-lineaires">
+    <h2>2. Défauts linéaires — dislocations</h2>
+    <p>Les <strong>dislocations</strong> sont des défauts linéaires qui correspondent à l'interruption partielle d'un plan atomique dans le cristal. Elles sont fondamentales pour comprendre la plasticité des métaux : un cristal parfait serait environ 1000 fois plus résistant que ce qui est observé expérimentalement, et c'est précisément le mouvement des dislocations sous contrainte qui explique la déformation plastique à faible contrainte.</p>
+
+    <div class="def-box">
+      <div class="def-label">Vecteur de Burgers</div>
+      <p>Le <strong>vecteur de Burgers</strong> $\mathbf{b}$ caractérise le type et l'amplitude d'une dislocation. Il est défini par le circuit de Burgers : on parcourt un chemin fermé autour de la dislocation dans le cristal parfait ; le vecteur de fermeture est $\mathbf{b}$. Son module est typiquement de l'ordre du paramètre de maille.</p>
+    </div>
+
+    <h3>Dislocation coin</h3>
+    <p>Dans une <strong>dislocation coin</strong>, le vecteur de Burgers $\mathbf{b}$ est <em>perpendiculaire</em> à la ligne de dislocation $\mathbf{l}$. Elle correspond à l'insertion d'un demi-plan supplémentaire dans le cristal. Sous l'effet d'une contrainte de cisaillement, elle se déplace par glissement dans son plan de glissement, emportant la déformation plastique.</p>
+
+    <h3>Dislocation vis</h3>
+    <p>Dans une <strong>dislocation vis</strong>, le vecteur de Burgers $\mathbf{b}$ est <em>parallèle</em> à la ligne de dislocation. Les plans atomiques forment alors une surface hélicoïdale (comme un escalier en colimaçon). La dislocation vis peut se déplacer dans n'importe quel plan contenant $\mathbf{b}$ (déviation).</p>
+
+    <div class="formula-box">
+      <div class="fb-label">Énergie élastique d'une dislocation par unité de longueur</div>
+      $$E/L \approx \frac{\mu b^2}{4\pi}\ln\!\left(\frac{R}{r_0}\right) \approx \frac{1}{2}\mu b^2$$
+      <div class="fb-desc">$\mu$ : module de cisaillement · $b = |\mathbf{b}|$ : module du vecteur de Burgers · $R$ : rayon extérieur · $r_0 \approx b$ : rayon du cœur · La règle $E \propto b^2$ explique pourquoi les dislocations à faible $b$ sont les plus stables</div>
+    </div>
+
+    <div class="formula-box">
+      <div class="fb-label">Contrainte critique de Peierls-Nabarro (déplacement d'une dislocation)</div>
+      $$\tau_P \approx \frac{2\mu}{1-\nu}\exp\!\left(-\frac{2\pi w}{b}\right), \quad w = \frac{b}{1-\nu} \approx b$$
+      <div class="fb-desc">$\nu$ : coefficient de Poisson · $w$ : largeur du cœur · Une large largeur (plans denses, compacité élevée) → faible $\tau_P$ → matériau ductile</div>
+    </div>
+
+    <!-- ANIMATION dislocations -->
+    <div class="demo-box">
+      <h3>Animation — Dislocation coin et mouvement de glissement</h3>
+      <p class="demo-sub">Visualisez la structure d'une dislocation coin et son déplacement sous contrainte de cisaillement.</p>
+      <div class="controls">
+        <button class="ctrl-btn active" onclick="setDisloType('edge',this)">Dislocation coin</button>
+        <button class="ctrl-btn" onclick="setDisloType('screw',this)">Dislocation vis</button>
+      </div>
+      <div class="slider-row">
+        <label>Position de la dislocation</label>
+        <input type="range" id="dislo_pos" min="0" max="100" step="1" value="50" oninput="drawDislocation()">
+        <span class="slider-val" id="dislo_posVal">50%</span>
+      </div>
+      <div class="slider-row">
+        <label>Contrainte $\tau/\tau_P$</label>
+        <input type="range" id="dislo_stress" min="0" max="3" step="0.1" value="1.0" oninput="drawDislocation()">
+        <span class="slider-val" id="dislo_stressVal">1.0</span>
+      </div>
+      <canvas id="disloCanvas" width="760" height="340" style="background:var(--bg-tertiary);border:.5px solid var(--border);border-radius:var(--radius)"></canvas>
+      <div class="result-display">
+        <div class="rd-grid">
+          <div class="rd-cell"><div class="rc-val" id="dislo_type">Coin</div><div class="rc-lbl">Type</div></div>
+          <div class="rd-cell"><div class="rc-val" id="dislo_b">a⟨110⟩/2</div><div class="rc-lbl">Vecteur de Burgers</div></div>
+          <div class="rd-cell"><div class="rc-val" id="dislo_glide">FCC : {111}</div><div class="rc-lbl">Plans de glissement</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       3. DÉFAUTS PLANS
+  ══════════════════════════════════════════ -->
+  <div class="lesson-section" id="defauts-plans">
+    <h2>3. Défauts plans — joints de grains et macles</h2>
+    <p>Les <strong>défauts plans</strong> (bidimensionnels) séparent des régions du cristal d'orientation différente. Ils jouent un rôle crucial dans le contrôle des propriétés mécaniques des polycristaux.</p>
+
+    <h3>Joints de grains</h3>
+    <p>Un <strong>joint de grain</strong> est l'interface entre deux grains cristallins d'orientations différentes. Sa structure dépend de l'angle de désorientation $\theta$ :</p>
+    <ul style="padding-left:1.5rem;font-size:15px;line-height:2.2;margin-bottom:1rem">
+      <li><strong>Faible désorientation ($\theta < 15°$)</strong> : joint de faible angle, modélisable comme un réseau de dislocations coin. Énergie de joint : $\gamma \approx \gamma_0\theta(A - \ln\theta)$ (modèle de Read-Shockley).</li>
+      <li><strong>Grande désorientation ($\theta > 15°$)</strong> : joint de grand angle, structure plus complexe et désordonnée. Énergie quasi-constante $\gamma \approx 0{,}3 - 1\ \text{J/m}^2$.</li>
+    </ul>
+
+    <div class="note-box">
+      <div class="note-label">Loi de Hall-Petch — influence de la taille de grain</div>
+      <p>La limite d'élasticité $\sigma_y$ d'un polycristal augmente quand la taille de grain $d$ diminue, selon la loi de Hall-Petch : $\sigma_y = \sigma_0 + k_y / \sqrt{d}$, où $\sigma_0$ est la limite d'élasticité du monocristal et $k_y$ une constante matériau. C'est le principe du durcissement structural par affinement de grain.</p>
+    </div>
+
+    <h3>Macles</h3>
+    <p>Une <strong>macle</strong> est un défaut plan où deux parties du cristal sont reliées par une symétrie miroir. On distingue les macles de déformation (mécaniques, sous contrainte) et les macles de recuit (thermiques). Les macles de déformation sont très courantes dans les métaux FCC à faible énergie de faute d'empilement (Cu, Ag, aciers austénitiques).</p>
+
+    <h3>Fautes d'empilement</h3>
+    <p>Une <strong>faute d'empilement</strong> résulte d'une erreur dans la séquence d'empilement des couches compactes. Dans FCC (séquence ABCABC), une faute intrinsèque donne ...ABCABABC... — on a localement une séquence HCP. L'énergie de faute d'empilement $\gamma_{SFE}$ (en mJ/m²) est un paramètre clé : faible $\gamma_{SFE}$ → larges fautes → dislocations larges → peu mobiles → meilleure résistance à chaud.</p>
+
+    <!-- ANIMATION joints de grains et loi Hall-Petch -->
+    <div class="demo-box">
+      <h3>Animation — Polycristal et loi de Hall-Petch</h3>
+      <p class="demo-sub">Microstructure de polycristal avec taille de grain variable et calcul de la limite d'élasticité.</p>
+      <div class="slider-row">
+        <label>Taille de grain $d$ (µm)</label>
+        <input type="range" id="hp_d" min="0.1" max="500" step="0.5" value="50" oninput="updateHallPetch()">
+        <span class="slider-val" id="hp_dVal">50.0 µm</span>
+      </div>
+      <div class="slider-row">
+        <label>$\sigma_0$ (MPa)</label>
+        <input type="range" id="hp_sigma0" min="10" max="200" step="5" value="70" oninput="updateHallPetch()">
+        <span class="slider-val" id="hp_sigma0Val">70 MPa</span>
+      </div>
+      <div class="slider-row">
+        <label>$k_y$ (MPa·µm^{1/2})</label>
+        <input type="range" id="hp_ky" min="50" max="1000" step="10" value="500" oninput="updateHallPetch()">
+        <span class="slider-val" id="hp_kyVal">500</span>
+      </div>
+      <div class="two-col" style="margin-top:8px">
+        <canvas id="grainCanvas" width="360" height="300" style="background:var(--bg-tertiary);border:.5px solid var(--border);border-radius:var(--radius)"></canvas>
+        <canvas id="hallpetchCanvas" width="360" height="300" style="background:#060606;border-radius:var(--radius)"></canvas>
+      </div>
+      <div class="result-display">
+        <div class="rd-grid">
+          <div class="rd-cell"><div class="rc-val" id="hp_sigmay">—</div><div class="rc-lbl">Limite d'élasticité $\sigma_y$</div></div>
+          <div class="rd-cell"><div class="rc-val" id="hp_grains">—</div><div class="rc-lbl">Nb de grains (vue)</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       4. PROPRIÉTÉS MÉCANIQUES
+  ══════════════════════════════════════════ -->
+  <div class="lesson-section" id="proprietes-meca">
+    <h2>4. Propriétés mécaniques et structure cristalline</h2>
+    <p>La structure cristalline détermine directement les propriétés mécaniques d'un matériau. Les mécanismes de déformation plastique dépendent de la géométrie du réseau, du nombre de systèmes de glissement, et de l'énergie de faute d'empilement.</p>
+
+    <h3>Systèmes de glissement</h3>
+    <p>La déformation plastique se produit par glissement de dislocations sur des plans denses dans des directions denses. Un <strong>système de glissement</strong> est une combinaison {plan de glissement} + ⟨direction de glissement⟩ :</p>
+
+    <div class="prop-list">
+      <div class="pl-title">Systèmes de glissement des structures cubiques</div>
+      <table>
+        <tr><th>Structure</th><th>Plans</th><th>Directions</th><th>Nb de systèmes</th><th>Ductilité</th></tr>
+        <tr><td>FCC</td><td>{111} (4 plans)</td><td>⟨110⟩ (3 dir./plan)</td><td>12</td><td>Très ductile</td></tr>
+        <tr><td>BCC</td><td>{110}, {112}, {123}</td><td>⟨111⟩</td><td>48</td><td>Ductile (T > T_DBTT)</td></tr>
+        <tr><td>HCP</td><td>{0001} basal + autres</td><td>⟨1120⟩</td><td>3 (basal)</td><td>Peu ductile</td></tr>
+        <tr><td>Diamant (Si, Ge)</td><td>{111}</td><td>⟨110⟩</td><td>12</td><td>Fragile à T ambiante</td></tr>
+      </table>
+    </div>
+
+    <h3>Facteur de Schmid</h3>
+    <p>La contrainte de cisaillement résolue $\tau_R$ sur un système de glissement vaut :</p>
+    <div class="formula-box">
+      <div class="fb-label">Loi de Schmid</div>
+      $$\tau_R = \sigma \cos\phi\cos\lambda = \sigma \cdot m$$
+      <div class="fb-desc">$\phi$ : angle entre la contrainte appliquée $\sigma$ et la normale au plan de glissement · $\lambda$ : angle entre $\sigma$ et la direction de glissement · $m = \cos\phi\cos\lambda$ : facteur de Schmid (max = 0,5)</div>
+    </div>
+
+    <!-- ANIMATION facteur de Schmid -->
+    <div class="demo-box">
+      <h3>Animation — Facteur de Schmid</h3>
+      <p class="demo-sub">Visualisez comment l'orientation du cristal influe sur la contrainte de cisaillement résolue.</p>
+      <div class="slider-row">
+        <label>Angle $\phi$ (°)</label>
+        <input type="range" id="sch_phi" min="0" max="90" step="1" value="45" oninput="drawSchmid()">
+        <span class="slider-val" id="sch_phiVal">45°</span>
+      </div>
+      <div class="slider-row">
+        <label>Angle $\lambda$ (°)</label>
+        <input type="range" id="sch_lam" min="0" max="90" step="1" value="45" oninput="drawSchmid()">
+        <span class="slider-val" id="sch_lamVal">45°</span>
+      </div>
+      <div class="slider-row">
+        <label>Contrainte appliquée $\sigma$ (MPa)</label>
+        <input type="range" id="sch_sigma" min="10" max="500" step="5" value="100" oninput="drawSchmid()">
+        <span class="slider-val" id="sch_sigmaVal">100 MPa</span>
+      </div>
+      <canvas id="schmidCanvas" width="760" height="300" style="background:var(--bg-tertiary);border:.5px solid var(--border);border-radius:var(--radius)"></canvas>
+      <div class="result-display">
+        <div class="rd-grid">
+          <div class="rd-cell"><div class="rc-val" id="sch_m">0.500</div><div class="rc-lbl">Facteur de Schmid $m$</div></div>
+          <div class="rd-cell"><div class="rc-val" id="sch_tauR">50.0 MPa</div><div class="rc-lbl">Cisaillement résolu $\tau_R$</div></div>
+          <div class="rd-cell"><div class="rc-val" id="sch_orient">Favorable</div><div class="rc-lbl">Orientation</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       5. PROPRIÉTÉS ÉLECTRIQUES ET THERMIQUES
+  ══════════════════════════════════════════ -->
+  <div class="lesson-section" id="proprietes-elec">
+    <h2>5. Propriétés électriques et thermiques</h2>
+    <p>La structure cristalline — symétrie, nature des liaisons, structure de bande — détermine les propriétés de transport électronique et thermique.</p>
+
+    <h3>Structure de bandes et classification électrique</h3>
+    <p>Dans un cristal périodique, les niveaux d'énergie des électrons forment des <strong>bandes d'énergie</strong> séparées par des bandes interdites (gaps). La position du niveau de Fermi par rapport au gap détermine le type électrique :</p>
+
+    <div class="prop-list">
+      <div class="pl-title">Classification électrique des cristaux</div>
+      <table>
+        <tr><th>Type</th><th>Structure de bande</th><th>Gap $E_g$</th><th>Conductivité</th><th>Exemples</th></tr>
+        <tr><td>Métal</td><td>Bande partiellement remplie ou chevauchement</td><td>0</td><td>$10^6 - 10^8\ \Omega^{-1}\text{m}^{-1}$</td><td>Cu, Fe, Al</td></tr>
+        <tr><td>Semi-métal</td><td>Bandes qui se chevauchent légèrement</td><td>≈0</td><td>$10^4 - 10^6\ \Omega^{-1}\text{m}^{-1}$</td><td>Bi, graphène, As</td></tr>
+        <tr><td>Semiconducteur</td><td>Gap faible, Fermi dans le gap</td><td>0,1 – 3 eV</td><td>$10^{-4} - 10^4\ \Omega^{-1}\text{m}^{-1}$</td><td>Si, Ge, GaAs</td></tr>
+        <tr><td>Isolant</td><td>Gap large, bande de valence remplie</td><td>$> 3$ eV</td><td>$< 10^{-8}\ \Omega^{-1}\text{m}^{-1}$</td><td>SiO₂, Al₂O₃, diamant</td></tr>
+      </table>
+    </div>
+
+    <h3>Conductivité thermique</h3>
+    <p>La conductivité thermique $\kappa$ d'un cristal se décompose en deux contributions :</p>
+    <div class="formula-box">
+      <div class="fb-label">Conductivité thermique</div>
+      $$\kappa = \kappa_\text{élec} + \kappa_\text{phonon} = L_0 \sigma T + \frac{1}{3}C_v v_s \ell$$
+      <div class="fb-desc">$L_0 = 2{,}44\times10^{-8}\ \text{W·Ω/K}^2$ (nombre de Lorenz) · $C_v$ : capacité calorifique volumique · $v_s$ : vitesse du son · $\ell$ : libre parcours moyen des phonons</div>
+    </div>
+
+    <!-- ANIMATION comparaison matériaux -->
+    <div class="demo-box">
+      <h3>Animation — Propriétés des matériaux cristallins</h3>
+      <p class="demo-sub">Comparez conductivité électrique, thermique et module d'Young selon la structure.</p>
+      <div class="controls">
+        <button class="ctrl-btn active" onclick="setMatProp('elec',this)">Conductivité électrique</button>
+        <button class="ctrl-btn" onclick="setMatProp('therm',this)">Conductivité thermique</button>
+        <button class="ctrl-btn" onclick="setMatProp('young',this)">Module d'Young</button>
+      </div>
+      <canvas id="matCanvas" width="760" height="320" style="background:#060606;border-radius:var(--radius)"></canvas>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       6. MATÉRIAUX RÉELS
+  ══════════════════════════════════════════ -->
+  <div class="lesson-section" id="materiaux-reels">
+    <h2>6. Matériaux réels — métaux, céramiques, semiconducteurs</h2>
+    <p>La cristallographie n'est pas une discipline abstraite : elle est au cœur de la compréhension et de la conception des matériaux d'ingénierie.</p>
+
+    <h3>Aciers — Fe-C et transformations de phase</h3>
+    <p>Le fer est allotropique : ferrite α (BCC, stable jusqu'à 912°C), austénite γ (FCC, 912–1394°C), ferrite δ (BCC, 1394–1538°C). Le carbone s'insère dans les sites octaédriques de l'austénite FCC jusqu'à 2,1 % en masse, mais seulement 0,022 % dans la ferrite BCC (sites plus petits). Ce contraste est la clé de toute la métallurgie des aciers.</p>
+    <p>La trempe rapide de l'austénite produit la <strong>martensite</strong> : structure quadratique centrée corps (BCT) très dure et fragile, résultant d'une transformation diffusionless par cisaillement de l'austénite FCC saturée en carbone.</p>
+
+    <h3>Semiconducteurs — Si et GaAs</h3>
+    <p>Le silicium (structure diamant, $a = 5{,}431\ \text{Å}$, $E_g = 1{,}12\ \text{eV}$) est le matériau phare de l'électronique. Son réseau FCC et ses liaisons covalentes sp³ lui confèrent une anisotropie marquée : le module d'Young varie entre 130 GPa (⟨100⟩) et 187 GPa (⟨111⟩). Le dopage introduit délibérément des impuretés substitutionnelles : P, As (donneur, type n) ou B, Al (accepteur, type p).</p>
+
+    <h3>Céramiques — Al₂O₃, ZrO₂</h3>
+    <p>L'alumine α-Al₂O₃ (corindon) a une structure hexagonale où les ions Al³⁺ occupent deux tiers des sites octaédriques entre les couches compactes d'ions O²⁻. Sa haute dureté (9 Mohs), sa résistance à la corrosion et sa transparence en font un matériau de choix pour les substrats électroniques et les blindages céramiques.</p>
+
+    <!-- ANIMATION base de données matériaux cristallins -->
+    <div class="demo-box">
+      <h3>Animation — Explorateur de structures cristallines</h3>
+      <p class="demo-sub">Sélectionnez un matériau pour afficher ses paramètres cristallographiques et ses propriétés.</p>
+      <div class="controls" id="matExplorerBtns">
+        <button class="ctrl-btn active" onclick="setMaterial('Cu',this)">Cu</button>
+        <button class="ctrl-btn" onclick="setMaterial('Fe',this)">Fe-α</button>
+        <button class="ctrl-btn" onclick="setMaterial('Al',this)">Al</button>
+        <button class="ctrl-btn" onclick="setMaterial('Si',this)">Si</button>
+        <button class="ctrl-btn" onclick="setMaterial('W',this)">W</button>
+        <button class="ctrl-btn" onclick="setMaterial('Ti',this)">Ti</button>
+        <button class="ctrl-btn" onclick="setMaterial('Mg',this)">Mg</button>
+        <button class="ctrl-btn" onclick="setMaterial('NaCl',this)">NaCl</button>
+      </div>
+      <canvas id="matExplCanvas" width="760" height="340" style="background:var(--bg-tertiary);border:.5px solid var(--border);border-radius:var(--radius)"></canvas>
+      <div class="result-display">
+        <div class="rd-grid" id="matExplResults"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="lesson-nav">
+    <a href="cristallographie-3.html">← Page 3 : Diffraction &amp; Bragg</a>
+    <a class="fin" href="index.html">✓ Fin du chapitre</a>
+  </div>
+</div>
+<footer>
+  <div class="footer-logo">Math<span>∑</span>tique</div>
+  <p>Site éducatif — Libre et gratuit</p>
+  <p style="font-size:13px;color:var(--text-tertiary)">Fait avec ♥ et beaucoup de π</p>
+</footer>
+
+<script>
+function isDark(){return window.matchMedia('(prefers-color-scheme:dark)').matches}
+const NA=6.022e23,kB=8.617e-5;
+
+/* ════ DÉFAUTS PONCTUELS ════ */
+let defType='vacancy';
+function setDefType(t,btn){
+  defType=t;
+  document.querySelectorAll('.ctrl-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  updateDefauts();
+}
+function updateDefauts(){
+  const T=parseInt(document.getElementById('def_T').value);
+  const Ef=parseFloat(document.getElementById('def_Ef').value);
+  document.getElementById('def_TVal').textContent=T+' K';
+  document.getElementById('def_EfVal').textContent=Ef.toFixed(2)+' eV';
+  const Cv=Math.exp(-Ef/(kB*T));
+  const Nd=Cv*8.5e22; // pour FCC Cu ~8.5e22 atomes/cm³
+  document.getElementById('def_Cv').textContent=Cv.toExponential(2);
+  document.getElementById('def_Nd').textContent=Nd.toExponential(2)+' /cm³';
+  document.getElementById('def_kT').textContent=(kB*T).toFixed(4)+' eV';
+  // Réseau
+  const canvas=document.getElementById('defReseau');
+  const ctx=canvas.getContext('2d');
+  const W=canvas.width,H=canvas.height;
+  const dark=isDark();
+  ctx.clearRect(0,0,W,H);
+  ctx.fillStyle=dark?'#222220':'#f0efe9';ctx.fillRect(0,0,W,H);
+  const N=8,spacing=W/(N+1);
+  const defectFraction=Math.min(Math.max(Cv*5,0.01),0.3);
+  for(let i=0;i<N;i++){
+    for(let j=0;j<N;j++){
+      const px=(i+1)*spacing,py=(j+1)*spacing;
+      const isDefect=Math.random()<defectFraction;
+      if(defType==='vacancy'&&isDefect){
+        // Dessine une lacune (cercle vide)
+        ctx.strokeStyle='#C0392B';ctx.lineWidth=1.5;ctx.setLineDash([3,3]);
+        ctx.beginPath();ctx.arc(px,py,10,0,2*Math.PI);ctx.stroke();ctx.setLineDash([]);
+      } else if(defType==='interstitial'&&isDefect&&i<N-1&&j<N-1){
+        ctx.beginPath();ctx.arc(px+spacing/2,py+spacing/2,5,0,2*Math.PI);
+        ctx.fillStyle='#9B59B6';ctx.fill();
+        ctx.beginPath();ctx.arc(px,py,10,0,2*Math.PI);
+        ctx.fillStyle='#0E7490';ctx.fill();
+      } else if(defType==='substitution'&&isDefect){
+        ctx.beginPath();ctx.arc(px,py,10,0,2*Math.PI);
+        ctx.fillStyle='#E67E22';ctx.fill();
+      } else if(defType==='frenkel'&&isDefect){
+        ctx.strokeStyle='#C0392B';ctx.lineWidth=1.5;ctx.setLineDash([3,3]);
+        ctx.beginPath();ctx.arc(px,py,10,0,2*Math.PI);ctx.stroke();ctx.setLineDash([]);
+        if(i<N-1&&j<N-1){
+          ctx.beginPath();ctx.arc(px+spacing/3,py+spacing/3,5,0,2*Math.PI);
+          ctx.fillStyle='#0E7490';ctx.fill();
+        }
+      } else {
+        ctx.beginPath();ctx.arc(px,py,10,0,2*Math.PI);
+        ctx.fillStyle='#0E7490';ctx.fill();
+        ctx.strokeStyle=dark?'rgba(255,255,255,0.2)':'rgba(0,0,0,0.15)';ctx.lineWidth=0.5;ctx.stroke();
+      }
+    }
+  }
+  // Légende
+  const typeNames={vacancy:'Lacune (site vide)',interstitial:'Interstitiel (atome violet en +)',substitution:'Substitution (atome orange)',frenkel:'Défaut de Frenkel'};
+  ctx.fillStyle=dark?'#aaa':'#666';ctx.font='12px DM Sans,sans-serif';ctx.textAlign='center';
+  ctx.fillText(typeNames[defType],W/2,H-8);
+  // Graphe Arrhenius
+  const gc=document.getElementById('defConcentration');
+  const gctx=gc.getContext('2d');
+  const GW=gc.width,GH=gc.height;
+  gctx.clearRect(0,0,GW,GH);
+  gctx.fillStyle='#060606';gctx.fillRect(0,0,GW,GH);
+  const Tmin=200,Tmax=2000;
+  gctx.strokeStyle='rgba(255,255,255,0.06)';gctx.lineWidth=1;
+  for(let i=1;i<=3;i++){
+    const y=i*(GH-20)/4+10;
+    gctx.beginPath();gctx.moveTo(40,y);gctx.lineTo(GW-10,y);gctx.stroke();
+  }
+  gctx.beginPath();gctx.strokeStyle='rgba(14,116,144,0.8)';gctx.lineWidth=2;
+  for(let px=40;px<GW-10;px++){
+    const T_here=Tmin+(px-40)/(GW-50)*(Tmax-Tmin);
+    const Cv_here=Math.exp(-Ef/(kB*T_here));
+    const logCv=Math.log10(Math.max(Cv_here,1e-30));
+    const y_here=GH-20-(logCv+30)/30*(GH-20-10);
+    const y_clamped=Math.min(Math.max(y_here,10),GH-20);
+    px===40?gctx.moveTo(px,y_clamped):gctx.lineTo(px,y_clamped);
+  }
+  gctx.stroke();
+  // Marqueur T actuel
+  const markerX=40+(T-Tmin)/(Tmax-Tmin)*(GW-50);
+  const Cv_mark=Math.exp(-Ef/(kB*T));
+  const log_mark=Math.log10(Math.max(Cv_mark,1e-30));
+  const markerY=GH-20-(log_mark+30)/30*(GH-20-10);
+  gctx.beginPath();gctx.arc(markerX,Math.min(Math.max(markerY,10),GH-20),6,0,2*Math.PI);
+  gctx.fillStyle='#E04000';gctx.fill();
+  gctx.fillStyle='rgba(255,255,255,0.5)';gctx.font='10px DM Sans,sans-serif';gctx.textAlign='center';
+  gctx.fillText('T='+T+'K',markerX,GH-6);
+  gctx.fillText('Cv = f(T) — Loi d\'Arrhenius',GW/2,18);
+  gctx.fillStyle='rgba(255,255,255,0.3)';gctx.font='9px DM Sans,sans-serif';
+  gctx.fillText('log₁₀(Cv)',14,GH/2);
+}
+
+/* ════ DISLOCATIONS ════ */
+let disloType='edge';
+function setDisloType(t,btn){
+  disloType=t;
+  document.querySelectorAll('.ctrl-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  drawDislocation();
+}
+function drawDislocation(){
+  const pos=parseInt(document.getElementById('dislo_pos').value)/100;
+  const stress=parseFloat(document.getElementById('dislo_stress').value);
+  document.getElementById('dislo_posVal').textContent=parseInt(pos*100)+'%';
+  document.getElementById('dislo_stressVal').textContent=stress.toFixed(1);
+  document.getElementById('dislo_type').textContent=disloType==='edge'?'Coin':'Vis';
+  document.getElementById('dislo_b').textContent=disloType==='edge'?'a⟨110⟩/2':'a⟨111⟩/2';
+  document.getElementById('dislo_glide').textContent=disloType==='edge'?'FCC : {111}':'BCC : {110}';
+  const canvas=document.getElementById('disloCanvas');
+  const ctx=canvas.getContext('2d');
+  const W=canvas.width,H=canvas.height;
+  const dark=isDark();
+  ctx.clearRect(0,0,W,H);
+  ctx.fillStyle=dark?'#222220':'#f0efe9';ctx.fillRect(0,0,W,H);
+  const rows=10,cols=16;
+  const dx=W/(cols+2),dy=(H-40)/(rows+1);
+  const cx=Math.round(pos*cols);
+  // Dislocation coin : décalage des rangées au-dessus du plan de glissement
+  if(disloType==='edge'){
+    const glideRow=Math.floor(rows/2);
+    for(let j=0;j<rows;j++){
+      const above=j<=glideRow;
+      const extraAtom=above&&j===glideRow;
+      for(let i=0;i<cols+(above&&i>cx?0:0);i++){
+        let px=(i+1)*dx,py=(j+1)*dy+25;
+        // Distorsion autour de la dislocation
+        if(above&&Math.abs(i-cx)<=3){
+          const dist=i-cx;
+          const distY=j-glideRow;
+          px+=dist*dx*0.12*Math.exp(-Math.abs(dist)/3);
+          py+=distY*dy*0.08*Math.exp(-Math.abs(distY)/3);
+        }
+        ctx.beginPath();ctx.arc(px,py,7,0,2*Math.PI);
+        ctx.fillStyle=i===cx&&j===glideRow?'#E04000':'#0E7490';ctx.fill();
+        ctx.strokeStyle=dark?'rgba(255,255,255,0.2)':'rgba(0,0,0,0.15)';ctx.lineWidth=0.5;ctx.stroke();
+      }
+      // Demi-plan extra
+      if(j===glideRow){
+        const px_extra=(cx+1)*dx,py_extra=(glideRow)*dy+25;
+        ctx.beginPath();ctx.arc(px_extra,py_extra-dy*0.5,7,0,2*Math.PI);
+        ctx.fillStyle='#C0392B';ctx.fill();
+        // Symbole ⊥
+        ctx.strokeStyle='#C0392B';ctx.lineWidth=2;
+        ctx.beginPath();ctx.moveTo(px_extra,py_extra-dy*0.5-10);ctx.lineTo(px_extra,py_extra+5);ctx.stroke();
+        ctx.beginPath();ctx.moveTo(px_extra-8,py_extra+2);ctx.lineTo(px_extra+8,py_extra+2);ctx.stroke();
+      }
+    }
+    // Plan de glissement
+    ctx.strokeStyle='rgba(224,64,0,0.4)';ctx.lineWidth=1.5;ctx.setLineDash([6,4]);
+    ctx.beginPath();ctx.moveTo(dx*0.5,(glideRow+1)*dy+25);ctx.lineTo(W-dx*0.5,(glideRow+1)*dy+25);ctx.stroke();ctx.setLineDash([]);
+    // Flèche contrainte
+    if(stress>0){
+      const arrowLen=Math.min(stress*20,80);
+      ctx.strokeStyle='#BA7517';ctx.lineWidth=2.5;
+      ctx.beginPath();ctx.moveTo(20,(glideRow+1)*dy+25-20);ctx.lineTo(20+arrowLen,(glideRow+1)*dy+25-20);ctx.stroke();
+      ctx.beginPath();ctx.moveTo(W-20-arrowLen,(glideRow+1)*dy+25+20);ctx.lineTo(W-20,(glideRow+1)*dy+25+20);ctx.stroke();
+      ctx.fillStyle='#BA7517';ctx.font='11px DM Sans,sans-serif';ctx.textAlign='left';
+      ctx.fillText('τ = '+stress.toFixed(1)+'τ_P',22,(glideRow+1)*dy+5);
+    }
+  } else {
+    // Dislocation vis : vue perspective simplifiée — spirale de plans
+    const cx2=W/2,cy2=H/2+10;
+    for(let k=-3;k<=3;k++){
+      const yBase=cy2+k*(dy*1.3);
+      const xShift=k*(dx*1.8)*pos;
+      ctx.strokeStyle=dark?'rgba(14,116,144,0.5)':'rgba(14,116,144,0.6)';ctx.lineWidth=1.5;
+      ctx.beginPath();ctx.moveTo(50+xShift,yBase);ctx.lineTo(W-50,yBase+k*dy*0.15);ctx.stroke();
+      for(let i=0;i<12;i++){
+        const px=50+xShift+i*(W-100)/12,py=yBase+i*(k*dy*0.15)/12;
+        ctx.beginPath();ctx.arc(px,py,7,0,2*Math.PI);
+        ctx.fillStyle='#0E7490';ctx.fill();
+        ctx.strokeStyle=dark?'rgba(255,255,255,0.2)':'rgba(0,0,0,0.15)';ctx.lineWidth=0.5;ctx.stroke();
+      }
+    }
+    ctx.fillStyle=dark?'#aaa':'#666';ctx.font='12px DM Sans,sans-serif';ctx.textAlign='center';
+    ctx.fillText('Dislocation vis — plans hélicoïdaux (vue perspective)',W/2,H-10);
+  }
+  ctx.fillStyle=dark?'#f0efe9':'#1a1a1a';ctx.font='bold 13px DM Sans,sans-serif';ctx.textAlign='center';
+  ctx.fillText(disloType==='edge'?'Dislocation coin — ⊥ = demi-plan supplémentaire':'Dislocation vis — vecteur de Burgers // ligne',W/2,18);
+}
+
+/* ════ HALL-PETCH ════ */
+function updateHallPetch(){
+  const d=parseFloat(document.getElementById('hp_d').value);
+  const sigma0=parseFloat(document.getElementById('hp_sigma0').value);
+  const ky=parseFloat(document.getElementById('hp_ky').value);
+  document.getElementById('hp_dVal').textContent=d.toFixed(1)+' µm';
+  document.getElementById('hp_sigma0Val').textContent=sigma0.toFixed(0)+' MPa';
+  document.getElementById('hp_kyVal').textContent=ky.toFixed(0);
+  const sigmay=sigma0+ky/Math.sqrt(d);
+  document.getElementById('hp_sigmay').textContent=sigmay.toFixed(0)+' MPa';
+  // Microstructure (Voronoï simplifié — grains aléatoires)
+  const canvas=document.getElementById('grainCanvas');
+  const ctx=canvas.getContext('2d');
+  const W=canvas.width,H=canvas.height;
+  const dark=isDark();
+  ctx.clearRect(0,0,W,H);
+  ctx.fillStyle=dark?'#222220':'#f0efe9';ctx.fillRect(0,0,W,H);
+  const nGrains=Math.max(2,Math.round(W*H/(d*d*8)));
+  document.getElementById('hp_grains').textContent=nGrains;
+  const centers=[];
+  for(let i=0;i<nGrains;i++) centers.push([Math.random()*W,Math.random()*H]);
+  // Paint Voronoï naïf
+  const colors=['#0E7490','#1D9E75','#9B59B6','#E04000','#BA7517','#185FA5'];
+  const imgData=ctx.createImageData(W,H);
+  for(let py=0;py<H;py++){
+    for(let px=0;px<W;px++){
+      let minD=Infinity,minI=0;
+      for(let i=0;i<centers.length;i++){
+        const dd=Math.pow(px-centers[i][0],2)+Math.pow(py-centers[i][1],2);
+        if(dd<minD){minD=dd;minI=i;}
+      }
+      const col=colors[minI%colors.length];
+      const r=parseInt(col.slice(1,3),16),g=parseInt(col.slice(3,5),16),b=parseInt(col.slice(5,7),16);
+      const idx=(py*W+px)*4;
+      imgData.data[idx]=r;imgData.data[idx+1]=g;imgData.data[idx+2]=b;imgData.data[idx+3]=80;
+    }
+  }
+  ctx.putImageData(imgData,0,0);
+  // Joint de grains
+  ctx.strokeStyle=dark?'rgba(255,255,255,0.5)':'rgba(0,0,0,0.3)';ctx.lineWidth=1;
+  // Utilise canvas clip pour lignes de joints (approx)
+  for(let i=0;i<centers.length;i++){
+    for(let j=i+1;j<centers.length;j++){
+      const mx=(centers[i][0]+centers[j][0])/2,my=(centers[i][1]+centers[j][1])/2;
+      const dx=centers[j][0]-centers[i][0],dy2=centers[j][1]-centers[i][1];
+      const len=Math.sqrt(dx*dx+dy2*dy2);
+      if(len>d*15)continue;
+      ctx.save();ctx.translate(mx,my);ctx.rotate(Math.atan2(dy2,dx)+Math.PI/2);
+      ctx.beginPath();ctx.moveTo(0,-len/2);ctx.lineTo(0,len/2);ctx.stroke();
+      ctx.restore();
+    }
+  }
+  ctx.fillStyle=dark?'#aaa':'#555';ctx.font='11px DM Sans,sans-serif';ctx.textAlign='center';
+  ctx.fillText(`Microstructure — d ≈ ${d.toFixed(0)} µm — ${nGrains} grains visibles`,W/2,H-6);
+  // Graphe Hall-Petch
+  const gc=document.getElementById('hallpetchCanvas');
+  const gctx=gc.getContext('2d');
+  const GW=gc.width,GH=gc.height;
+  gctx.clearRect(0,0,GW,GH);
+  gctx.fillStyle='#060606';gctx.fillRect(0,0,GW,GH);
+  gctx.strokeStyle='rgba(255,255,255,0.06)';gctx.lineWidth=1;
+  for(let i=1;i<=3;i++){const y=i*(GH-20)/4+10;gctx.beginPath();gctx.moveTo(40,y);gctx.lineTo(GW-10,y);gctx.stroke();}
+  const dMin=0.5,dMax=500;
+  gctx.beginPath();gctx.strokeStyle='rgba(14,116,144,0.9)';gctx.lineWidth=2;
+  for(let px=40;px<GW-10;px++){
+    const d_here=dMin*Math.pow(dMax/dMin,(px-40)/(GW-50));
+    const sy=sigma0+ky/Math.sqrt(d_here);
+    const syMax=sigma0+ky/Math.sqrt(dMin);
+    const y_here=GH-20-((sy-sigma0)/(syMax-sigma0))*(GH-30);
+    px===40?gctx.moveTo(px,Math.max(10,y_here)):gctx.lineTo(px,Math.max(10,y_here));
+  }
+  gctx.stroke();
+  // Marqueur
+  const markerX=40+Math.log(d/dMin)/Math.log(dMax/dMin)*(GW-50);
+  const syMax=sigma0+ky/Math.sqrt(dMin);
+  const markerY=GH-20-((sigmay-sigma0)/(syMax-sigma0))*(GH-30);
+  gctx.beginPath();gctx.arc(markerX,Math.max(10,Math.min(GH-20,markerY)),6,0,2*Math.PI);
+  gctx.fillStyle='#E04000';gctx.fill();
+  gctx.fillStyle='rgba(255,255,255,0.5)';gctx.font='10px DM Sans,sans-serif';gctx.textAlign='center';
+  gctx.fillText('σy = '+sigmay.toFixed(0)+' MPa',markerX,Math.max(24,markerY-8));
+  gctx.fillText('d →  (échelle log)',GW/2,GH-4);
+  gctx.fillText('Loi de Hall-Petch',GW/2,18);
+}
+
+/* ════ FACTEUR DE SCHMID ════ */
+function drawSchmid(){
+  const phi=parseFloat(document.getElementById('sch_phi').value)*Math.PI/180;
+  const lam=parseFloat(document.getElementById('sch_lam').value)*Math.PI/180;
+  const sigma=parseFloat(document.getElementById('sch_sigma').value);
+  document.getElementById('sch_phiVal').textContent=Math.round(phi*180/Math.PI)+'°';
+  document.getElementById('sch_lamVal').textContent=Math.round(lam*180/Math.PI)+'°';
+  document.getElementById('sch_sigmaVal').textContent=sigma.toFixed(0)+' MPa';
+  const m=Math.cos(phi)*Math.cos(lam);
+  const tauR=sigma*m;
+  document.getElementById('sch_m').textContent=m.toFixed(3);
+  document.getElementById('sch_tauR').textContent=tauR.toFixed(1)+' MPa';
+  document.getElementById('sch_orient').textContent=m>0.45?'Très favorable':m>0.3?'Favorable':m>0.15?'Intermédiaire':'Défavorable';
+  const canvas=document.getElementById('schmidCanvas');
+  const ctx=canvas.getContext('2d');
+  const W=canvas.width,H=canvas.height;
+  const dark=isDark();
+  ctx.clearRect(0,0,W,H);
+  ctx.fillStyle=dark?'#222220':'#f0efe9';ctx.fillRect(0,0,W,H);
+  // Cylindre schématique représentant l'éprouvette
+  const cx=W/2,cy=H/2;
+  const cylW=60,cylH=180;
+  ctx.fillStyle=dark?'rgba(14,116,144,0.3)':'rgba(14,116,144,0.2)';
+  ctx.strokeStyle='#0E7490';ctx.lineWidth=2;
+  ctx.beginPath();ctx.ellipse(cx,cy-cylH/2,cylW/2,12,0,0,2*Math.PI);ctx.fill();ctx.stroke();
+  ctx.beginPath();ctx.ellipse(cx,cy+cylH/2,cylW/2,12,0,0,2*Math.PI);ctx.fill();ctx.stroke();
+  ctx.beginPath();
+  ctx.moveTo(cx-cylW/2,cy-cylH/2);ctx.lineTo(cx-cylW/2,cy+cylH/2);
+  ctx.moveTo(cx+cylW/2,cy-cylH/2);ctx.lineTo(cx+cylW/2,cy+cylH/2);
+  ctx.stroke();
+  // Flèches de contrainte
+  ctx.strokeStyle='#C0392B';ctx.lineWidth=3;
+  ctx.beginPath();ctx.moveTo(cx,cy-cylH/2-50);ctx.lineTo(cx,cy-cylH/2-10);ctx.stroke();
+  ctx.beginPath();ctx.moveTo(cx-6,cy-cylH/2-20);ctx.lineTo(cx,cy-cylH/2-10);ctx.lineTo(cx+6,cy-cylH/2-20);ctx.stroke();
+  ctx.beginPath();ctx.moveTo(cx,cy+cylH/2+50);ctx.lineTo(cx,cy+cylH/2+10);ctx.stroke();
+  ctx.beginPath();ctx.moveTo(cx-6,cy+cylH/2+20);ctx.lineTo(cx,cy+cylH/2+10);ctx.lineTo(cx+6,cy+cylH/2+20);ctx.stroke();
+  ctx.fillStyle='#C0392B';ctx.font='bold 13px DM Sans,sans-serif';ctx.textAlign='center';
+  ctx.fillText('σ = '+sigma.toFixed(0)+' MPa',cx+80,cy-cylH/2-30);
+  // Plan de glissement (oblique)
+  const planW=cylW*1.4;
+  const planXL=cx-planW,planXR=cx+planW;
+  const planY1=cy+phi*80-60,planY2=cy-phi*80+60;
+  ctx.strokeStyle='#1D9E75';ctx.lineWidth=2;
+  ctx.beginPath();ctx.moveTo(planXL,planY1);ctx.lineTo(planXR,planY2);ctx.stroke();
+  ctx.fillStyle='rgba(29,158,117,0.15)';
+  ctx.beginPath();ctx.moveTo(planXL,planY1);ctx.lineTo(planXR,planY2);
+  ctx.lineTo(planXR,planY2+15);ctx.lineTo(planXL,planY1+15);ctx.closePath();ctx.fill();
+  ctx.fillStyle='#1D9E75';ctx.font='12px DM Sans,sans-serif';ctx.textAlign='left';
+  ctx.fillText('Plan de glissement',planXR+8,(planY1+planY2)/2);
+  // Direction de glissement
+  const gx=Math.sin(lam)*80,gy=-Math.cos(lam)*80;
+  ctx.strokeStyle='#9B59B6';ctx.lineWidth=2.5;
+  ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(cx+gx,cy+gy);ctx.stroke();
+  ctx.fillStyle='#9B59B6';ctx.font='12px DM Sans,sans-serif';ctx.textAlign='left';
+  ctx.fillText('Dir. gliss.',cx+gx+8,cy+gy);
+  // Angle phi
+  ctx.strokeStyle='#1D9E75';ctx.lineWidth=1;ctx.setLineDash([3,3]);
+  ctx.beginPath();ctx.moveTo(cx,cy-cylH/2);ctx.lineTo(cx,cy-cylH/2+50);ctx.stroke();ctx.setLineDash([]);
+  ctx.fillStyle='#1D9E75';ctx.font='12px DM Sans,sans-serif';
+  ctx.fillText('φ='+Math.round(phi*180/Math.PI)+'°',cx+14,cy-cylH/2+35);
+  // Résultat
+  const mColor=m>0.4?'#0E7490':m>0.2?'#BA7517':'#C0392B';
+  ctx.fillStyle=mColor;ctx.font='bold 14px DM Sans,sans-serif';ctx.textAlign='center';
+  ctx.fillText(`m = ${m.toFixed(3)}   →   τᴿ = ${tauR.toFixed(1)} MPa`,W/2,H-12);
+}
+
+/* ════ PROPRIÉTÉS MATÉRIAUX ════ */
+let currentMatProp='elec';
+function setMatProp(t,btn){
+  currentMatProp=t;
+  document.querySelectorAll('.ctrl-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  drawMatProp();
+}
+const matPropData={
+  elec:{
+    title:'Conductivité électrique (S/m)',
+    items:[
+      {name:'Ag',val:6.3e7,struct:'FCC'},
+      {name:'Cu',val:5.96e7,struct:'FCC'},
+      {name:'Au',val:4.52e7,struct:'FCC'},
+      {name:'Al',val:3.77e7,struct:'FCC'},
+      {name:'Fe-α',val:1.0e7,struct:'BCC'},
+      {name:'Si (intrins.)',val:1.56e-3,struct:'DIA'},
+      {name:'Ge',val:2.17,struct:'DIA'},
+      {name:'SiO₂',val:1e-12,struct:'Vitreux'},
+    ],
+    unit:'S/m',logScale:true,color:'#0E7490'
+  },
+  therm:{
+    title:'Conductivité thermique (W/m·K)',
+    items:[
+      {name:'Diamant',val:2200,struct:'DIA'},
+      {name:'Ag',val:429,struct:'FCC'},
+      {name:'Cu',val:401,struct:'FCC'},
+      {name:'Al',val:237,struct:'FCC'},
+      {name:'Fe-α',val:80,struct:'BCC'},
+      {name:'Si',val:148,struct:'DIA'},
+      {name:'SiO₂',val:1.4,struct:'Vitreux'},
+      {name:'Al₂O₃',val:30,struct:'Hexa'},
+    ],
+    unit:'W/m·K',logScale:false,color:'#E04000'
+  },
+  young:{
+    title:'Module d\'Young (GPa)',
+    items:[
+      {name:'W',val:411,struct:'BCC'},
+      {name:'Fe-α',val:211,struct:'BCC'},
+      {name:'Si',val:185,struct:'DIA'},
+      {name:'Al₂O₃',val:380,struct:'Hexa'},
+      {name:'Cu',val:130,struct:'FCC'},
+      {name:'Al',val:70,struct:'FCC'},
+      {name:'Mg',val:45,struct:'HCP'},
+      {name:'SiO₂',val:73,struct:'Vitreux'},
+    ],
+    unit:'GPa',logScale:false,color:'#9B59B6'
+  }
+};
+function drawMatProp(){
+  const d=matPropData[currentMatProp];
+  const canvas=document.getElementById('matCanvas');
+  const ctx=canvas.getContext('2d');
+  const W=canvas.width,H=canvas.height;
+  ctx.clearRect(0,0,W,H);
+  ctx.fillStyle='#060606';ctx.fillRect(0,0,W,H);
+  const barH=26,gap=8,startY=40;
+  const maxVal=d.logScale?Math.log10(Math.max(...d.items.map(i=>i.val))):Math.max(...d.items.map(i=>i.val));
+  const minVal=d.logScale?Math.log10(Math.max(...d.items.map(i=>i.val))*1e-14):0;
+  d.items.forEach((item,i)=>{
+    const val=d.logScale?Math.log10(item.val):item.val;
+    const frac=(val-minVal)/(maxVal-minVal);
+    const barW=Math.max(2,frac*(W-200));
+    const y=startY+i*(barH+gap);
+    ctx.fillStyle=`rgba(${parseInt(d.color.slice(1,3),16)},${parseInt(d.color.slice(3,5),16)},${parseInt(d.color.slice(5,7),16)},0.85)`;
+    ctx.beginPath();ctx.roundRect(120,y,barW,barH,4);ctx.fill();
+    ctx.fillStyle='rgba(255,255,255,0.7)';ctx.font='12px DM Sans,sans-serif';ctx.textAlign='right';
+    ctx.fillText(item.name,112,y+barH/2+5);
+    ctx.fillStyle='rgba(255,255,255,0.5)';ctx.textAlign='left';
+    const dispVal=item.val>=1000?item.val.toExponential(2):item.val.toFixed(item.val<1?3:1);
+    ctx.fillText(dispVal+' '+d.unit,126+barW,y+barH/2+5);
+    ctx.fillStyle='rgba(14,116,144,0.4)';ctx.font='10px DM Sans,sans-serif';
+    ctx.fillText(item.struct,50,y+barH/2+5);
+  });
+  ctx.fillStyle='rgba(255,255,255,0.5)';ctx.font='bold 12px DM Sans,sans-serif';ctx.textAlign='center';
+  ctx.fillText(d.title,W/2,22);
+}
+
+/* ════ EXPLORATEUR MATÉRIAUX ════ */
+const matDatabase={
+  Cu:{struct:'FCC',a:3.615,n:4,A:63.55,rho:8.96,E:130,coord:12,compact:74.0,Ef:1.27,color:'#E04000',label:'Cuivre'},
+  Fe:{struct:'BCC',a:2.87,n:2,A:55.85,rho:7.87,E:211,coord:8,compact:68.0,Ef:1.40,color:'#BA7517',label:'Fer α'},
+  Al:{struct:'FCC',a:4.046,n:4,A:26.98,rho:2.70,E:70,coord:12,compact:74.0,Ef:0.68,color:'#9B59B6',label:'Aluminium'},
+  Si:{struct:'DIA',a:5.431,n:8,A:28.09,rho:2.33,E:185,coord:4,compact:34.0,Ef:4.10,color:'#1D9E75',label:'Silicium'},
+  W:{struct:'BCC',a:3.165,n:2,A:183.84,rho:19.25,E:411,coord:8,compact:68.0,Ef:3.67,color:'#185FA5',label:'Tungstène'},
+  Ti:{struct:'HCP',a:2.951,n:2,A:47.87,rho:4.51,E:116,coord:12,compact:74.0,Ef:1.27,color:'#0E7490',label:'Titane'},
+  Mg:{struct:'HCP',a:3.209,n:2,A:24.31,rho:1.74,E:45,coord:12,compact:74.0,Ef:0.89,color:'#27AE60',label:'Magnésium'},
+  NaCl:{struct:'FCC+',a:5.64,n:4,A:58.44,rho:2.17,E:44,coord:6,compact:79.3,Ef:2.30,color:'#8E44AD',label:'Chlorure de sodium'}
+};
+function setMaterial(mat,btn){
+  document.querySelectorAll('#matExplorerBtns .ctrl-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  drawMaterialExplorer(mat);
+}
+function drawMaterialExplorer(mat){
+  const m=matDatabase[mat];
+  const canvas=document.getElementById('matExplCanvas');
+  const ctx=canvas.getContext('2d');
+  const W=canvas.width,H=canvas.height;
+  const dark=isDark();
+  ctx.clearRect(0,0,W,H);
+  ctx.fillStyle=dark?'#222220':'#f0efe9';ctx.fillRect(0,0,W,H);
+  // Maille 3D projection
+  const rotX=35,rotY=25,scale=80;
+  const cx=180,cy=H/2+10;
+  function p(x,y,z){
+    const rx=rotX*Math.PI/180,ry=rotY*Math.PI/180;
+    let x1=x*Math.cos(rx)-z*Math.sin(rx),z1=x*Math.sin(rx)+z*Math.cos(rx),y1=y;
+    let y2=y1*Math.cos(ry)-z1*Math.sin(ry);
+    return[cx+x1*scale,cy-y2*scale];
+  }
+  const edges=[[[-0.5,-0.5,-0.5],[0.5,-0.5,-0.5]],[[-0.5,0.5,-0.5],[0.5,0.5,-0.5]],[[-0.5,-0.5,0.5],[0.5,-0.5,0.5]],[[-0.5,0.5,0.5],[0.5,0.5,0.5]],[[-0.5,-0.5,-0.5],[-0.5,0.5,-0.5]],[[0.5,-0.5,-0.5],[0.5,0.5,-0.5]],[[-0.5,-0.5,0.5],[-0.5,0.5,0.5]],[[0.5,-0.5,0.5],[0.5,0.5,0.5]],[[-0.5,-0.5,-0.5],[-0.5,-0.5,0.5]],[[-0.5,0.5,-0.5],[-0.5,0.5,0.5]],[[0.5,-0.5,-0.5],[0.5,-0.5,0.5]],[[0.5,0.5,-0.5],[0.5,0.5,0.5]]];
+  ctx.strokeStyle=m.color+'99';ctx.lineWidth=1.5;
+  edges.forEach(([A,B])=>{const[ax,ay]=p(...A);const[bx,by]=p(...B);ctx.beginPath();ctx.moveTo(ax,ay);ctx.lineTo(bx,by);ctx.stroke();});
+  let atoms=[];
+  for(let i=0;i<=1;i++)for(let j=0;j<=1;j++)for(let k=0;k<=1;k++)atoms.push({pos:[i-0.5,j-0.5,k-0.5],type:'corner'});
+  if(m.struct==='BCC'||m.struct==='BCC+')atoms.push({pos:[0,0,0],type:'center'});
+  if(m.struct==='FCC'||m.struct==='FCC+'||m.struct==='DIA'){[[0,0,-.5],[0,0,.5],[0,-.5,0],[0,.5,0],[-.5,0,0],[.5,0,0]].forEach(f=>atoms.push({pos:f,type:'face'}));}
+  if(m.struct==='DIA'){[[.25,.25,.25],[-.25,-.25,.25],[.25,-.25,-.25],[-.25,.25,-.25]].forEach(f=>atoms.push({pos:f,type:'tetrahedral'}));}
+  if(m.struct==='HCP'){[[0,0,0],[.5,Math.sqrt(3)/6,.0],[1/3,1/6*Math.sqrt(3),0]].forEach(f=>atoms.push({pos:[f[0]-0.25,f[1]-0.2,f[2]],type:'center'}));}
+  const rAtom=12;
+  const sorted=atoms.map(a=>{const[px,py]=p(...a.pos);const[,,z]=a.pos;return{...a,px,py,depth:z};}).sort((a,b)=>a.depth-b.depth);
+  const colMap={corner:m.color,center:'#E04000',face:'#1D9E75',tetrahedral:'#9B59B6'};
+  sorted.forEach(({px,py,type})=>{
+    ctx.beginPath();ctx.arc(px,py,rAtom,0,2*Math.PI);
+    ctx.fillStyle=colMap[type]||m.color;ctx.fill();
+    ctx.strokeStyle=dark?'rgba(255,255,255,0.2)':'rgba(0,0,0,0.15)';ctx.lineWidth=1;ctx.stroke();
+    ctx.beginPath();ctx.arc(px-3,py-3,4,0,2*Math.PI);ctx.fillStyle='rgba(255,255,255,0.35)';ctx.fill();
+  });
+  ctx.fillStyle=dark?'#f0efe9':'#1a1a1a';ctx.font='bold 16px Playfair Display,serif';ctx.textAlign='center';
+  ctx.fillText(m.label,cx,H-14);
+  ctx.font='12px DM Sans,sans-serif';ctx.fillStyle=m.color;
+  ctx.fillText(m.struct,cx,H-30);
+  // Propriétés à droite
+  const props=[
+    ['Structure',m.struct],
+    ['Paramètre a',m.a.toFixed(3)+' Å'],
+    ['Atomes/maille',m.n],
+    ['Masse atomique',m.A.toFixed(2)+' g/mol'],
+    ['Densité théor.',m.rho.toFixed(2)+' g/cm³'],
+    ['Module Young',m.E+' GPa'],
+    ['Coordinence',m.coord],
+    ['Compacité',m.compact.toFixed(1)+'%'],
+    ['Énergie lacune',m.Ef.toFixed(2)+' eV'],
+  ];
+  const startX=380,lineH=32;
+  props.forEach(([lbl,val],i)=>{
+    const y=50+i*lineH;
+    ctx.fillStyle=dark?'rgba(255,255,255,0.06)':'rgba(0,0,0,0.04)';
+    ctx.beginPath();ctx.roundRect(startX,y-18,360,26,5);ctx.fill();
+    ctx.fillStyle=dark?'#aaa':'#666';ctx.font='12px DM Sans,sans-serif';ctx.textAlign='left';
+    ctx.fillText(lbl,startX+10,y);
+    ctx.fillStyle=m.color;ctx.font='bold 13px DM Sans,sans-serif';ctx.textAlign='right';
+    ctx.fillText(val,startX+350,y);
+  });
+  document.getElementById('matExplResults').innerHTML=`
+    <div class="rd-cell"><div class="rc-val" style="color:${m.color}">${m.struct}</div><div class="rc-lbl">Structure</div></div>
+    <div class="rd-cell"><div class="rc-val">${m.a.toFixed(3)} Å</div><div class="rc-lbl">Paramètre $a$</div></div>
+    <div class="rd-cell"><div class="rc-val">${m.rho.toFixed(2)} g/cm³</div><div class="rc-lbl">Densité</div></div>
+    <div class="rd-cell"><div class="rc-val">${m.E} GPa</div><div class="rc-lbl">Module d'Young</div></div>
+  `;
+}
+
+document.addEventListener('DOMContentLoaded',()=>{
+  setTimeout(()=>{
+    updateDefauts();drawDislocation();updateHallPetch();drawSchmid();drawMatProp();drawMaterialExplorer('Cu');
+    if(window.renderMathInElement)renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]});
+  },350);
+});
+</script>
+</body>
+</html>
